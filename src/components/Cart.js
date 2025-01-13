@@ -141,7 +141,7 @@ const Cart = () => {
 
     return (
         <Box className="cart-container">
-            <Heading as="h2" size="xl" mb={6}>Shopping Cart</Heading>
+            <Heading as="h2" size="xl" mb={6} className='cart-heading'>Shopping Cart</Heading>
             {cartItems.length === 0 ? (
                 <Flex direction="column" align="center" justify="center" height="50vh">
                     <FaShoppingCart size="50px" color="gray" />

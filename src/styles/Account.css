@@ -281,5 +281,9 @@
     font-size: 0.8rem;
     overflow-x: auto;
   }
+
+  .settings-heading {
+    font-size: 1.2rem;
+}
   
 }

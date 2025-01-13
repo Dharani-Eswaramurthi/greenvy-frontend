@@ -5,6 +5,15 @@
     height: 81vh;
 }
 
+.wishlist-heading {
+    text-align: left;
+    margin-bottom: 1.5rem;
+    color: #25995C;
+    font-size: 1.75rem;
+    font-weight: bold;
+    animation: slideIn 0.5s ease-in-out;
+  }
+
 
 @keyframes fadeIn {
     from {
@@ -109,6 +118,10 @@
 @media (max-width: 768px) {
     .wishlist-container {
         font-size: 0.8rem;
+    }
+
+    .wishlist-heading {
+        font-size: 1.2rem;
     }
 
     .wishlist-item .wishlist-item-info h2 {

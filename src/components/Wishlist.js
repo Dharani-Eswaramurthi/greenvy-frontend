@@ -89,7 +89,7 @@ const Wishlist = () => {
 
     return (
         <Box className="wishlist-container">
-            <Heading as="h2" size="xl" mb={6}>Wishlist</Heading>
+            <Heading as="h2" size="xl" mb={6} className='wishlist-heading'>Wishlist</Heading>
             {wishlistItems.length === 0 ? (
                 <Flex justifyContent="center" alignItems="center" height="200px" flexDirection="column">
                     <FaHeartBroken size="50px" color="gray" />

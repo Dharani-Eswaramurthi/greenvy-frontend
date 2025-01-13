@@ -107,8 +107,9 @@ const Orders = () => {
     }
 
     return (
+        <div className='parent-orders'>
         <Box className="orders-container" p={4}>
-            <Heading as="h2" size="xl" mb={6}>My Orders</Heading>
+            <Heading as="h2" size="xl" mb={6} className='orders-heading'>My Orders</Heading>
             {orders.length === 0 ? (
                 <Text>No orders found</Text>
             ) : (
@@ -134,29 +135,48 @@ const Orders = () => {
                                 <Text fontWeight="bold" fontSize="lg" mt={4}>Total Amount: ₹{order.total_amount}</Text>
                                 {isDefinedStatus ? (
                                     <>
-                                    <StepsRoot step={currentStep} count={steps.length - 1} colorPalette={'green'} size={{ base: 'xs', md: 'md' }}>
-                                        <StepsList>
-                                            {steps.map((step, index) => (
-                                                index < steps.length -1 &&
-                                                <StepsItem key={index} index={index} title={step.label} />
-                                            ))}
-                                        </StepsList>
-                                    </StepsRoot>
-                                    <StepsRoot step={currentStep} count={1} colorPalette={'green'} size={{ base: 'xs', md: 'md' }}>
-                                    <StepsList>
-                                        {steps.map((step, index) => (
-                                            index === steps.length -1 &&
-                                            <StepsItem key={index} index={index} title={step.label} />
-                                        ))}
-                                    </StepsList>
-                                    {steps.map((step, index) => (
-                                        <StepsContent key={index} index={index}>
-                                            <Text fontWeight="bold">{step.label}</Text>
-                                            <Text>{step.description}</Text>
-                                        </StepsContent>
-                                    ))}
-                                </StepsRoot>
-                                </>
+                                        {/* Mobile view */}
+                                        <Box display={{ base: 'block', md: 'none' }}>
+                                            <StepsRoot step={currentStep} count={steps.length - 1} colorPalette={'green'} size={{ base: 'xs', md: 'md' }}>
+                                                <StepsList>
+                                                    {steps.map((step, index) => (
+                                                        index < steps.length - 1 &&
+                                                        <StepsItem key={index} index={index} title={step.label} />
+                                                    ))}
+                                                </StepsList>
+                                            </StepsRoot>
+                                            <StepsRoot step={currentStep} count={steps.length - 1} colorPalette={'green'} size={{ base: 'xs', md: 'md' }}>
+                                                <StepsList>
+                                                    {steps.map((step, index) => (
+                                                        index === steps.length - 1 &&
+                                                        <StepsItem key={index} index={index} title={step.label} />
+                                                    ))}
+                                                </StepsList>
+                                                {steps.map((step, index) => (
+                                                    <StepsContent key={index} index={index}>
+                                                        <Text fontWeight="bold">{step.label}</Text>
+                                                        <Text>{step.description}</Text>
+                                                    </StepsContent>
+                                                ))}
+                                            </StepsRoot>
+                                        </Box>
+                                        {/* Desktop view */}
+                                        <Box display={{ base: 'none', md: 'block' }}>
+                                            <StepsRoot step={currentStep} count={steps.length - 1} colorPalette={'green'} size={{ base: 'xs', md: 'md' }}>
+                                                <StepsList>
+                                                    {steps.map((step, index) => (
+                                                        <StepsItem key={index} index={index} title={step.label} />
+                                                    ))}
+                                                </StepsList>
+                                                {steps.map((step, index) => (
+                                                    <StepsContent key={index} index={index}>
+                                                        <Text fontWeight="bold">{step.label}</Text>
+                                                        <Text>{step.description}</Text>
+                                                    </StepsContent>
+                                                ))}
+                                            </StepsRoot>
+                                        </Box>
+                                    </>
                                 ) : (
                                     <Flex alignItems="center" mt={4}>
                                         <FaTimes color="red" />
@@ -182,6 +202,7 @@ const Orders = () => {
                 />
             )}
         </Box>
+        </div>
     );
 };
 

@@ -15,6 +15,15 @@
     margin-bottom: 4;
 }
 
+.cart-heading {
+    text-align: left;
+    margin-bottom: 1.5rem;
+    color: #25995C;
+    font-size: 1.75rem;
+    font-weight: bold;
+    animation: slideIn 0.5s ease-in-out;
+  }
+
 .cart-item-img {
     margin-right: 20px;
     width: 100px;
@@ -97,6 +106,10 @@
     .cart-item {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .cart-heading {
+        font-size: 1.2rem;
     }
 
     .cart-item-img {

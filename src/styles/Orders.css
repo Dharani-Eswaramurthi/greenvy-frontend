@@ -1,7 +1,9 @@
 .orders-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
+   width: 100%;
+}
+
+.parent-orders {
+    margin: 2rem;
 }
 
 .order-item {
@@ -11,6 +13,15 @@
     margin-bottom: 20px;
     transition: box-shadow 0.2s;
 }
+
+.orders-heading {
+    text-align: left;
+    margin-bottom: 1.5rem;
+    color: #25995C;
+    font-size: 1.75rem;
+    font-weight: bold;
+    animation: slideIn 0.5s ease-in-out;
+  }
 
 .order-item:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -95,6 +106,15 @@
     .orders-container {
         padding: 1rem;
         font-size: 0.8rem;
+        overflow-x: auto;
+    }
+
+    .orders-heading {
+        font-size: 1.2rem;
+    }
+
+    .parent-orders {
+        margin: 0rem;
     }
 
     .order-item h3 {
