@@ -1,0 +1,116 @@
+.inpage-footer {
+    background-color: white;
+    color: black;
+    flex-direction: column;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    transition: all 0.3s ease;
+}
+
+.inpage-footer a {
+    color: black;
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.inpage-footer a:hover {
+    color: #25995C;
+}
+
+/* Add padding and margin to contact-details items */
+.contact-details HStack {
+    margin-bottom: 10px;
+}
+
+.contact-details HStack a,
+.contact-details HStack Text {
+    padding-left: 10px;
+}
+
+.inpage-footer .contact-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.inpage-footer .contact-details HStack {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.inpage-footer .contact-details HStack a,
+.inpage-footer .contact-details HStack Text {
+    padding-left: 10px;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+    .inpage-footer {
+        padding: 1rem 0.5rem;
+    }
+
+    .inpage-footer .quick-links,
+    .inpage-footer .contact-details {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .inpage-footer .quick-links a,
+    .inpage-footer .contact-details a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    .inpage-footer .social-media {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .inpage-footer .social-media a {
+        margin: 0 10px;
+    }
+}
+
+/* Desktop view */
+@media (min-width: 769px) {
+    .inpage-footer {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .inpage-footer .quick-links,
+    .inpage-footer .contact-details,
+    .inpage-footer .social-media {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .inpage-footer .quick-links {
+        flex: 1;
+    }
+
+    .inpage-footer .contact-details {
+        flex: 1;
+        align-items: center;
+        text-align: left;
+    }
+
+    .inpage-footer .social-media {
+        flex: 1;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .inpage-footer .quick-links a,
+    .inpage-footer .contact-details a {
+        display: inline-block;
+        margin: 0 0.5rem;
+    }
+}

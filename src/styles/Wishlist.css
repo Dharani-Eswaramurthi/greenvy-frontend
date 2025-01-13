@@ -1,0 +1,106 @@
+.wishlist-container {
+    max-width: 1200px;
+    margin: 0rem auto;
+    padding: 20px;
+    height: 81vh;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wishlist-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.wishlist-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wishlist-item img {
+    border-radius: 10px;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.wishlist-item img:hover {
+    transform: scale(1.05);
+}
+
+.wishlist-item .wishlist-item-info {
+    flex: 1;
+}
+
+.wishlist-item .wishlist-item-info h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.wishlist-item .wishlist-item-info h2:hover {
+    color: #25995C;
+}
+
+.wishlist-item .wishlist-item-info p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.wishlist-item .wishlist-item-info .wishlist-item-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #25995C;
+}
+
+.wishlist-item .wishlist-item-actions {
+    display: flex;
+    align-items: center;
+}
+
+.wishlist-item .wishlist-item-actions button {
+    background-color: #25995C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.wishlist-item .wishlist-item-actions button:hover {
+    background-color: #1e7e4e;
+    transform: translateY(-2px);
+}
+
+.wishlist-item .wishlist-item-actions button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.wishlist-item .wishlist-item-actions .remove-button {
+    background-color: red;
+    margin-left: 1rem;
+}
+
+.wishlist-item .wishlist-item-actions .remove-button:hover {
+    background-color: darkred;
+}

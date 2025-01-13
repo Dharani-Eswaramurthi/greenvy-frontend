@@ -1,0 +1,45 @@
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #25995C;
+  color: white;
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.icon svg {
+  font-size: 1.5rem;
+}
+
+.profile-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+/* Desktop view */
+@media (min-width: 769px) {
+  .footer {
+    display: none; /* Hide footer in desktop view */
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .footer {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+}

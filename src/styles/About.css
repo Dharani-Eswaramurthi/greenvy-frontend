@@ -1,0 +1,165 @@
+.home {
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    /* put border shadow on four edges of the container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) ;
+}
+
+.text-content {
+    padding: 2rem;
+}
+
+.leaf-animation {
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+    animation: leaf-fall 5s infinite;
+}
+
+@keyframes leaf-fall {
+    0% { transform: translateY(-100px) rotate(0deg); }
+    50% { transform: translateY(100px) rotate(180deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+.title {
+    font-family: 'Vijaya';
+    font-size: 2rem;
+    color: #25995C;
+}
+
+.paragraph {
+    font-family: 'Vijaya';
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.leaf-images {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.leaf-image {
+    display: block;
+    margin: 20px auto;
+    width: 400px;
+    border-radius: 8px;
+}
+
+.subscribe {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.subscribe-input {
+    margin-right: 10px;
+    border-radius: 25px;
+    padding: 10px 20px;
+    height: 50px;
+    font-size: 1rem;
+    flex: 1;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.subscribe-input:focus {
+    border-color: #25995C;
+    outline: none;
+}
+
+.subscribe-button {
+    background-color: #25995C;
+    border: none;
+    border-radius: 25px;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    margin-left: -50px;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.subscribe-button:hover {
+    background-color: #1e7a4d;
+}
+
+.loading-icon, .arrow-icon {
+    transition: opacity 0.3s ease;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .home {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .home > div {
+        text-align: center;
+    }
+
+    .leaf-animation {
+        display: none;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .paragraph {
+        font-size: 1.2rem;
+    }
+
+    .leaf-images {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .leaf-images {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .leaf-image {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .subscribe {
+        flex-direction: column;
+    }
+
+    .subscribe-input {
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+    .subscribe-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        margin-left: 0;
+    }
+}

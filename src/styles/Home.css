@@ -1,0 +1,63 @@
+.product-grid {
+    padding: 20px;
+    gap: 20px; /* Add gap between products */
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+}
+
+.product-details {
+    text-align: left; /* Align text to the left */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+    position: relative;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+}
+
+.product-details:hover {
+    transform: scale(1.05); /* Slightly enlarge the product on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-details img {
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.product-details img:hover {
+    transform: scale(1.05);
+}
+
+.product-details .icon-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: black;
+    transition: color 0.3s ease;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.product-details .icon-button:hover {
+    color: red;
+    border: none;
+}
+
+.product-details .icon-button.wishlisted {
+    color: red;
+    border: none;
+}
+
+.stars span {
+    color: gold;
+    font-size: 1.2rem; /* Reduce star size */
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

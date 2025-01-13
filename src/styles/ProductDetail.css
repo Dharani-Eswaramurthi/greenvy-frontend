@@ -1,0 +1,121 @@
+.product-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.product-detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .product-detail-content {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+.product-images {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    overflow-x: visible;
+}
+
+@media (min-width: 768px) {
+    .product-images {
+        flex-direction: column;
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+}
+
+.product-images img {
+    margin-right: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+@media (min-width: 768px) {
+    .product-images img {
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+}
+
+.product-images img.selected {
+    border: 2px solid #3182ce;
+}
+
+.product-main-image {
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .product-main-image {
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+}
+
+.product-info {
+    flex: 1;
+    width: 90%;
+    text-align: left;
+}
+
+.product-reviews {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.review {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px 0;
+    transition: box-shadow 0.2s;
+}
+
+.write-review {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.write-review textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+}
+
+.write-review textarea:hover {
+    border-color: #cbd5e0;
+}
+
+.write-review textarea:focus {
+    border-color: #3182ce;
+}
+
+.write-review button {
+    background-color: #25995C;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.write-review button:hover {
+    background-color: #2b6cb0;
+}
+
+
