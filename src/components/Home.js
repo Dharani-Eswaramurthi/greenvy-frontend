@@ -10,6 +10,8 @@ import Loading from './Loading';
 import carouselImages from '../utils/imageLoader';
 import CustomCarousel from '../utils/CustomCarousel';
 
+axios.defaults.baseURL = process.env.REACT_BASEURL;
+
 const Home = () => {
     const navigate = useNavigate();
     const { isAuthenticated, userId } = useContext(AuthContext);

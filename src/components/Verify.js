@@ -4,7 +4,7 @@ import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra
 import { Link as RouterLink } from 'react-router-dom';
 import '../styles/Auth.css';
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = process.env.REACT_BASEURL;
 
 const Verify = () => {
     const [email, setEmail] = useState('');

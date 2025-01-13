@@ -13,7 +13,7 @@ import {
   MenuTrigger,
 } from "../components/ui/menu";
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = process.env.REACT_BASEURL;
 
 const Footer = () => {
     const { isAuthenticated, logout } = useContext(AuthContext);

@@ -12,7 +12,7 @@ import Loading from './Loading';
 import '../styles/Account.css'; // Import the CSS file
 import userLogo from "../assets/user.png"
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = process.env.REACT_BASEURL;
 
 Modal.setAppElement('#root'); // Ensure accessibility
 

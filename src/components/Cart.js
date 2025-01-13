@@ -8,6 +8,8 @@ import ConfirmationModal from './ConfirmationModal';
 import '../styles/Cart.css';
 import { useNavigate } from 'react-router-dom';
 
+axios.defaults.baseURL = process.env.REACT_BASEURL;
+
 const Cart = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);
     const [cartItems, setCartItems] = useState([]);

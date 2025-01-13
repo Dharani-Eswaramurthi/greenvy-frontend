@@ -10,7 +10,7 @@ import axios from 'axios';
 import getCroppedImg from '../utils/cropImage';
 import userLogo from "../assets/user.png";
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = process.env.REACT_BASEURL;
 
 const Header = () => {
     const [showSearchModal, setShowSearchModal] = useState(false);
