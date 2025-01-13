@@ -2,15 +2,13 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 import logo from '../assets/greenvy-logo.png';
-import { FaShoppingCart, FaHeart, FaSearch, FaTimes, FaCog, FaSignOutAlt, FaClipboardList } from 'react-icons/fa';
+import { FaShoppingCart, FaHeart, FaUser, FaSearch, FaTimes, FaCog, FaSignOutAlt, FaClipboardList } from 'react-icons/fa';
 import { Button } from "../components/ui/button";
 import { Input } from '@chakra-ui/react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import getCroppedImg from '../utils/cropImage';
 import userLogo from "../assets/user.png";
-
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
 const Header = () => {
     const [showSearchModal, setShowSearchModal] = useState(false);
@@ -89,10 +87,6 @@ const Header = () => {
     };
 
     const handleProfileClick = () => {
-        navigate('/account');
-    };
-
-    const handleMenuTriggerClick = () => {
         setMenuVisible(!menuVisible);
     };
 
@@ -100,8 +94,8 @@ const Header = () => {
         navigate('/cart');
     };
 
-    const handleWishlistClick = () => {
-        navigate('/wishlist');
+    const handleAccountClick = () => {
+        navigate('/account');
     };
 
     const handleOrdersClick = () => {
@@ -128,7 +122,7 @@ const Header = () => {
                 </Button>
                 {isAuthenticated ? (
                     <>
-                        <Button className="icon wishlist" variant="ghost" onClick={handleWishlistClick}>
+                        <Button className="icon wishlist" variant="ghost">
                             <FaHeart />
                         </Button>
                         <Button className="icon cart" variant="ghost" onClick={handleCartClick}>
@@ -138,7 +132,7 @@ const Header = () => {
                             )}
                         </Button>
                         <div className="menu-trigger-wrapper">
-                            <Button className="icon menu-trigger" variant="ghost" onClick={handleMenuTriggerClick}>
+                            <Button className="icon menu-trigger" variant="ghost" onClick={handleProfileClick}>
                                 <img src={profileImage || userLogo} alt="Profile" className="profile-image" />
                             </Button>
                             {menuVisible && (
@@ -147,7 +141,7 @@ const Header = () => {
                                         <FaClipboardList />
                                         <span>Orders</span>
                                     </div>
-                                    <div className="menu-item" onClick={handleProfileClick}>
+                                    <div className="menu-item" onClick={handleAccountClick}>
                                         <FaCog />
                                         <span>Account Settings</span>
                                     </div>

@@ -253,7 +253,7 @@ const Account = () => {
     }
 
     return (
-        <div style={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
+        <div style={{ paddingLeft: '4rem', paddingRight: '4rem', paddingLeft: '2rem', paddingRight: '0rem' }}>
             <Stack spacing={4} p={4} className="settings-container">
                 <Heading as="h1" size="xl" mb={6} className="settings-heading">Account Settings</Heading>
 
@@ -371,11 +371,11 @@ const Account = () => {
                 <div className="custom-modal">
                     <div className="custom-modal-content">
                         <span className="custom-modal-close" onClick={handleCloseAddressModal}>&times;</span>
-                        <h2>{currentAddressId ? 'Edit Address' : 'Add Address'}</h2>
+                        <h2 style={{ color: '#25995C' }}><b>{currentAddressId ? 'Edit Address' : 'Add Address'}</b></h2>
                         <Box width="100%">
                             <Text className="settings-label">Address Type</Text>
                             <RadioGroup defaultValue="Home" onChange={(e) => setAddressType(e.target.value)}>
-                                <HStack gap="6">
+                                <HStack gap="6" mb='10px'>
                                     <Radio value="Home">Home</Radio>
                                     <Radio value="Work">Work</Radio>
                                 </HStack>

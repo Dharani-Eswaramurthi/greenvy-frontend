@@ -53,6 +53,7 @@
 @media (max-width: 768px) {
     .inpage-footer {
         padding: 1rem 0.5rem;
+        font-size: 0.8rem;
     }
 
     .inpage-footer .quick-links,

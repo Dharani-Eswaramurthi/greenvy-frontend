@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import '../styles/Footer.css';
 import { FaHome, FaHeart, FaShoppingCart, FaUser, FaClipboardList, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { Button } from "../components/ui/button";
@@ -12,6 +12,7 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "../components/ui/menu";
+import userLogo from "../assets/user.png";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
@@ -19,6 +20,8 @@ const Footer = () => {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [profileImage, setProfileImage] = useState(null);
     const navigate = useNavigate();
+    const [menuVisible, setMenuVisible] = useState(false);
+    const menuRef = useRef();
 
     useEffect(() => {
         const fetchProfileImage = async () => {
@@ -39,17 +42,34 @@ const Footer = () => {
             }
         };
 
+
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setMenuVisible(false);
+            }
+        };
+
         if (isAuthenticated) {
             fetchProfileImage();
         }
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, [isAuthenticated]);
 
     const handleProfileClick = () => {
-        navigate('/account');
+        setMenuVisible(true);
     };
 
     const handleCartClick = () => {
         navigate('/cart');
+    };
+
+    const handleAccountClick = () => {
+        navigate('/account');
     };
 
     const handleWishlistClick = () => {
@@ -66,6 +86,7 @@ const Footer = () => {
     };
 
     return (
+        
         <div className="footer">
             <Button className="icon" variant="ghost" as="a" href="/">
                 <FaHome />
@@ -78,26 +99,28 @@ const Footer = () => {
                     <Button className="icon" variant="ghost" onClick={handleCartClick}>
                         <FaShoppingCart />
                     </Button>
-                    <MenuRoot>
-                        <MenuTrigger as={Button} className="icon" variant="ghost">
-                            {profileImage ? (
-                                <img src={profileImage} alt="Profile" className="profile-image" />
-                            ) : (
-                                <FaUser />
+                    
+                    <div className="menu-trigger-wrapper">
+                            <Button className="icon menu-trigger" variant="ghost" onClick={handleProfileClick}>
+                                <img src={profileImage || userLogo} alt="Profile" className="profile-image" />
+                            </Button>
+                            {menuVisible && (
+                                <div ref={menuRef} className="menu-content">
+                                    <div className="menu-item" onClick={handleOrdersClick}>
+                                        <FaClipboardList />
+                                        <span>Orders</span>
+                                    </div>
+                                    <div className="menu-item" onClick={handleAccountClick}>
+                                        <FaCog />
+                                        <span>Account Settings</span>
+                                    </div>
+                                    <div className="menu-item" onClick={handleLogoutClick}>
+                                        <FaSignOutAlt />
+                                        <span>Logout</span>
+                                    </div>
+                                </div>
                             )}
-                        </MenuTrigger>
-                        <MenuContent className="dropdown-menu">
-                            <MenuItem icon={<FaClipboardList />} onClick={handleOrdersClick}>
-                                Orders
-                            </MenuItem>
-                            <MenuItem icon={<FaCog />} onClick={handleProfileClick}>
-                                Account Settings
-                            </MenuItem>
-                            <MenuItem icon={<FaSignOutAlt />} onClick={handleLogoutClick}>
-                                Logout
-                            </MenuItem>
-                        </MenuContent>
-                    </MenuRoot>
+                        </div>
                 </>
             ) : (
                 <Button className="icon" variant="ghost" as="a" href="/login">

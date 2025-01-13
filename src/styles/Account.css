@@ -5,6 +5,7 @@
   background-color: #ffffff;
   transition: all 0.3s ease;
   animation: fadeIn 0.5s ease-in-out;
+  width: 100%;
 }
 
 
@@ -273,4 +274,12 @@
 .address-box .settings-icon-button:hover {
   background-color: #25995C;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .settings-container{
+    font-size: 0.8rem;
+    overflow-x: auto;
+  }
+  
 }

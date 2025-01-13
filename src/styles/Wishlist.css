@@ -104,3 +104,19 @@
 .wishlist-item .wishlist-item-actions .remove-button:hover {
     background-color: darkred;
 }
+
+/* Media queries for mobile view */
+@media (max-width: 768px) {
+    .wishlist-container {
+        font-size: 0.8rem;
+    }
+
+    .wishlist-item .wishlist-item-info h2 {
+        font-size: 1rem;
+    }
+
+    .wishlist-item .wishlist-item-info p,
+    .wishlist-item .wishlist-item-info .wishlist-item-price {
+        font-size: 0.8rem;
+    }
+}

@@ -16,6 +16,7 @@ import {
   StepsPrevTrigger,
   StepsRoot,
 } from "../components/ui/steps";
+import '../styles/Orders.css';
 
 const Orders = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);
@@ -132,34 +133,30 @@ const Orders = () => {
                                 </Stack>
                                 <Text fontWeight="bold" fontSize="lg" mt={4}>Total Amount: ₹{order.total_amount}</Text>
                                 {isDefinedStatus ? (
-                                    <StepsRoot step={currentStep} count={steps.length} colorPalette={'green'}>
+                                    <>
+                                    <StepsRoot step={currentStep} count={steps.length - 1} colorPalette={'green'} size={{ base: 'xs', md: 'md' }}>
                                         <StepsList>
                                             {steps.map((step, index) => (
+                                                index < steps.length -1 &&
                                                 <StepsItem key={index} index={index} title={step.label} />
                                             ))}
                                         </StepsList>
-                                        {steps.map((step, index) => (
-                                            <StepsContent key={index} index={index}>
-                                                <Text fontWeight="bold">{step.label}</Text>
-                                                <Text>{step.description}</Text>
-                                            </StepsContent>
-                                        ))}
-                                        <StepsCompletedContent>
-                                            <Text>Order Completed</Text>
-                                        </StepsCompletedContent>
-                                        <Group>
-                                            <StepsPrevTrigger asChild>
-                                                <Button variant="outline" size="sm">
-                                                    Prev
-                                                </Button>
-                                            </StepsPrevTrigger>
-                                            <StepsNextTrigger asChild>
-                                                <Button variant="outline" size="sm">
-                                                    Next
-                                                </Button>
-                                            </StepsNextTrigger>
-                                        </Group>
                                     </StepsRoot>
+                                    <StepsRoot step={currentStep} count={1} colorPalette={'green'} size={{ base: 'xs', md: 'md' }}>
+                                    <StepsList>
+                                        {steps.map((step, index) => (
+                                            index === steps.length -1 &&
+                                            <StepsItem key={index} index={index} title={step.label} />
+                                        ))}
+                                    </StepsList>
+                                    {steps.map((step, index) => (
+                                        <StepsContent key={index} index={index}>
+                                            <Text fontWeight="bold">{step.label}</Text>
+                                            <Text>{step.description}</Text>
+                                        </StepsContent>
+                                    ))}
+                                </StepsRoot>
+                                </>
                                 ) : (
                                     <Flex alignItems="center" mt={4}>
                                         <FaTimes color="red" />

@@ -54,11 +54,11 @@ const AddressModal = ({
         <div className="custom-modal">
             <div className="custom-modal-content">
                 <span className="custom-modal-close" onClick={onClose}>&times;</span>
-                <h2>{currentAddressId ? 'Edit Address' : 'Add Address'}</h2>
-                <Box width="100%">
+                <h2 style={{ color: '#25995C' }}><b>{currentAddressId ? 'Edit Address' : 'Add Address'}</b></h2>
+                <Box width="100%" >
                     <Text className="settings-label">Address Type</Text>
                     <RadioGroup defaultValue="Home" onChange={(e) => setAddressType(e.target.value)}>
-                        <HStack gap="6">
+                        <HStack gap="6" mb='10px'>
                             <Radio value="Home">Home</Radio>
                             <Radio value="Work">Work</Radio>
                         </HStack>
