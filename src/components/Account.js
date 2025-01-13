@@ -12,7 +12,7 @@ import Loading from './Loading';
 import '../styles/Account.css'; // Import the CSS file
 import userLogo from "../assets/user.png"
 
-axios.defaults.baseURL = process.env.REACT_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
 Modal.setAppElement('#root'); // Ensure accessibility
 

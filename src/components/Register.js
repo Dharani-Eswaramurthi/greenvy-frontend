@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
 
-axios.defaults.baseURL = process.env.REACT_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
 const Register = () => {
     const [username, setUsername] = useState('');

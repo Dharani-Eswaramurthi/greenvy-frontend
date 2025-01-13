@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
 
-axios.defaults.baseURL = process.env.REACT_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
 const Login = () => {
     const [email, setEmail] = useState('');

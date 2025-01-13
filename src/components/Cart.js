@@ -8,8 +8,6 @@ import ConfirmationModal from './ConfirmationModal';
 import '../styles/Cart.css';
 import { useNavigate } from 'react-router-dom';
 
-axios.defaults.baseURL = process.env.REACT_BASEURL;
-
 const Cart = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);
     const [cartItems, setCartItems] = useState([]);
@@ -138,6 +136,7 @@ const Cart = () => {
         navigate('/404');
         return;
     }
+    
 
     return (
         <Box className="cart-container">
@@ -150,27 +149,31 @@ const Cart = () => {
             ) : (
                 <>
                     {cartItems.map((item) => (
-                        <Flex key={item.product_id} borderBottom="1px solid #e2e8f0" p="10px 0" transition="box-shadow 0.2s" position="relative" flexWrap="nowrap" mb={4}>
-                            <Image src={item.images[0]} alt={item.name} className="cart-item-img" />
-                            <Box flex="1" ml={4}>
-                                <Text className="cart-item-name">{item.name}</Text>
-                                <Flex justifyContent="flex-start" alignItems="left" mt={2} width='fit-content'>
-                                    <HStack spacing={4} alignItems="left">
-                                        <HStack border='1px solid #25995C'>
+                        <Flex key={item.product_id} className="cart-item" p={4} borderWidth="1px" borderRadius="lg" mb={4}>
+                            <Image src={item.images[0]} alt={item.name} boxSize="100px" objectFit="cover" borderRadius="md" loading="lazy" />
+                            <Box flex="1" ml={{ base: 0, md: 4 }} mt={{ base: 4, md: 0 }}>
+                                <Text fontSize={{ base: "md", md: "xl" }} fontWeight="bold">{item.name}</Text>
+                                <Flex justifyContent="space-between" alignItems="center" mt={2}>
+                                    <HStack spacing={4}>
+                                        <HStack border="1px solid #25995C" borderRadius="md" transition="all 0.3s" width="fit-content">
                                             <Button
                                                 onClick={() => handleDecreaseQuantity(item.product_id, item.quantity)}
                                                 isLoading={loading}
-                                                className="quantity-button"
-                                                size={{ base: "xs", md: "md" }}
+                                                backgroundColor="#25995C"
+                                                color="white"
+                                                height={{ base: "30px", md: "50px" }}
+                                                size="xs"
                                                 _hover={{ backgroundColor: '#1e7a4d' }}
                                                 transition="all 0.3s"
                                             ><FaMinus /></Button>
-                                            <Text px={3} className='quantity-number'>{item.quantity}</Text>
+                                            <Text paddingEnd={3} paddingStart={3} fontSize={{ base: "sm", md: "md" }}>{item.quantity}</Text>
                                             <Button
                                                 onClick={() => handleIncreaseQuantity(item.product_id, item.quantity)}
                                                 isLoading={loading}
-                                                className="quantity-button"
-                                                size={{ base: "xs", md: "md" }}
+                                                backgroundColor="#25995C"
+                                                color="white"
+                                                height={{ base: "30px", md: "50px" }}
+                                                size="xs"
                                                 _hover={{ backgroundColor: '#1e7a4d' }}
                                                 transition="all 0.3s"
                                             ><FaPlus /></Button>
@@ -178,22 +181,24 @@ const Cart = () => {
                                         <Button
                                             onClick={() => handleRemoveItem(item.product_id)}
                                             isLoading={loading}
-                                            className="remove-button"
-                                            size={{ base: "xs", md: "md" }}
+                                            backgroundColor="red.500"
+                                            color="white"
+                                            height={{ base: "30px", md: "50px" }}
+                                            size="xs"
                                             _hover={{ backgroundColor: 'red.700' }}
                                             transition="all 0.3s"
                                         ><FaTrash /></Button>
                                     </HStack>
                                 </Flex>
                             </Box>
-                            <Text className="total-price">₹{item.price} x {item.quantity} = ₹{((item.price || 0) * item.quantity).toFixed(2)}</Text>
+                            <Text className="total-price" position="absolute" bottom="0" right="0" p={0} fontSize="lg" fontWeight="bold">₹{item.price} x {item.quantity} = ₹{((item.price || 0) * item.quantity).toFixed(2)}</Text>
                         </Flex>
                     ))}
                     <Flex justifyContent="space-between" alignItems="center" mt={6}>
                         <Text fontSize="2xl" fontWeight="bold">Total:</Text>
                         <Text fontSize="2xl" fontWeight="bold">₹{calculateTotal()}</Text>
                     </Flex>
-                    <Button mt={6} onClick={handleCheckout} className="checkout-button" _hover={{ backgroundColor: '#1e7a4d' }} transition="all 0.3s">
+                    <Button mt={6} onClick={handleCheckout} backgroundColor="#25995C" color="white" _hover={{ backgroundColor: '#1e7a4d' }} transition="all 0.3s">
                         Proceed to Checkout
                     </Button>
                 </>

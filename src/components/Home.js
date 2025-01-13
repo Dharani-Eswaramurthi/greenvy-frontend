@@ -10,7 +10,7 @@ import Loading from './Loading';
 import carouselImages from '../utils/imageLoader';
 import CustomCarousel from '../utils/CustomCarousel';
 
-axios.defaults.baseURL = process.env.REACT_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
 const Home = () => {
     const navigate = useNavigate();
