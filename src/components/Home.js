@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Box, Image, Text, Flex, SimpleGrid, Heading, Container, Button } from '@chakra-ui/react';
 import { FaLeaf, FaShoppingCart, FaStar, FaChild, FaHeart } from 'react-icons/fa';
+import { Toaster, toaster } from './ui/toaster';
 import { FaRegHeart } from "react-icons/fa6";
 import '../styles/Home.css';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { AuthContext } from '../context/AuthContext';
 import Loading from './Loading';
 import carouselImages from '../utils/imageLoader';
 import CustomCarousel from '../utils/CustomCarousel';
+import CustomGrid from './CustomGrid';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
@@ -23,7 +25,13 @@ const Home = () => {
     });
     const [wishlist, setWishlist] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+
+    const UseToast = (title, type) => {
+        toaster.create({
+          title: title,
+          type: type,
+        });
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -48,12 +56,42 @@ const Home = () => {
 
                 setLoading(false);
             } catch (err) {
-                setError('Failed to fetch products');
+                UseToast('Failed to fetch products');
                 setLoading(false);
             }
         };
         fetchProducts();
     }, [isAuthenticated, userId]);
+
+    const renderStarsWithHalf = (rating) => {
+            const stars = [];
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(rating)) {
+                    stars.push(<FaStar key={i} color="#FFD700" />);
+                } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
+                    stars.push(
+                        <div key={i} style={{ position: 'relative', display: 'inline-block' }}>
+                            <FaStar
+                                color="#FFD700"
+                                style={{
+                                    position: 'absolute',
+                                    clipPath: `polygon(0 0, ${((rating % 1) * 100).toFixed(2)}% 0, ${((rating % 1) * 100).toFixed(2)}% 100%, 0 100%)`,
+                                }}
+                            />
+                            <FaStar
+                                color="#D3D3D3"
+                                style={{
+                                    clipPath: `polygon(${((rating % 1) * 100).toFixed(2)}% 0, 100% 0, 100% 100%, ${((rating % 1) * 100).toFixed(2)}% 100%)`,
+                                }}
+                            />
+                        </div>
+                    );
+                } else {
+                    stars.push(<FaStar key={i} color="#D3D3D3" />);
+                }
+            }
+            return stars;
+        };
 
     const handleProductClick = (productId) => {
         navigate(`/product/${productId}`);
@@ -108,7 +146,7 @@ const Home = () => {
     };
 
     const renderProductGrid = (category) => (
-        <SimpleGrid columns={[1, 2, 3, 4]} spacing={10} className="product-grid">
+        <CustomGrid spacing={10} className="product-grid">
             {category.map((product, index) => (
                 <Box
                     key={index}
@@ -136,21 +174,17 @@ const Home = () => {
                     <Text fontSize="xl" mt={4} textAlign="left" fontWeight="bold" onClick={() => handleProductClick(product.product_id)}>{product.name}</Text>
                     <Text fontSize="lg" color="gray.500" textAlign="left">₹{product.price}</Text>
                     <Flex className="stars" mt={2} justifyContent="flex-start">
-                        {renderStars(product.averageReview)}
+                        {renderStarsWithHalf(product.overall_rating)}
                     </Flex>
                 </Box>
             ))}
-        </SimpleGrid>
+        </CustomGrid>
     );
 
     if (loading) {
         return (
             <Loading />
         );
-    }
-
-    if (error) {
-        return <Text color="red.500">{error}</Text>;
     }
 
     return (

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, Heading, Text, Stack, Flex, Image, Button } from '@chakra-ui/react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Group } from "@chakra-ui/react";
+import {  Toaster, toaster } from "../components/ui/toaster";
 import { FaTimes } from 'react-icons/fa';
 import ConfirmationModal from './ConfirmationModal';
 import Loading from './Loading';
@@ -22,10 +22,16 @@ const Orders = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [orderToCancel, setOrderToCancel] = useState(null);
     const navigate = useNavigate();
+
+    const UseToast = (title, type) => {
+        toaster.create({
+          title: title,
+          type: type,
+        });
+    };
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -51,9 +57,8 @@ const Orders = () => {
                     };
                 }));
                 setOrders(ordersWithProductDetails);
-                setError('');
             } catch (err) {
-                setError('Failed to fetch orders');
+                UseToast('Failed to fetch orders', 'error');
             } finally {
                 setLoading(false);
             }
@@ -79,9 +84,9 @@ const Orders = () => {
         try {
             await axios.post(`/user/cancel-order/${orderId}`);
             setOrders(orders.map(order => order.order_id === orderId ? { ...order, order_status: 'Cancelled' } : order));
-            setError('');
+            UseToast('Order cancelled successfully', 'success');
         } catch (err) {
-            setError('Failed to cancel order');
+            UseToast('Failed to cancel order', 'error');
         } finally {
             setLoading(false);
             setShowConfirmationModal(false);
@@ -100,10 +105,6 @@ const Orders = () => {
 
     if (loading) {
         return <Loading />;
-    }
-
-    if (error) {
-        return <Text color="red.500">{error}</Text>;
     }
 
     return (

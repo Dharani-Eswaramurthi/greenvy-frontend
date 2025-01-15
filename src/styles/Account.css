@@ -8,6 +8,11 @@
   width: 100%;
 }
 
+.account-padding {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
 
 @keyframes fadeIn {
   from {
@@ -285,5 +290,10 @@
   .settings-heading {
     font-size: 1.2rem;
 }
+
+  .account-padding {
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
   
 }

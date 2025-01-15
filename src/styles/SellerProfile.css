@@ -1,0 +1,30 @@
+.seller-profile-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-details {
+    text-align: left;
+    transition: transform 0.2s;
+    position: relative;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+}
+
+.product-details:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-details img {
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.product-details img:hover {
+    transform: scale(1.05);
+}

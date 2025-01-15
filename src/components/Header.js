@@ -111,6 +111,10 @@ const Header = () => {
         navigate('/');
     };
 
+    const handleWishlistClick = () => {
+        navigate('/wishlist');
+    };
+
     return (
         <div className={`header ${isScrolled ? 'scrolled' : ''}`}>
             <div className="logo" onClick={handleLogoClick}>
@@ -122,7 +126,7 @@ const Header = () => {
                 </Button>
                 {isAuthenticated ? (
                     <>
-                        <Button className="icon wishlist" variant="ghost">
+                        <Button className="icon wishlist" variant="ghost" onClick={handleWishlistClick}>
                             <FaHeart />
                         </Button>
                         <Button className="icon cart" variant="ghost" onClick={handleCartClick}>

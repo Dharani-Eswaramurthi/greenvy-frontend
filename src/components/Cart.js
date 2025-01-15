@@ -7,6 +7,7 @@ import Loading from './Loading';
 import ConfirmationModal from './ConfirmationModal';
 import '../styles/Cart.css';
 import { useNavigate } from 'react-router-dom';
+import { Toaster, toaster } from "../components/ui/toaster";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
@@ -14,10 +15,17 @@ const Cart = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedProductId, setSelectedProductId] = useState(null);
     const navigate = useNavigate();
+
+    const UseToast = (title, type) => {
+        toaster.create({
+            title: title,
+            type: type,
+            duration: 2000,
+        });
+    };
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -40,9 +48,8 @@ const Cart = () => {
                     })
                 );
                 setCartItems(productDetails);
-                setError('');
             } catch (err) {
-                setError('Failed to fetch cart items');
+                UseToast('Failed to fetch cart items', 'error');
             } finally {
                 setLoading(false);
             }
@@ -72,9 +79,9 @@ const Cart = () => {
                     )
                 );
             }
-            setError('');
+            UseToast('Cart updated successfully', 'success');
         } catch (err) {
-            setError('Failed to update cart');
+            UseToast('Failed to update cart', 'error');
         } finally {
             setLoading(false);
         }
@@ -113,8 +120,9 @@ const Cart = () => {
                 },
             });
             updateCart(selectedProductId, 0);
+            UseToast('Item moved to wishlist', 'success');
         } catch (err) {
-            setError('Failed to move item to wishlist');
+            UseToast('Failed to move item to wishlist', 'error');
         }
     };
 
@@ -128,10 +136,6 @@ const Cart = () => {
 
     if (loading) {
         return <Loading />;
-    }
-
-    if (error) {
-        return <Text color="red.500">{error}</Text>;
     }
 
     if (!isAuthenticated){
@@ -156,7 +160,7 @@ const Cart = () => {
                                 <Text className="cart-item-name">{item.name}</Text>
                                 <Flex justifyContent="flex-start" alignItems="left" mt={2} width='fit-content'>
                                     <HStack spacing={4} alignItems="left">
-                                        <HStack border='1px solid #25995C'>
+                                        <HStack border='1px solid #25995C' borderRadius="5px">
                                             <Button
                                                 onClick={() => handleDecreaseQuantity(item.product_id, item.quantity)}
                                                 isLoading={loading}
@@ -165,7 +169,7 @@ const Cart = () => {
                                                 _hover={{ backgroundColor: '#1e7a4d' }}
                                                 transition="all 0.3s"
                                             ><FaMinus /></Button>
-                                            <Text px={3} className='quantity-number'>{item.quantity}</Text>
+                                            <Text paddingLeft={{ base: '5px', md: '10px' }} paddingRight={{ base: '5px', md: '10px' }}>{item.quantity}</Text>
                                             <Button
                                                 onClick={() => handleIncreaseQuantity(item.product_id, item.quantity)}
                                                 isLoading={loading}
@@ -206,6 +210,7 @@ const Cart = () => {
                     onClose={() => setShowModal(false)}
                 />
             )}
+            <Toaster />
         </Box>
     );
 };

@@ -9,6 +9,7 @@ import { FiEdit, FiTrash } from 'react-icons/fi';
 import AddressModal from './AddressModal';
 import Loading from './Loading';
 import '../styles/Checkout.css';
+import { Toaster, toaster } from "../components/ui/toaster";
 
 const Checkout = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);
@@ -16,7 +17,6 @@ const Checkout = () => {
     const [addresses, setAddresses] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [currentAddressId, setCurrentAddressId] = useState(null);
     const [addressType, setAddressType] = useState('');
@@ -27,6 +27,14 @@ const Checkout = () => {
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
     const navigate = useNavigate();
+
+    const UseToast = (title, type) => {
+        toaster.create({
+            title: title,
+            type: type,
+            duration: 2000,
+        });
+    };
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -49,9 +57,8 @@ const Checkout = () => {
                     })
                 );
                 setCartItems(productDetails);
-                setError('');
             } catch (err) {
-                setError('Failed to fetch cart items');
+                UseToast('Failed to fetch cart items', 'error');
             } finally {
                 setLoading(false);
             }
@@ -63,7 +70,7 @@ const Checkout = () => {
                 setAddresses(response.data.address || []);
                 setSelectedAddressId(response.data.address[0]?.addressId); 
             } catch (err) {
-                setError('Failed to fetch addresses');
+                UseToast('Failed to fetch addresses', 'error');
             }
         };
 
@@ -114,10 +121,10 @@ const Checkout = () => {
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
-            setError('');
+            UseToast('Address saved successfully', 'success');
             setIsAddressModalOpen(false);
         } catch (err) {
-            setError('Failed to save address');
+            UseToast('Failed to save address', 'error');
         } finally {
             setLoading(false);
         }
@@ -133,9 +140,9 @@ const Checkout = () => {
                 params: { addressId }
             });
             fetchUserProfile(userId);
-            setError('');
+            UseToast('Address deleted successfully', 'success');
         } catch (err) {
-            setError('Failed to delete address');
+            UseToast('Failed to delete address', 'error');
         } finally {
             setLoading(false);
         }
@@ -143,7 +150,7 @@ const Checkout = () => {
 
     const handleCheckout = async () => {
         if (!selectedAddressId) {
-            setError('Please select an address');
+            UseToast('Please select an address', 'error');
             return;
         }
 
@@ -184,7 +191,7 @@ const Checkout = () => {
                         const response = await axios.post('/user/payment-failed', { 
                             order_id: response.razorpay_order_id 
                         });
-                        setError(response.data.message);
+                        UseToast(response.data.message, 'error');
                         navigate('/order-status', { state: { status: 'failed', message: 'Payment verification failed. Please try again.' } });
                     }
                 },
@@ -207,7 +214,7 @@ const Checkout = () => {
             });
             rzp.open();
         } catch (err) {
-            setError('Failed to proceed to checkout');
+            UseToast('Failed to proceed to checkout', 'error');
         } finally {
             setLoading(false);
         }
@@ -221,17 +228,12 @@ const Checkout = () => {
         return <Loading />;
     }
 
-    if (error) {
-        return <Text color="red.500">{error}</Text>;
-    }
-
     const fetchUserProfile = async (userId) => {
         try {
             const response = await axios.get(`/user/profile/${userId}`);
             setAddresses(response.data.address || []);
         } catch (err) {
-            console.log(err);
-            setError('Failed to fetch user profile');
+            UseToast('Failed to fetch user profile', 'error');
         }
     };
 
@@ -297,7 +299,6 @@ const Checkout = () => {
             <AddressModal
                 isOpen={isAddressModalOpen}
                 onClose={handleCloseAddressModal}
-                setError={setError}
                 setIsAddressModalOpen={setIsAddressModalOpen}
                 fetchUserProfile={fetchUserProfile}
                 userId={userId}
@@ -319,6 +320,7 @@ const Checkout = () => {
                 loading={loading}
                 setLoading={setLoading}
             />
+            <Toaster />
         </Box>
     );
 };

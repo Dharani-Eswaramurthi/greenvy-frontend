@@ -20,6 +20,8 @@ import Pagefooter from './components/Pagefooter';
 import ContactUs from './components/ContactUs';
 import BecomeSeller from './components/BecomeSeller';
 import About from './components/About';
+import SellerProfile  from './components/SellerProfile';
+import ShowReviews from './components/ShowReviews';
 
 const App = () => {
   return (
@@ -36,12 +38,14 @@ const App = () => {
             <Route path="/cart" element={<Cart/>} />
             <Route path="/wishlist" element={<Wishlist/>} />
             <Route path="/product/:productId" element={<ProductDetail />} />
+            <Route path="/seller/:sellerId" element={<SellerProfile />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order-status" element={<OrderStatus />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/about" element={<About />} />
             <Route path="/become-seller" element={<BecomeSeller />} />
+            <Route path="/show-reviews" element={<ShowReviews />} />
             <Route path="*" element={<NotFound/>} />
             {/* Other routes can be added here */}
           </Routes>

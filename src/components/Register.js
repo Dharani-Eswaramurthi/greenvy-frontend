@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Toaster, toaster } from "../components/ui/toaster";
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
 
@@ -11,20 +12,30 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [dateofbirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState('');
+    const navigate = useNavigate();
+
+    const UseToast = (title, type) => {
+        toaster.create({
+            title: title,
+            type: type
+        });
+    };
 
     const handleRegister = async () => {
         setLoading(true);
         try {
             const encrypted_password = encrypt(password);
-            const response = await axios.post('/user/register', { username, email, gender, dateofbirth, encrypted_password });
+            const response = await axios.post('/user/register', { username, email, gender, dateofbirth, password: encrypted_password });
+            UseToast("Registration successful. You have successfully registered.", "success");
             // Handle successful registration (e.g., redirect to login)
             console.log(response.data);
+            navigate('/login');
         } catch (err) {
-            setError(err.response?.data?.detail || 'Registration failed');
+            const errorMessage = err.response?.data?.detail || 'Registration failed';
+            UseToast(errorMessage, "error");
         } finally {
             setLoading(false);
         }
@@ -49,7 +60,6 @@ const Register = () => {
                     </Box>
                     <Box>
                         <label className='auth-label' htmlFor='gender'>Gender</label>
-                        {/* Gender is a drop down */}
                         <select className='auth-input' id='gender' value={gender} onChange={(e) => setGender(e.target.value)}>
                             <option value=''>Select Gender</option>
                             <option value='male'>Male</option>
@@ -60,7 +70,6 @@ const Register = () => {
                     <Box>
                         <label className="auth-label" htmlFor="password">Password</label>
                         <Input className="auth-input" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        {error && <Text className="auth-error">{error}</Text>}
                     </Box>
                     <Button className="auth-button" onClick={handleRegister} disabled={loading}>
                         {loading ? <Spinner size="sm" /> : 'Register'}
@@ -70,6 +79,7 @@ const Register = () => {
                     </Text>
                 </Stack>
             </Box>
+            <Toaster />
         </div>
     );
 };

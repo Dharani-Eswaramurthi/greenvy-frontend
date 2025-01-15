@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Box, Image, Text, Flex, Heading, Button } from '@chakra-ui/react';
+import { Toaster, toaster } from './ui/toaster';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Loading from './Loading';
@@ -12,8 +13,14 @@ const Wishlist = () => {
     const [wishlistItems, setWishlistItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [authLoading, setAuthLoading] = useState(true); // New state for auth loading
-    const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    const UseToast = (title, type) => {
+        toaster.create({
+          title: title,
+          type: type,
+        });
+    };
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -39,9 +46,8 @@ const Wishlist = () => {
                     })
                 );
                 setWishlistItems(productDetails);
-                setError('');
             } catch (err) {
-                setError('Failed to fetch wishlist items');
+                UseToast('Failed to fetch wishlist items', 'error');
             } finally {
                 setLoading(false);
             }
@@ -63,9 +69,9 @@ const Wishlist = () => {
                 },
             });
             setWishlistItems((prevItems) => prevItems.filter((item) => item.product_id !== productId));
-            setError('');
+            UseToast('Item removed from wishlist', 'success');
         } catch (err) {
-            setError('Failed to remove item from wishlist');
+            UseToast('Failed to remove item from wishlist', 'error');
         } finally {
             setLoading(false);
         }
@@ -83,9 +89,6 @@ const Wishlist = () => {
         return <Loading />;
     }
 
-    if (error) {
-        return <Text color="red.500">{error}</Text>;
-    }
 
     return (
         <Box className="wishlist-container">

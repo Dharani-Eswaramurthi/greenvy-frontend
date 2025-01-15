@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Heading, Input, Textarea, Button, VStack, Text } from '@chakra-ui/react';
+import { Toaster, toaster } from './ui/toaster';
 import { FaSpinner } from 'react-icons/fa';
 import '../styles/BecomeSeller.css';
 
@@ -9,17 +10,20 @@ const BecomeSeller = () => {
     const [businessName, setBusinessName] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+
+    const UseToast = (title, type) => {
+        toaster.create({
+          title: title,
+          type: type,
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
-        setSuccess('');
 
         if (!name || !email || !businessName || !message) {
-            setError('All fields are required');
+            UseToast('All fields are required', 'error');
             setLoading(false);
             return;
         }
@@ -27,13 +31,13 @@ const BecomeSeller = () => {
         try {
             // Send the become a seller form data to the backend
             // await axios.post('/become-seller', { name, email, businessName, message });
-            setSuccess('Your request has been sent successfully!');
+            UseToast('Your request has been sent successfully!', 'success');
             setName('');
             setEmail('');
             setBusinessName('');
             setMessage('');
         } catch (err) {
-            setError('Failed to send your request. Please try again later.');
+            UseToast('Failed to send your request. Please try again later.', 'error');
         } finally {
             setLoading(false);
         }
@@ -97,8 +101,6 @@ const BecomeSeller = () => {
                         >
                             {loading ? <FaSpinner className="loading-icon" /> : 'Submit'}
                         </Button>
-                        {error && <Text color="red.500" mt={4}>{error}</Text>}
-                        {success && <Text color="green.500" mt={4}>{success}</Text>}
                     </VStack>
                 </form>
             </Box>

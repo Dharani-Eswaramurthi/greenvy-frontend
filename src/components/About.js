@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Heading, Text, Input, Button, VStack, HStack } from '@chakra-ui/react';
 import { CgArrowRight } from 'react-icons/cg';
+import {Toaster, toaster} from "../components/ui/toaster";
 import emailjs from 'emailjs-com';
 import leaf1 from "../assets/leaf1.png";
 import leaf2 from "../assets/leaf2.png";
@@ -28,8 +29,6 @@ const About = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,6 +37,13 @@ const About = () => {
 
     return () => clearTimeout(timer);
   });
+
+  const UseToast = (title, type) => {
+    toaster.create({
+      title: title,
+      type: type,
+    });
+  };
 
   const timerComponents = [];
 
@@ -55,7 +61,7 @@ const About = () => {
 
   const handleSubscribe = () => {
     if (!validateEmail(email)) {
-      setError('Please enter a valid email address.');
+      UseToast('Please enter a valid email address.', 'error');
       return;
     }
 
@@ -72,11 +78,11 @@ const About = () => {
       templateParams,
       process.env.REACT_APP_EMAILJS_USER_ID
     ).then((response) => {
-      setSuccess("Thanks! We'll keep updating you.");
+      UseToast("Thanks! We'll keep updating you.", 'success');
       setEmail('');
       setLoading(false);
     }, (error) => {
-      setError('An error occurred, please try again.');
+      UseToast('Something went wrong. Please try again later.', 'error');
       setLoading(false);
     });
   };
@@ -118,8 +124,6 @@ const About = () => {
             </Button>
           </Box>
         </HStack>
-        {error && <Text color="red.500" mt={4}>{error}</Text>}
-        {success && <Text color="green.500" mt={4}>{success}</Text>}
         <Text mb={4} className="paragraph">
           At Greenvy, we are more than just an e-commerce platform—we’re a movement dedicated to building a sustainable future. As we prepare for our launch, we invite you to join us on this incredible journey towards creating a healthier planet and a brighter tomorrow.
         </Text>

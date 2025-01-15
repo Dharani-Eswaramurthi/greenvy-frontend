@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Input, Button, Textarea, Heading, Text, VStack, HStack } from '@chakra-ui/react';
+import { Toaster, toaster } from '../components/ui/toaster';
 import { FaEnvelope, FaPhone, FaHome, FaSpinner } from 'react-icons/fa';
 import emailjs from 'emailjs-com';
 import '../styles/ContactUs.css';
@@ -10,8 +11,13 @@ const Contact = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+
+  const UseToast = (title, type) => {
+    toaster.create({
+      title: title,
+      type: type,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,12 +33,12 @@ const Contact = () => {
         templateParams,
         process.env.REACT_APP_EMAILJS_USER_ID
       );
-      setSuccess("Your seed is now sowed! We'll get back to you with its progress!");
+      UseToast("Your seed is now sowed! We'll get back to you with its progress!", 'success');
       setName('');
       setEmail('');
       setMessage('');
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      UseToast("An error occurred. Please try again.", 'error');
     } finally {
       setLoading(false);
     }
@@ -104,8 +110,6 @@ const Contact = () => {
             >
               {loading ? <FaSpinner className="loading-icon" /> : <><PlantIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} color="#ffffff" /> Plant Your Seed</>}
             </Button>
-            {error && <Text color="red.500" mt={4}>{error}</Text>}
-            {success && <Text color="green.500" mt={4}>{success}</Text>}
           </VStack>
         </form>
       </Box>

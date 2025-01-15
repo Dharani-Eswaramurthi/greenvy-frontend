@@ -7,7 +7,7 @@ const Pagefooter = () => {
     return (
         <>
             <hr style={{ borderColor: 'gray.300', borderWidth: '1px', margin: '0' }} />
-            <div style={{ marginLeft: '4rem', marginTop: '2rem' }}>
+            <div style={{ paddingLeft: "2rem" , marginTop: '2rem' }}>
             <Box className="inpage-footer" p={4}>
                 <Flex flexDirection={{ base: 'column', md: 'row' }} justifyContent="space-between" alignItems="center">
                     <HStack spacing={10} className="quick-links">
@@ -35,7 +35,7 @@ const Pagefooter = () => {
                             </HStack>
                         </VStack>
                     </HStack>
-                    <Flex mt={{ base: 4, md: 0 }} className="social-media" justifyContent="center" width="100%">
+                    <Flex mt={{ base: 1, md: 0 }} className="social-media" justifyContent="center" width="100%">
                         <Link href="https://www.facebook.com" isExternal mx={2}>
                             <FaFacebook size="24px" />
                         </Link>

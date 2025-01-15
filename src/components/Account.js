@@ -10,7 +10,8 @@ import Modal from 'react-modal';
 import getCroppedImg from '../utils/cropImage';
 import Loading from './Loading';
 import '../styles/Account.css'; // Import the CSS file
-import userLogo from "../assets/user.png"
+import userLogo from "../assets/user.png";
+import { Toaster, toaster } from "../components/ui/toaster";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
@@ -21,7 +22,6 @@ const Account = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [profileImage, setProfileImage] = useState(null);
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(true); // Set initial loading state to true
     const [userId, setUserId] = useState('');
     const [editField, setEditField] = useState(null);
@@ -42,6 +42,14 @@ const Account = () => {
     const [imageSrc, setImageSrc] = useState(null);
     const [fullImage, setFullImage] = useState(null);
     const navigate = useNavigate();
+
+    const UseToast = (title, type) => {
+        toaster.create({
+            title: title,
+            type: type,
+            duration: 2000,
+        });
+    };
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -77,8 +85,7 @@ const Account = () => {
             setEmail(response.data.email);
             setAddresses(response.data.address || []);
         } catch (err) {
-            console.log(err);
-            setError('Failed to fetch user profile');
+            UseToast('Failed to fetch user profile', 'error');
         } finally {
             setLoading(false); // Set loading to false after API call is complete
         }
@@ -94,10 +101,10 @@ const Account = () => {
                 updateData.email = email;
             }
             await axios.post(`/user/update-profile-details/${userId}`, updateData);
-            setError('');
+            UseToast('Profile details updated successfully', 'success');
             setEditField(null);
         } catch (err) {
-            setError('Failed to update profile details');
+            UseToast('Failed to update profile details', 'error');
         } finally {
             setLoading(false);
         }
@@ -126,9 +133,9 @@ const Account = () => {
             await axios.post(`/user/delete-profile-image/${userId}`);
             setProfileImage(null);
             setFullImage(null);
-            setError('');
+            UseToast('Profile image deleted successfully', 'success');
         } catch (err) {
-            setError('Failed to delete profile image');
+            UseToast('Failed to delete profile image', 'error');
         } finally {
             setLoading(false);
         }
@@ -164,10 +171,10 @@ const Account = () => {
 
             const croppedImageref = await getCroppedImg(imageObjectURL, JSON.parse(response.data.profile_image_crop));
             setProfileImage(croppedImageref);
-            setError('');
+            UseToast('Profile image uploaded successfully', 'success');
             setIsCropModalOpen(false);
         } catch (err) {
-            setError('Failed to upload profile image');
+            UseToast('Failed to upload profile image', 'error');
         } finally {
             setLoading(false);
         }
@@ -216,10 +223,10 @@ const Account = () => {
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
-            setError('');
+            UseToast('Address saved successfully', 'success');
             setIsAddressModalOpen(false);
         } catch (err) {
-            setError('Failed to save address');
+            UseToast('Failed to save address', 'error');
         } finally {
             setLoading(false);
         }
@@ -235,12 +242,16 @@ const Account = () => {
                 params: { addressId }
             });
             fetchUserProfile(userId);
-            setError('');
+            UseToast('Address deleted successfully', 'success');
         } catch (err) {
-            setError('Failed to delete address');
+            UseToast('Failed to delete address', 'error');
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleShowReviews = () => {
+        navigate('/show-reviews');
     };
 
     if (!isAuthenticated){
@@ -253,7 +264,7 @@ const Account = () => {
     }
 
     return (
-        <div style={{ paddingLeft: '4rem', paddingRight: '4rem', paddingLeft: '2rem', paddingRight: '0rem' }}>
+        <div className='account-padding'>
             <Stack spacing={4} p={4} className="settings-container">
                 <Heading as="h1" size="xl" mb={6} className="settings-heading">Account Settings</Heading>
 
@@ -363,7 +374,11 @@ const Account = () => {
                     </SimpleGrid>
                 </Box>
 
-                {error && <Text className="settings-error">{error}</Text>}
+                <Button mt={6} onClick={handleShowReviews} className="settings-button" _hover={{ backgroundColor: '#1e7a4d' }} transition="all 0.3s">
+                    Show Reviews
+                </Button>
+
+                <Toaster />
 
             </Stack>
 
