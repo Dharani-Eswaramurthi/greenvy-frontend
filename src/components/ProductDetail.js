@@ -10,6 +10,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '../styles/ProductDetail.css';
 import Loading from './Loading';
 import UserLogo from '../assets/user.png';
+import ConfirmationModal from './ConfirmationModal';
 
 const ProductDetail = () => {
     const { productId } = useParams();
@@ -29,6 +30,8 @@ const ProductDetail = () => {
     const [writeComment, setWriteComment] = useState('');
     const [wishlist, setWishlist] = useState([]);
     const [wishlistLoading, setWishlistLoading] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [reviewToDelete, setReviewToDelete] = useState(null);
     const reviewsRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -424,6 +427,16 @@ const ProductDetail = () => {
         }
     };
 
+    const openConfirmationModal = (reviewId) => {
+        setReviewToDelete(reviewId);
+        setShowConfirmationModal(true);
+    };
+
+    const closeConfirmationModal = () => {
+        setReviewToDelete(null);
+        setShowConfirmationModal(false);
+    };
+
     const handleMenuClick = (reviewId) => {
         setMenuVisible(menuVisible === reviewId ? null : reviewId);
     };
@@ -619,7 +632,7 @@ const ProductDetail = () => {
                                                     <FaEdit color='#25995C' />
                                                     <span>Edit</span>
                                                 </div>
-                                                <div className="custom-menu-item" onClick={() => handleDeleteReview(review.review_id)}>
+                                                <div className="custom-menu-item" onClick={() => openConfirmationModal(review.review_id)}>
                                                     <FaTrash color='#25995C' />
                                                     <span>Delete</span>
                                                 </div>
@@ -638,6 +651,14 @@ const ProductDetail = () => {
                     <Text>No reviews yet</Text>
                 )}
             </Box>
+            {showConfirmationModal && (
+                <ConfirmationModal
+                    message="Are you sure you want to delete this review?"
+                    button1={{ label: 'Yes', onClick: () => handleDeleteReview(reviewToDelete) }}
+                    button2={{ label: 'No', onClick: closeConfirmationModal }}
+                    onClose={closeConfirmationModal}
+                />
+            )}
             {isAuthenticated && (
                 <Box className="write-review" mt={10}>
                     <Heading as="h3" size="lg">Write a Review</Heading>
