@@ -176,6 +176,9 @@ const Home = () => {
                     <Flex className="stars" mt={2} justifyContent="flex-start">
                         {renderStarsWithHalf(product.overall_rating)}
                     </Flex>
+                    {product.stock <= 10 && (
+                        <Text mt={1} color="red.500" textAlign="left">Only {product.stock} left in stock</Text>
+                    )}
                 </Box>
             ))}
         </CustomGrid>

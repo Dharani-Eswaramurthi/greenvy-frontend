@@ -496,8 +496,11 @@ const ProductDetail = () => {
                     <Flex mt={4} as="h3">
                         {renderStarsWithHalf(product.overall_rating)}
                     </Flex>
+                    {product.stock <= 10 && (
+                        <Text mt={1} color="red.500" textAlign="left">Only {product.stock} left in stock</Text>
+                    )}
                     <Flex mt={4} alignItems="center">
-                        {quantity === 0 ? (
+                        {quantity === 0 && product.stock !== 0 ? (
                             <Button
                                 onClick={handleAddToCart}
                                 isLoading={cartLoading}
@@ -511,7 +514,7 @@ const ProductDetail = () => {
                             >
                                 {cartLoading ? 'Adding to cart...' : 'Add to Cart'}
                             </Button>
-                        ) : (
+                        ) : product.stock !== 0 ? (
                             <HStack spacing={4} border="1px solid #25995C" borderRadius="md" transition="all 0.3s" width="fit-content" className='quants-button'>
                                 <Button
                                     onClick={handleDecreaseQuantity}
@@ -534,9 +537,11 @@ const ProductDetail = () => {
                                     height={{ base: '40px', md: '50px' }}
                                     _hover={{ backgroundColor: '#1e7a4d' }}
                                     transition="all 0.3s"
-                                    disabled={cartLoading}
+                                    disabled={cartLoading || quantity === product.stock}
                                 ><FaPlus/></Button>
                             </HStack>
+                        ) : (
+                            <Text>Out of Stock</Text>
                         )}
                         <Button
                             aria-label="Add to wishlist"
@@ -550,9 +555,14 @@ const ProductDetail = () => {
                             transition="all 0.3s"
                             isLoading={wishlistLoading}
                         >
-                            {wishlist.includes(product.product_id) ? <FaHeart className='icon-resize' /> : <FaRegHeart className='icon-resize' />}
+                            {wishlist.includes(product.product_id) ? <FaHeart className='icon-resize' /> : <FaRegHeart className='icon-resize' color='#25995C'/>}
                         </Button>
                     </Flex>
+                    {quantity > 0 && <Button backgroundColor="#25995C"
+                                    color="white"
+                                    mt={4}
+                                    height={{ base: '40px', md: '50px' }}
+                                    _hover={{ backgroundColor: '#1e7a4d' }} onClick={() => navigate("/cart")}>Go to Cart</Button>}
                 </Box>
             </Flex>
             <Box className="product-reviews" mt={10} ref={reviewsRef}>
