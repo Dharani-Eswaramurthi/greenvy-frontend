@@ -44,6 +44,7 @@ const ProductDetail = () => {
     };
 
     useEffect(() => {
+        console.log("Auth", isAuthenticated)
         const fetchProduct = async () => {
             setLoading(true);
             try {
@@ -513,7 +514,7 @@ const ProductDetail = () => {
                         <Text mt={1} color="red.500" textAlign="left">Only {product.stock} left in stock</Text>
                     )}
                     <Flex mt={4} alignItems="center">
-                        {quantity === 0 && product.stock !== 0 ? (
+                        {quantity === 0 && product.stock !== 0 && isAuthenticated ? (
                             <Button
                                 onClick={handleAddToCart}
                                 isLoading={cartLoading}
@@ -527,7 +528,7 @@ const ProductDetail = () => {
                             >
                                 {cartLoading ? 'Adding to cart...' : 'Add to Cart'}
                             </Button>
-                        ) : product.stock !== 0 ? (
+                        ) : product.stock !== 0 && isAuthenticated ? (
                             <HStack spacing={4} border="1px solid #25995C" borderRadius="md" transition="all 0.3s" width="fit-content" className='quants-button'>
                                 <Button
                                     onClick={handleDecreaseQuantity}
@@ -553,10 +554,12 @@ const ProductDetail = () => {
                                     disabled={cartLoading || quantity === product.stock}
                                 ><FaPlus/></Button>
                             </HStack>
-                        ) : (
+                        ) : isAuthenticated ? (
                             <Text>Out of Stock</Text>
+                        ): (
+                            <></>
                         )}
-                        <Button
+                        {isAuthenticated && <Button
                             aria-label="Add to wishlist"
                             ml={10}
                             onClick={() => wishlist.includes(product.product_id) ? handleRemoveFromWishlist(product.product_id) : handleAddToWishlist(product.product_id)}
@@ -569,7 +572,7 @@ const ProductDetail = () => {
                             isLoading={wishlistLoading}
                         >
                             {wishlist.includes(product.product_id) ? <FaHeart className='icon-resize' /> : <FaRegHeart className='icon-resize' color='#25995C'/>}
-                        </Button>
+                        </Button>}
                     </Flex>
                     {quantity > 0 && <Button backgroundColor="#25995C"
                                     color="white"

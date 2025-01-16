@@ -177,7 +177,7 @@ const SellerProfile = () => {
                             <Text fontSize="xl" fontWeight="bold">{product.name}</Text>
                             <Text fontSize="lg" color="gray.500">₹{product.price}</Text>
                             <HStack gap={.5} justifyContent="left">{renderStarsWithHalf(product.overall_rating)}</HStack>
-                            <Button
+                            {isAuthenticated && <Button
                                 aria-label="Add to wishlist"
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -193,7 +193,7 @@ const SellerProfile = () => {
                                 isLoading={wishlistLoading}
                             >
                                 {wishlist.includes(product.product_id) ? <FaHeart /> : <FaRegHeart color='#25995C' />}
-                            </Button>
+                            </Button>}
                         </Box>
                     </Box>
                 ))}

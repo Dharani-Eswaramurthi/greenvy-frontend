@@ -159,7 +159,7 @@ const Home = () => {
                     position="relative"
                     _hover={{ boxShadow: 'xl' }}
                 >
-                    <Button
+                    {isAuthenticated && <Button
                         aria-label="Add to wishlist"
                         onClick={() => wishlist.includes(product.product_id) ? handleRemoveFromWishlist(product.product_id) : handleAddToWishlist(product.product_id)}
                         position="absolute"
@@ -169,7 +169,7 @@ const Home = () => {
                         color={wishlist.includes(product.product_id) ? 'red.500' : 'black'}
                         _hover={{ color: wishlist.includes(product.product_id) ? 'red.700' : 'gray.700' }}
                         transition="all 0.3s"
-                    >{wishlist.includes(product.product_id) ? <FaHeart /> : <FaRegHeart color='#25995C' />}</Button>
+                    >{wishlist.includes(product.product_id) ? <FaHeart /> : <FaRegHeart color='#25995C' />}</Button>}
                     <Image src={product.images[0]} alt={product.name} boxSize="200px" objectFit="cover" borderRadius="md" onClick={() => handleProductClick(product.product_id)} />
                     <Text fontSize="xl" mt={4} textAlign="left" fontWeight="bold" onClick={() => handleProductClick(product.product_id)}>{product.name}</Text>
                     <Text fontSize="lg" color="gray.500" textAlign="left">₹{product.price}</Text>
