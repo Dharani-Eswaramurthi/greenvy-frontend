@@ -22,6 +22,7 @@ import BecomeSeller from './components/BecomeSeller';
 import About from './components/About';
 import SellerProfile  from './components/SellerProfile';
 import ShowReviews from './components/ShowReviews';
+import AllProductsPage from './components/AllProductsPage';
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/become-seller" element={<BecomeSeller />} />
             <Route path="/show-reviews" element={<ShowReviews />} />
+            <Route path="/all-products/:category" element={<AllProductsPage />} />
             <Route path="*" element={<NotFound/>} />
             {/* Other routes can be added here */}
           </Routes>

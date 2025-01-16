@@ -3,6 +3,7 @@
     gap: 20px; /* Add gap between products */
     display: flex;
     flex-wrap: wrap;
+    position: fixed;
     /* justify-content: space-between; */
 }
 

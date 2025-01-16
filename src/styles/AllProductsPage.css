@@ -1,0 +1,27 @@
+.all-products-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-details-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.product-details-box img {
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .product-details-box {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .product-details-box img {
+        width: 150px;
+        height: 150px;
+    }
+}

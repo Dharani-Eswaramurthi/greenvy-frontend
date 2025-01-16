@@ -87,7 +87,7 @@ const Footer = () => {
 
     return (
         
-        <div className="footer">
+        <div className="footer" style={{ zIndex: 10 }}>  {/* Add z-index to footer */}
             <Button className="icon" variant="ghost" as="a" href="/">
                 <FaHome />
             </Button>
