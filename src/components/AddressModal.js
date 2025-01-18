@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Text, Input, Button, HStack } from '@chakra-ui/react';
 import { Radio, RadioGroup } from './ui/radio';
 import '../styles/AddressModal.css';
+import {Toaster, toaster} from "../components/ui/toaster";
 import axios from 'axios';
 import Loading from './Loading';
 
@@ -26,6 +27,13 @@ const AddressModal = ({
 
     if (!isOpen) return null;
 
+    const UseToast = (title, type) => {
+        toaster.create({
+          title: title,
+          type: type,
+        });
+      };
+
     const handleSaveAddress = async () => {
         setLoading(true);
         try {
@@ -41,10 +49,9 @@ const AddressModal = ({
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
-            setError('');
             setIsAddressModalOpen(false);
         } catch (err) {
-            setError('Failed to save address');
+            UseToast("Error updating address", "error");
         } finally {
             setLoading(false);
         }
