@@ -9,7 +9,6 @@ import encrypt from '../utils/encrypt';
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
 const Register = () => {
-    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -45,10 +44,6 @@ const Register = () => {
             <Box className="auth-container">
                 <Heading className="auth-heading">Register</Heading>
                 <Stack spacing={4}>
-                    <Box>
-                        <label className="auth-label" htmlFor="username">Username</label>
-                        <Input className="auth-input" id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                    </Box>
                     <Box>
                         <label className="auth-label" htmlFor="email">Email</label>
                         <Input className="auth-input" id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
