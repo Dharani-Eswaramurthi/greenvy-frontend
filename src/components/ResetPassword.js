@@ -33,9 +33,11 @@ const ResetPassword = () => {
         setLoading(true);
         try {
             const encrypted_password = encrypt(newPassword);
-            await axios.post('/user/reset-password', {
-                token: token,
-                new_password: encrypted_password
+            await axios.post('/user/reset-password', encrypted_password, {
+                params: {
+                    token: token,
+                    new_password: encrypted_password
+                }
             });
             UseToast('Password reset successfully.', 'success');
             navigate('/login');
