@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink, useLocation } from 'react-router-dom';
 import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra-ui/react';
 import { Toaster, toaster } from "../components/ui/toaster";
 import { AuthContext } from '../context/AuthContext';
@@ -14,6 +14,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useContext(AuthContext);
 
     const UseToast = (title, type) => {
@@ -23,6 +24,12 @@ const Login = () => {
             duration: 2000,
         });
     };
+
+    useEffect(() => {
+        if (location.state?.fromResetPassword) {
+            UseToast('Password reset successful. Please login.', 'success');
+        }
+    }, [location.state]);
 
     const handleLogin = async () => {
         setLoading(true);

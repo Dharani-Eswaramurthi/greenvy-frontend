@@ -57,7 +57,7 @@ const ResetPassword = () => {
 
             await axios.post('/user/reset-password', formData);
             UseToast('Password reset successfully.', 'success');
-            navigate('/login');
+            navigate('/login', { state: { fromResetPassword: true } });
         } catch (err) {
             const errorMessage = err.response?.data?.detail || 'Failed to reset password';
             UseToast(errorMessage, 'error');
