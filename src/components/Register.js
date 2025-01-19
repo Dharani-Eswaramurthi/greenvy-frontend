@@ -27,7 +27,7 @@ const Register = () => {
         setLoading(true);
         try {
             const encrypted_password = encrypt(password);
-            const response = await axios.post('/user/register', { username, email, gender, dateofbirth, password: encrypted_password });
+            const response = await axios.post('/user/register', { email, gender, dateofbirth, password: encrypted_password });
             // Handle successful registration (e.g., redirect to login)
             console.log(response.data);
             navigate('/verify');

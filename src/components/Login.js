@@ -58,6 +58,9 @@ const Login = () => {
                     <Text className="auth-text">
                         Don't have an account? <Link as={RouterLink} className="auth-link" to="/register">Register</Link>
                     </Text>
+                    <Text className="auth-text">
+                        Forgot your password? <Link as={RouterLink} className="auth-link" to="/forgot-password">Reset Password</Link>
+                    </Text>
                 </Stack>
             </Box>
             <Toaster />
