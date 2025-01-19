@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra-ui/react';
@@ -13,6 +13,10 @@ const Verify = () => {
     const [otp, setOtp] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        UseToast("Registration has been successful. Please verify using OTP to login.", "success");
+    }, []);
 
     const UseToast = (title, type) => {
         toaster.create({

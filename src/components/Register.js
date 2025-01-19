@@ -29,10 +29,9 @@ const Register = () => {
         try {
             const encrypted_password = encrypt(password);
             const response = await axios.post('/user/register', { username, email, gender, dateofbirth, password: encrypted_password });
-            UseToast("Registration successful. You have successfully registered.", "success");
             // Handle successful registration (e.g., redirect to login)
             console.log(response.data);
-            navigate('/login');
+            navigate('/verify');
         } catch (err) {
             const errorMessage = err.response?.data?.detail || 'Registration failed';
             UseToast(errorMessage, "error");

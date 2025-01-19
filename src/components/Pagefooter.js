@@ -27,7 +27,7 @@ const Pagefooter = () => {
                             </HStack>
                             <HStack>
                                 <FaEnvelope />
-                                <Link href="mailto:dharani96556@gmail.com" color="black">dharani96556@gmail.com</Link>
+                                <Link href="mailto:contact@greenvy.store" color="black">contact@greenvy.store</Link>
                             </HStack>
                             <HStack>
                                 <FaMapMarkerAlt />

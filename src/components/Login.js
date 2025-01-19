@@ -30,12 +30,7 @@ const Login = () => {
             const encrypted_password = encrypt(password);
             const response = await axios.post('/user/login', { email, password: encrypted_password });
             login(response.data.token);
-            UseToast("Login successful. Welcome back!", "success");
-            // navigate to '/' after 2 seconds
-            setTimeout(() => {
-                navigate('/');
-            }
-            , 2000);
+            navigate('/');
         } catch (err) {
             const errorMessage = err.response?.data?.detail || 'Login failed';
             UseToast(errorMessage, "error");

@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [userName, setUserName] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -12,6 +13,7 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             const decodedToken = JSON.parse(atob(token.split('.')[1]));
             setUserId(decodedToken.user_id);
+            setUserName(decodedToken.name);
         }
     }, []);
 
@@ -20,16 +22,18 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
         setUserId(decodedToken.user_id);
+        setUserName(decodedToken.name);
     };
 
     const logout = () => {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
         setUserId(null);
+        setUserName(null);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userId, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, userId, userName, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

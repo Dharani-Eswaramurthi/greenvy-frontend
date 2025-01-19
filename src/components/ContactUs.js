@@ -50,15 +50,15 @@ const Contact = () => {
         <Heading as="h2" size="xl" mb={4}>Contact Us</Heading>
         <VStack align={{ base: "center", md: "start" }}>
           <HStack>
-            <a href="mailto:dharani96556@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', gap: '20px' }}>
-            <FaEnvelope />dharani96556@gmail.com</a>
+            <a href="mailto:contact@greenvy.store" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', gap: '20px' }}>
+            <FaEnvelope />contact@greenvy.store</a>
           </HStack>
           <HStack gap="20px">
           <a href="tel:+919655612306" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', gap: '20px' }}>
             <FaPhone />+91 96556 12306</a>
           </HStack>
           <HStack justifyContent="center" gap="20px" fontSize='1.5rem'>
-            <FaHome />Peelamedu, Coimbatore, Tamil Nadu, India
+            <FaHome />Coimbatore, Tamil Nadu, India
           </HStack>
           <Text>We are here to help you with any questions or concerns you may have. Feel free to reach out to us!</Text>
         </VStack>

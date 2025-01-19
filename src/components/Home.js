@@ -64,6 +64,7 @@ const Home = () => {
 
         updateScrollWidths();
         window.addEventListener('resize', updateScrollWidths);
+        UseToast("Login successful. Welcome back!", "success");
 
         return () => {
             window.removeEventListener('resize', updateScrollWidths);
