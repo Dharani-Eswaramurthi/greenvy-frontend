@@ -10,7 +10,7 @@ axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
-    const [newPassword, setNewPassword] = useState('');
+    const [newPassword, setNewPassword] = useState(''); 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
