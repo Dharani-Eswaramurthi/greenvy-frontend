@@ -4,13 +4,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, Heading, Input, Stack, Text, Spinner } from '@chakra-ui/react';
 import { Toaster, toaster } from "../components/ui/toaster";
 import '../styles/Auth.css';
+import encrypt from '../utils/encrypt';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
-    const [newPassword, setNewPassword] = useState(''); 
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -23,9 +25,20 @@ const ResetPassword = () => {
     };
 
     const handleResetPassword = async () => {
+        if (newPassword !== confirmPassword) {
+            UseToast('Passwords do not match', 'error');
+            return;
+        }
+
         setLoading(true);
         try {
-            await axios.post('/user/reset-password', { token, new_password: newPassword });
+            const encrypted_password = encrypt(newPassword);
+            await axios.post('/user/reset-password', null, {
+                params: {
+                    token: token,
+                    new_password: encrypted_password
+                }
+            });
             UseToast('Password reset successfully.', 'success');
             navigate('/login');
         } catch (err) {
@@ -44,6 +57,10 @@ const ResetPassword = () => {
                     <Box>
                         <label className="auth-label" htmlFor="newPassword">New Password</label>
                         <Input className="auth-input" id="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    </Box>
+                    <Box>
+                        <label className="auth-label" htmlFor="confirmPassword">Confirm Password</label>
+                        <Input className="auth-input" id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </Box>
                     <Button className="auth-button" onClick={handleResetPassword} disabled={loading}>
                         {loading ? <Spinner size="sm" /> : 'Reset Password'}
