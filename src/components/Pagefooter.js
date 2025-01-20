@@ -47,7 +47,7 @@ const Pagefooter = () => {
                         </Link>
                     </Flex>
                 </Flex>
-                <Text mt={4}>&copy; 2023 Greenvy.store. All rights reserved.</Text>
+                <Text mt={4}>2025 Greenvy.store. All rights yet to be reserved.</Text>
             </Box>
             </div>
         </>

@@ -25,6 +25,10 @@ import ShowReviews from './components/ShowReviews';
 import AllProductsPage from './components/AllProductsPage';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import TermsAndConditions from './components/TermsAndConditions';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import ShippingPolicy from './components/ShippingPolicy';
+import CancellationAndRefund from './components/CancellationAndRefund';
 
 const App = () => {
   return (
@@ -52,6 +56,10 @@ const App = () => {
             <Route path="/all-products/:category" element={<AllProductsPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/shipping-policy" element={<ShippingPolicy />} />
+            <Route path="/cancellation-and-refund" element={<CancellationAndRefund />} />
             <Route path="*" element={<NotFound/>} />
             {/* Other routes can be added here */}
           </Routes>
