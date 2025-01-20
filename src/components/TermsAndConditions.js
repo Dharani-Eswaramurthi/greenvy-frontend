@@ -26,6 +26,9 @@ const TermsAndConditions = () => {
             <Text mb={4}>
                 Any dispute arising out of use of our website and/or purchase with us and/or any engagement with us is subject to the laws of India. We shall be under no liability whatsoever in respect of any loss or damage arising directly or indirectly out of the decline of authorization for any Transaction, on Account of the Cardholder having exceeded the preset limit mutually agreed by us with our acquiring bank from time to time.
             </Text>
+            <Text mb={4}>
+                These terms and conditions are from Razorpay and may be revised in the future.
+            </Text>
         </Box>
     );
 };

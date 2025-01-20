@@ -54,6 +54,9 @@ const PrivacyPolicy = () => {
             <Text mb={4}>
                 If you believe that any information we are holding on you is incorrect or incomplete, please write to Peelamedu, Coimbatore, Tamil Nadu, India or contact us at 9655612306 or contact@greenvy.store as soon as possible. We will promptly correct any information found to be incorrect.
             </Text>
+            <Text mb={4}>
+                This privacy policy is from Razorpay and may be revised in the future.
+            </Text>
         </Box>
     );
 };

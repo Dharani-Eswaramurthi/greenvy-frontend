@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra-ui/react';
+import { Box, Button, Heading, Input, Stack, Text, Link, Spinner, Checkbox } from '@chakra-ui/react';
 import { Toaster, toaster } from "../components/ui/toaster";
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
@@ -14,6 +14,7 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const [dateofbirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState('');
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
     const navigate = useNavigate();
 
     const UseToast = (title, type) => {
@@ -24,6 +25,11 @@ const Register = () => {
     };
 
     const handleRegister = async () => {
+        if (!acceptedTerms) {
+            UseToast('You must accept the terms, conditions, and policies to register.', 'error');
+            return;
+        }
+
         setLoading(true);
         try {
             const encrypted_password = encrypt(password);
@@ -65,6 +71,9 @@ const Register = () => {
                         <label className="auth-label" htmlFor="password">Password</label>
                         <Input className="auth-input" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Box>
+                    <Checkbox isChecked={acceptedTerms} onChange={(e) => setAcceptedTerms(e.target.checked)} isRequired>
+                        By checking this, I accept the <Link as={RouterLink} to="/terms-and-conditions" className="auth-link">terms</Link>, <Link as={RouterLink} to="/privacy-policy" className="auth-link">conditions</Link>, and <Link as={RouterLink} to="/shipping-policy" className="auth-link">policies</Link>.
+                    </Checkbox>
                     <Button className="auth-button" onClick={handleRegister} disabled={loading}>
                         {loading ? <Spinner size="sm" /> : 'Register'}
                     </Button>

@@ -26,6 +26,9 @@ const CancellationAndRefund = () => {
             <Text mb={4}>
                 In case of any Refunds approved by the Greenvy Team, it’ll take 3-5 days for the refund to be processed to the end customer.
             </Text>
+            <Text mb={4}>
+                This cancellation and refund policy is from Razorpay and may be revised in the future.
+            </Text>
         </Box>
     );
 };

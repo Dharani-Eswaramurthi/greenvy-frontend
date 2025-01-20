@@ -14,6 +14,9 @@ const ShippingPolicy = () => {
             <Text mb={4}>
                 Delivery of all orders will be to the address provided by the buyer. Delivery of our services will be confirmed on your mail ID as specified during registration. For any issues in utilizing our services you may contact our helpdesk on 9655612306 or contact@greenvy.store.
             </Text>
+            <Text mb={4}>
+                This shipping policy is from Razorpay and may be revised in the future.
+            </Text>
         </Box>
     );
 };
