@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Box, Text, Flex, Heading, Button, Stack, Image, HStack, Radio, RadioGroup } from '@chakra-ui/react';
+import { Box, Text, Flex, Heading, Button, Stack, Image, HStack } from '@chakra-ui/react';
+import { Radio, RadioGroup } from './ui/radio';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { FaCreditCard, FaMoneyBillWave } from 'react-icons/fa';
