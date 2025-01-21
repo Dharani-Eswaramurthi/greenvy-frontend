@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Box, Text, Flex, Heading, Button, Stack, Image, HStack } from '@chakra-ui/react';
-import { Radio, RadioGroup } from './ui/radio';
+import { Box, Text, Flex, Heading, Button, Stack, Image, HStack, Radio, RadioGroup } from '@chakra-ui/react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { FaCreditCard, FaMoneyBillWave } from 'react-icons/fa';
@@ -26,6 +25,7 @@ const Checkout = () => {
     const [pincode, setPincode] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
+    const [paymentMode, setPaymentMode] = useState('cash');
     const navigate = useNavigate();
 
     const UseToast = (title, type) => {
@@ -162,57 +162,65 @@ const Checkout = () => {
                 cart_items: cartItems.map(item => ({ product_id: item.product_id, quantity: item.quantity })),
                 address_id: selectedAddressId,
                 total_amount: calculateTotal(),
+                mode_of_payment: paymentMode,
             };
 
-            // Create the order and get the Razorpay payment details
-            const response = await axios.post('/user/place-order', orderData);
-            const { order_id, payment_id, amount, currency } = response.data;
+            if (paymentMode === 'online') {
+                // Create the order and get the Razorpay payment details
+                const response = await axios.post('/user/place-order', orderData);
+                const { order_id, payment_id, amount, currency } = response.data;
 
-            // Razorpay payment options
-            const options = {
-                key: process.env.RZRPAYKEYID,
-                amount: amount * 100, // in paise
-                currency: currency,
-                name: 'greenvy',
-                description: 'Order Payment',
-                order_id: payment_id,
-                handler: async function (response) {
-                    // Payment success callback
-                    try {
-                        await axios.post('/user/payment-success', { 
-                            order_id: response.razorpay_order_id, 
-                            payment_id: response.razorpay_payment_id, 
-                            signature: response.razorpay_signature 
-                        });
-                        // Empty the user's cart
-                        await axios.post(`/user/empty-cart/${userId}`);
-                        navigate('/order-status', { state: { status: 'success', message: 'Your order has been placed successfully!' } });
-                    } catch (err) {
-                        const response = await axios.post('/user/payment-failed', { 
-                            order_id: response.razorpay_order_id 
-                        });
-                        UseToast(response.data.message, 'error');
-                        navigate('/order-status', { state: { status: 'failed', message: 'Payment verification failed. Please try again.' } });
-                    }
-                },
-                prefill: {
-                    name: 'User Name', // Prefill with user name
-                    email: 'user@example.com', // Prefill with user email
-                    contact: '9999999999', // Prefill with user contact
-                },
-                notes: {
-                    address: 'User Address',
-                },
-                theme: {
-                    color: '#3399cc',
-                },
-            };
+                // Razorpay payment options
+                const options = {
+                    key: process.env.RZRPAYKEYID,
+                    amount: amount * 100, // in paise
+                    currency: currency,
+                    name: 'greenvy',
+                    description: 'Order Payment',
+                    order_id: payment_id,
+                    handler: async function (response) {
+                        // Payment success callback
+                        try {
+                            await axios.post('/user/payment-success', { 
+                                order_id: response.razorpay_order_id, 
+                                payment_id: response.razorpay_payment_id, 
+                                signature: response.razorpay_signature 
+                            });
+                            // Empty the user's cart
+                            await axios.post(`/user/empty-cart/${userId}`);
+                            navigate('/order-status', { state: { status: 'success', message: 'Your order has been placed successfully!' } });
+                        } catch (err) {
+                            const response = await axios.post('/user/payment-failed', { 
+                                order_id: response.razorpay_order_id 
+                            });
+                            UseToast(response.data.message, 'error');
+                            navigate('/order-status', { state: { status: 'failed', message: 'Payment verification failed. Please try again.' } });
+                        }
+                    },
+                    prefill: {
+                        name: 'User Name', // Prefill with user name
+                        email: 'user@example.com', // Prefill with user email
+                        contact: '9999999999', // Prefill with user contact
+                    },
+                    notes: {
+                        address: 'User Address',
+                    },
+                    theme: {
+                        color: '#3399cc',
+                    },
+                };
 
-            const rzp = new window.Razorpay(options);
-            rzp.on('payment.failed', function (response) {
-                navigate('/order-status', { state: { status: 'failed', message: 'Payment failed: ' + response.error.description } });
-            });
-            rzp.open();
+                const rzp = new window.Razorpay(options);
+                rzp.on('payment.failed', function (response) {
+                    navigate('/order-status', { state: { status: 'failed', message: 'Payment failed: ' + response.error.description } });
+                });
+                rzp.open();
+            } else {
+                // Handle Cash on Delivery
+                await axios.post('/user/place-order', orderData);
+                await axios.post(`/user/empty-cart/${userId}`);
+                navigate('/order-status', { state: { status: 'success', message: 'Your order has been placed successfully!' } });
+            }
         } catch (err) {
             UseToast('Failed to proceed to checkout', 'error');
         } finally {
@@ -284,6 +292,19 @@ const Checkout = () => {
                     <Text fontSize="2xl" fontWeight="bold">Total:</Text>
                     <Text fontSize="2xl" fontWeight="bold">₹{calculateTotal()}</Text>
                 </Flex>
+            </Box>
+            <Box className="checkout-section">
+                <Heading as="h3" size="lg" mb={4}>Payment Method</Heading>
+                <RadioGroup value={paymentMode} onChange={(e) => setPaymentMode(e.target.value)}>
+                    <Stack direction="row" spacing={5}>
+                        <Radio value="online" isDisabled>
+                            <FaCreditCard /> Online Payment (available soon)
+                        </Radio>
+                        <Radio value="cash">
+                            <FaMoneyBillWave /> Cash on Delivery
+                        </Radio>
+                    </Stack>
+                </RadioGroup>
             </Box>
             <Button
                 mt={6}

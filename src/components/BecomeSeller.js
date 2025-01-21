@@ -59,6 +59,9 @@ const BecomeSeller = () => {
                             fontSize="1rem"
                             padding="15px"
                             borderRadius="10px"
+                            transition="all 0.3s ease"
+                            _hover={{ borderColor: "#25995C" }}
+                            _focus={{ borderColor: "#25995C", boxShadow: "0 0 5px rgba(37, 153, 92, 0.5)" }}
                         />
                         <Input
                             placeholder="Your Email"
@@ -68,6 +71,9 @@ const BecomeSeller = () => {
                             fontSize="1rem"
                             padding="15px"
                             borderRadius="10px"
+                            transition="all 0.3s ease"
+                            _hover={{ borderColor: "#25995C" }}
+                            _focus={{ borderColor: "#25995C", boxShadow: "0 0 5px rgba(37, 153, 92, 0.5)" }}
                         />
                         <Input
                             placeholder="Business Name"
@@ -76,6 +82,9 @@ const BecomeSeller = () => {
                             fontSize="1rem"
                             padding="15px"
                             borderRadius="10px"
+                            transition="all 0.3s ease"
+                            _hover={{ borderColor: "#25995C" }}
+                            _focus={{ borderColor: "#25995C", boxShadow: "0 0 5px rgba(37, 153, 92, 0.5)" }}
                         />
                         <Textarea
                             placeholder="Tell us about your business"
@@ -85,6 +94,9 @@ const BecomeSeller = () => {
                             fontSize="1rem"
                             padding="15px"
                             borderRadius="10px"
+                            transition="all 0.3s ease"
+                            _hover={{ borderColor: "#25995C" }}
+                            _focus={{ borderColor: "#25995C", boxShadow: "0 0 5px rgba(37, 153, 92, 0.5)" }}
                         />
                         <Button
                             type="submit"
@@ -98,12 +110,14 @@ const BecomeSeller = () => {
                             display="flex"
                             alignItems="center"
                             justifyContent="center"
+                            _hover={{ backgroundColor: "#1e7d4e" }}
                         >
                             {loading ? <FaSpinner className="loading-icon" /> : 'Submit'}
                         </Button>
                     </VStack>
                 </form>
             </Box>
+            <Toaster />
         </Box>
     );
 };
