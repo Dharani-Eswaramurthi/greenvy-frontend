@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Box, Text, Flex, Heading, Button, Stack, Image, HStack } from '@chakra-ui/react';
+import { Box, Text, Flex, Heading, Button, Stack, Image, HStack, Input } from '@chakra-ui/react';
 import { Radio, RadioGroup } from './ui/radio';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,9 @@ const Checkout = () => {
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
     const [paymentMode, setPaymentMode] = useState('cash');
+    const [otp, setOtp] = useState('');
+    const [orderId, setOrderId] = useState('');
+    const [otpSent, setOtpSent] = useState(false);
     const navigate = useNavigate();
 
     const UseToast = (title, type) => {
@@ -218,12 +221,27 @@ const Checkout = () => {
                 rzp.open();
             } else {
                 // Handle Cash on Delivery
-                await axios.post('/user/place-order', orderData);
-                await axios.post(`/user/empty-cart/${userId}`);
-                navigate('/order-status', { state: { status: 'success', message: 'Your order has been placed successfully!' } });
+                const response = await axios.post('/user/place-order', orderData);
+                setOrderId(response.data.order_id);
+                await axios.post('/user/send-payment-otp', { order_id: response.data.order_id });
+                setOtpSent(true);
+                UseToast('OTP sent to your email.', 'success');
             }
         } catch (err) {
             UseToast('Failed to proceed to checkout', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        setLoading(true);
+        try {
+            await axios.post('/user/verify-payment-otp', { order_id: orderId, otp });
+            await axios.post(`/user/empty-cart/${userId}`);
+            navigate('/order-status', { state: { status: 'success', message: 'Your order has been placed successfully!' } });
+        } catch (err) {
+            UseToast('Failed to verify OTP', 'error');
         } finally {
             setLoading(false);
         }
@@ -307,17 +325,44 @@ const Checkout = () => {
                     </Stack>
                 </RadioGroup>
             </Box>
-            <Button
-                mt={6}
-                onClick={handleCheckout}
-                backgroundColor="#25995C"
-                color="white"
-                _hover={{ backgroundColor: '#1e7a4d' }}
-                transition="all 0.3s"
-                disabled={!selectedAddressId}
-            >
-                Pay Now
-            </Button>
+            {otpSent ? (
+                <Box className="checkout-section">
+                    <Heading as="h3" size="lg" mb={4}>Enter OTP</Heading>
+                    <Input
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        fontSize="1rem"
+                        padding="15px"
+                        borderRadius="10px"
+                        transition="all 0.3s ease"
+                        _hover={{ borderColor: "#25995C" }}
+                        _focus={{ borderColor: "#25995C", boxShadow: "0 0 5px rgba(37, 153, 92, 0.5)" }}
+                    />
+                    <Button
+                        mt={6}
+                        onClick={handleVerifyOtp}
+                        backgroundColor="#25995C"
+                        color="white"
+                        _hover={{ backgroundColor: '#1e7a4d' }}
+                        transition="all 0.3s"
+                    >
+                        Verify OTP
+                    </Button>
+                </Box>
+            ) : (
+                <Button
+                    mt={6}
+                    onClick={handleCheckout}
+                    backgroundColor="#25995C"
+                    color="white"
+                    _hover={{ backgroundColor: '#1e7a4d' }}
+                    transition="all 0.3s"
+                    disabled={!selectedAddressId}
+                >
+                    Place Order
+                </Button>
+            )}
             <AddressModal
                 isOpen={isAddressModalOpen}
                 onClose={handleCloseAddressModal}
