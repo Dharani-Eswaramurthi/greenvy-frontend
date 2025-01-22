@@ -9,7 +9,8 @@ import Loading from './Loading';
 const AddressModal = ({
     isOpen,
     onClose,
-    setError,
+    setCurrentAddressId,
+    addresses,
     setIsAddressModalOpen,
     fetchUserProfile,
     userId,
@@ -24,6 +25,7 @@ const AddressModal = ({
     const [pincode, setPincode] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     if (!isOpen) return null;
 
@@ -34,7 +36,37 @@ const AddressModal = ({
         });
       };
 
+    const handleOpenAddressModal = (addressId = null) => {
+        if (addressId !== null) {
+            const address = addresses.find(addr => addr.addressId === addressId);
+            setCurrentAddressId(addressId);
+            setAddressType(address.address_type);
+            setAddressLine1(address.address_line1);
+            setAddressLine2(address.address_line2);
+            setCity(address.city);
+            setPincode(address.pincode);
+            setState(address.state);
+            setCountry(address.country);
+            setPhoneNumber(address.phoneNumber.replace('+91', ''));
+        } else {
+            setCurrentAddressId(null);
+            setAddressType('Home');
+            setAddressLine1('');
+            setAddressLine2('');
+            setCity('');
+            setPincode('');
+            setState('');
+            setCountry('');
+            setPhoneNumber('');
+        }
+        setIsAddressModalOpen(true);
+    };
+
     const handleSaveAddress = async () => {
+        if (!addressType || !addressLine1 || !city || !pincode || !state || !country || !phoneNumber) {
+            UseToast('All fields are required', 'error');
+            return;
+        }
         setLoading(true);
         try {
             const address = {
@@ -46,12 +78,14 @@ const AddressModal = ({
                 pincode,
                 state,
                 country,
+                phoneNumber: `+91${phoneNumber}`,
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
+            UseToast('Address saved successfully', 'success');
             setIsAddressModalOpen(false);
         } catch (err) {
-            UseToast("Error updating address", "error");
+            UseToast('Failed to save address', 'error');
         } finally {
             setLoading(false);
         }
@@ -94,6 +128,10 @@ const AddressModal = ({
                 <Box width="100%">
                     <Text className="settings-label">Country</Text>
                     <Input className="settings-input" type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
+                </Box>
+                <Box width="100%">
+                    <Text className="settings-label">Phone Number</Text>
+                    <Input className="settings-input" type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                 </Box>
                 <Button className="settings-button" onClick={handleSaveAddress} disabled={loading}>
                     {loading ? <Loading /> : 'Save'}

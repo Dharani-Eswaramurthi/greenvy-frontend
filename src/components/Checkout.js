@@ -316,7 +316,7 @@ const Checkout = () => {
                 <Heading as="h3" size="lg" mb={4}>Payment Method</Heading>
                 <RadioGroup value={paymentMode} onChange={(e) => setPaymentMode(e.target.value)}>
                     <Stack direction="row" spacing={5}>
-                        <Radio value="online" isDisabled>
+                        <Radio value="online" isDisabled={true}>
                             <FaCreditCard /> Online Payment (available soon)
                         </Radio>
                         <Radio value="cash">
@@ -370,6 +370,8 @@ const Checkout = () => {
                 fetchUserProfile={fetchUserProfile}
                 userId={userId}
                 currentAddressId={currentAddressId}
+                setCurrentAddressId={setCurrentAddressId}
+                addresses={addresses}
                 addressType={addressType}
                 setAddressType={setAddressType}
                 addressLine1={addressLine1}

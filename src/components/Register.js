@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, Button, Heading, Input, Stack, Text, Link, Spinner, Checkbox } from '@chakra-ui/react';
-import { Toaster, toaster } from "../components/ui/toaster";
+import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra-ui/react';
+import { Toaster, toaster } from '../components/ui/toaster'; // Ensure correct import path
+import { Checkbox } from './ui/checkbox'; // Ensure correct import path
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
@@ -71,7 +72,9 @@ const Register = () => {
                         <label className="auth-label" htmlFor="password">Password</label>
                         <Input className="auth-input" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Box>
-                    <Checkbox isChecked={acceptedTerms} onChange={(e) => setAcceptedTerms(e.target.checked)} isRequired>
+                    <Checkbox checked={acceptedTerms}
+                        onCheckedChange={(e) => setAcceptedTerms(!!e.checked)}
+                        >
                         By checking this, I accept the <Link as={RouterLink} to="/terms-and-conditions" className="auth-link">terms</Link>, <Link as={RouterLink} to="/privacy-policy" className="auth-link">conditions</Link>, and <Link as={RouterLink} to="/shipping-policy" className="auth-link">policies</Link>.
                     </Checkbox>
                     <Button className="auth-button" onClick={handleRegister} disabled={loading}>

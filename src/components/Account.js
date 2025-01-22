@@ -41,6 +41,7 @@ const Account = () => {
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [fullImage, setFullImage] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState('');
     const navigate = useNavigate();
 
     const UseToast = (title, type) => {
@@ -191,6 +192,7 @@ const Account = () => {
             setPincode(address.pincode);
             setState(address.state);
             setCountry(address.country);
+            setPhoneNumber(address.phoneNumber.replace('+91', ''));
         } else {
             setCurrentAddressId(null);
             setAddressType('Home');
@@ -200,6 +202,7 @@ const Account = () => {
             setPincode('');
             setState('');
             setCountry('');
+            setPhoneNumber('');
         }
         setIsAddressModalOpen(true);
     };
@@ -220,6 +223,7 @@ const Account = () => {
                 pincode,
                 state,
                 country,
+                phoneNumber: `+91${phoneNumber}`,
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
@@ -350,6 +354,7 @@ const Account = () => {
                                 <Text>{address.pincode}</Text>
                                 <Text>{address.state}</Text>
                                 <Text>{address.country}</Text>
+                                <Text>{address.phoneNumber}</Text>
                                 <div className="address-actions">
                                     <Button className="settings-icon-button" onClick={() => handleOpenAddressModal(address.addressId)}>
                                         <FiEdit />
@@ -419,6 +424,10 @@ const Account = () => {
                         <Box width="100%">
                             <Text className="settings-label">Country</Text>
                             <Input className="settings-input" type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
+                        </Box>
+                        <Box width="100%">
+                            <Text className="settings-label">Phone Number</Text>
+                            <Input className="settings-input" type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                         </Box>
                         <Button className="settings-button" onClick={handleSaveAddress} disabled={loading}>
                             {loading ? <Loading /> : 'Save'}
