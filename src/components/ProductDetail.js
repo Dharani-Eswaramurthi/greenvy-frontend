@@ -506,7 +506,7 @@ const ProductDetail = () => {
                 <Box className="product-info">
                     <Heading as="h3" size="xl">{product.name}</Heading>
                     <Text fontSize="lg" color="gray.500">₹ {product.price}</Text>
-                    <Text mt={4} whiteSpace="pre-line"><p dangerouslySetInnerHTML={{ __html: product.description }}></p></Text>
+                    <Text mt={4} whiteSpace="pre-line" dangerouslySetInnerHTML={{ __html: product.description }}></Text>
                     <Flex mt={4} as="h3">
                         {renderStarsWithHalf(product.overall_rating)}
                     </Flex>

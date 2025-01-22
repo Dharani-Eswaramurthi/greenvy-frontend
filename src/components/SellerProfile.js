@@ -151,7 +151,7 @@ const SellerProfile = () => {
                 <Box ml={4}>
                     <Heading as="h1" size="xl" mb={2}>{seller.seller_name}</Heading>
                     <HStack gap={.5} mb={3}>{renderStarsWithHalf(seller.seller_rating)}</HStack>
-                    <Text fontSize="lg" color="gray.500">{seller.seller_description}</Text>
+                    <Text fontSize="lg" color="gray.500" dangerouslySetInnerHTML={{ __html: seller.seller_description }}></Text>
                 </Box>
             </Flex>
             <Heading as="h2" size="lg" mb={4}>Products</Heading>
