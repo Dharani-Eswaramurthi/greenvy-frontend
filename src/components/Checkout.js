@@ -279,6 +279,7 @@ const Checkout = () => {
                                 <Text>{address.pincode}</Text>
                                 <Text>{address.state}</Text>
                                 <Text>{address.country}</Text>
+                                <Text>{address.phoneNumber}</Text>
                             </Radio>
                             <HStack spacing={2} mt={2}>
                                 <Button className="settings-icon-button" onClick={() => handleOpenAddressModal(address.addressId)}>
