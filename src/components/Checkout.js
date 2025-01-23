@@ -166,7 +166,7 @@ const Checkout = () => {
                 cart_items: cartItems.map(item => ({ product_id: item.product_id, quantity: item.quantity })),
                 address_id: selectedAddressId,
                 total_amount: calculateTotal(),
-                mode_of_payment: paymentMode,
+                payment_type: paymentMode,
             };
 
             if (paymentMode === 'online') {
@@ -223,8 +223,7 @@ const Checkout = () => {
                 // Handle Cash on Delivery
                 const response = await axios.post('/user/place-order', orderData);
                 setOrderId(response.data.order_id);
-                await axios.post('/user/send-payment-otp', { order_id: response.data.order_id });
-                setOtpSent(true);
+                navigate('/order-status', { state: { status: 'success', message: 'Your order has been placed successfully!' } });
                 UseToast('OTP sent to your email.', 'success');
             }
         } catch (err) {
@@ -248,7 +247,7 @@ const Checkout = () => {
     };
 
     const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + (item.price || 0) * item.quantity, 0).toFixed(2);
+        return cartItems.reduce((total, item) => total + (item.price || 0) * (item.quantity * item.min_quantity), 0).toFixed(2);
     };
 
     if (loading) {
@@ -303,7 +302,7 @@ const Checkout = () => {
                         <Image src={item.images[0]} alt={item.name} boxSize="100px" objectFit="cover" borderRadius="md" loading="lazy" />
                         <Box ml={4} flex="1">
                             <Text fontSize="xl" fontWeight="bold">{item.name}</Text>
-                            <Text fontSize="lg" color="gray.500">₹{item.price} x {item.quantity} = ₹{((item.price || 0) * item.quantity).toFixed(2)}</Text>
+                            <Text fontSize="lg" color="gray.500">₹{item.price} x {item.quantity * item.min_quantity} = ₹{((item.price || 0) * (item.quantity * item.min_quantity)).toFixed(2)}</Text>
                         </Box>
                     </Flex>
                 ))}
@@ -316,8 +315,8 @@ const Checkout = () => {
                 <Heading as="h3" size="lg" mb={4}>Payment Method</Heading>
                 <RadioGroup value={paymentMode} onChange={(e) => setPaymentMode(e.target.value)}>
                     <Stack direction="row" spacing={5}>
-                        <Radio value="online" isDisabled={true}>
-                            <FaCreditCard /> Online Payment (available soon)
+                        <Radio value="online">
+                            <FaCreditCard /> Online Payment
                         </Radio>
                         <Radio value="cash">
                             <FaMoneyBillWave /> Cash on Delivery
@@ -358,7 +357,7 @@ const Checkout = () => {
                     color="white"
                     _hover={{ backgroundColor: '#1e7a4d' }}
                     transition="all 0.3s"
-                    disabled={!selectedAddressId}
+                    disabled={!selectedAddressId && !paymentMode}
                 >
                     Place Order
                 </Button>

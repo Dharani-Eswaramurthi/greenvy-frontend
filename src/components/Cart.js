@@ -131,7 +131,7 @@ const Cart = () => {
     };
 
     const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + (item.price || 0) * item.quantity, 0).toFixed(2);
+        return cartItems.reduce((total, item) => total + (item.price || 0) * (item.quantity * item.min_quantity), 0).toFixed(2);
     };
 
     if (loading) {
@@ -179,6 +179,7 @@ const Cart = () => {
                                                 transition="all 0.3s"
                                             ><FaPlus /></Button>
                                         </HStack>
+                                        <Text style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>x {item.min_quantity}</Text>
                                         <Button
                                             onClick={() => handleRemoveItem(item.product_id)}
                                             isLoading={loading}
@@ -190,7 +191,7 @@ const Cart = () => {
                                     </HStack>
                                 </Flex>
                             </Box>
-                            <Text className="total-price">₹{item.price} x {item.quantity} = ₹{((item.price || 0) * item.quantity).toFixed(2)}</Text>
+                            <Text className="total-price">₹{item.price} x {item.quantity * item.min_quantity} = ₹{((item.price || 0) * (item.quantity * item.min_quantity)).toFixed(2)}</Text>
                         </Flex>
                     ))}
                     <Flex justifyContent="space-between" alignItems="center" mt={6}>

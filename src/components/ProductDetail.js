@@ -510,6 +510,7 @@ const ProductDetail = () => {
                     <Flex mt={4} as="h3">
                         {renderStarsWithHalf(product.overall_rating)}
                     </Flex>
+                    <Text mt={1} color="gray.500" textAlign="left">Minimum Qunatity is {product.min_quantity}</Text>
                     {product.stock <= 10 && (
                         <Text mt={1} color="red.500" textAlign="left">Only {product.stock} left in stock</Text>
                     )}
@@ -529,6 +530,7 @@ const ProductDetail = () => {
                                 {cartLoading ? 'Adding to cart...' : 'Add to Cart'}
                             </Button>
                         ) : product.stock !== 0 && isAuthenticated ? (
+                            <>
                             <HStack spacing={4} border="1px solid #25995C" borderRadius="md" transition="all 0.3s" width="fit-content" className='quants-button'>
                                 <Button
                                     onClick={handleDecreaseQuantity}
@@ -554,6 +556,7 @@ const ProductDetail = () => {
                                     disabled={cartLoading || quantity === product.stock}
                                 ><FaPlus/></Button>
                             </HStack>
+                            <p style={{ marginLeft: '20px' }}>x {product.min_quantity}</p></>
                         ) : isAuthenticated ? (
                             <Text>Out of Stock</Text>
                         ): (

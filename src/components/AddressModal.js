@@ -78,7 +78,7 @@ const AddressModal = ({
                 pincode,
                 state,
                 country,
-                phoneNumber: `+91${phoneNumber}`,
+                phoneNumber: `${phoneNumber}`,
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
