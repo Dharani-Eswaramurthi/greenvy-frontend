@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Box, Text, Flex, Heading, Button, Stack, Image, HStack, Input } from '@chakra-ui/react';
+import { Box, Text, Flex, Heading, Button, Stack, Image, HStack, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
 import { Radio, RadioGroup } from './ui/radio';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,7 @@ const Checkout = () => {
     const [cartItems, setCartItems] = useState([]);
     const [addresses, setAddresses] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [radioValue, setRadioValue] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [currentAddressId, setCurrentAddressId] = useState(null);
@@ -30,6 +31,8 @@ const Checkout = () => {
     const [otp, setOtp] = useState('');
     const [orderId, setOrderId] = useState('');
     const [otpSent, setOtpSent] = useState(false);
+    const [additionalCost, setAdditionalCost] = useState(null);
+    const [isFreeDeliveryModalOpen, setIsFreeDeliveryModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const UseToast = (title, type) => {
@@ -72,7 +75,14 @@ const Checkout = () => {
             try {
                 const response = await axios.get(`/user/profile/${userId}`);
                 setAddresses(response.data.address || []);
+                const ref = {
+                    target: {
+                        value: response.data.address[0]?.addressId
+                }
+                };
+                handleAddressIdChange(ref);
                 setSelectedAddressId(response.data.address[0]?.addressId); 
+                setRadioValue(response.data.address[0]?.addressId);
             } catch (err) {
                 UseToast('Failed to fetch addresses', 'error');
             }
@@ -153,6 +163,7 @@ const Checkout = () => {
     };
 
     const handleCheckout = async () => {
+        console.log("Selected Address ID: ", selectedAddressId);
         if (!selectedAddressId) {
             UseToast('Please select an address', 'error');
             return;
@@ -160,16 +171,19 @@ const Checkout = () => {
 
         setLoading(true);
         try {
+
             // Prepare the order data for the backend
             const orderData = {
                 user_id: userId,
                 cart_items: cartItems.map(item => ({ product_id: item.product_id, quantity: item.quantity })),
                 address_id: selectedAddressId,
-                total_amount: calculateTotal(),
+                total_amount: calculateGrandTotal(),
                 payment_type: paymentMode,
             };
 
             if (paymentMode === 'online') {
+
+                console.log("Payment Mode: ", paymentMode);
                 // Create the order and get the Razorpay payment details
                 const response = await axios.post('/user/place-order', orderData);
                 const { order_id, payment_id, amount, currency } = response.data;
@@ -246,8 +260,32 @@ const Checkout = () => {
         }
     };
 
+    const handleAddressIdChange = async(e) => {
+        setSelectedAddressId(e.target.value);
+        setRadioValue(e.value);
+        console.log("Selected Address ID: ", e.target.value);
+        // Calculate additional cost
+        const totalCost = calculateTotal();
+        const cost_response = await axios.post('/user/additional-cost', null, {
+            params: {
+                user_id: userId,
+                address_id: e.target.value || selectedAddressId,
+                total_cost: totalCost
+            }
+        });
+        const { additional_cost, total_cost } = cost_response.data;
+        setAdditionalCost(additional_cost);
+        if (additional_cost === 0) {
+            setIsFreeDeliveryModalOpen(true);
+        }
+    };
+
     const calculateTotal = () => {
         return cartItems.reduce((total, item) => total + (item.price || 0) * (item.quantity * item.min_quantity), 0).toFixed(2);
+    };
+
+    const calculateGrandTotal = () => {
+        return (parseFloat(calculateTotal()) + parseFloat(additionalCost)).toFixed(2);
     };
 
     if (loading) {
@@ -268,7 +306,7 @@ const Checkout = () => {
             <Heading as="h2" size="xl" mb={6}>Checkout</Heading>
             <Box className="checkout-section">
                 <Heading as="h3" size="lg" mb={4}>Select Address</Heading>
-                <RadioGroup value={selectedAddressId} onChange={(e) => setSelectedAddressId(e.value)}>
+                <RadioGroup value={radioValue} onChange={(e) => handleAddressIdChange(e)}>
                     {addresses.map((address) => (
                         <Box key={address.addressId} className="address-box" p={4} borderWidth="1px" borderRadius="lg" mb={4}>
                             <Radio value={address.addressId}>
@@ -311,6 +349,16 @@ const Checkout = () => {
                     <Text fontSize="2xl" fontWeight="bold">Total:</Text>
                     <Text fontSize="2xl" fontWeight="bold">₹{calculateTotal()}</Text>
                 </Flex>
+                {additionalCost ? (<> <Flex justifyContent="space-between" alignItems="center" mt={2}>
+                    <Text fontSize="lg" fontWeight="bold">Shipping Charges:</Text>
+                    <Text fontSize="lg" fontWeight="bold">₹{parseFloat(additionalCost).toFixed(2)}</Text>
+                </Flex>
+                <Flex justifyContent="space-between" alignItems="center" mt={2}>
+                    <Text fontSize="2xl" fontWeight="bold">Grand Total:</Text>
+                    <Text fontSize="2xl" fontWeight="bold">₹{calculateGrandTotal()}</Text>
+                </Flex></>) : (
+                    <Text fontSize="lg" fontWeight="bold" mt={2} color='red'>Not Deliverable to the pincode</Text>
+                )}
             </Box>
             <Box className="checkout-section">
                 <Heading as="h3" size="lg" mb={4}>Payment Method</Heading>
@@ -358,7 +406,7 @@ const Checkout = () => {
                     color="white"
                     _hover={{ backgroundColor: '#1e7a4d' }}
                     transition="all 0.3s"
-                    disabled={!selectedAddressId && !paymentMode}
+                    disabled={!selectedAddressId && !paymentMode || additionalCost==null}
                 >
                     Place Order
                 </Button>
@@ -389,6 +437,20 @@ const Checkout = () => {
                 loading={loading}
                 setLoading={setLoading}
             />
+            {isFreeDeliveryModalOpen && (
+                <div className="custom-modal">
+                    <div className="custom-modal-content">
+                        <span className="custom-modal-close" onClick={() => setIsFreeDeliveryModalOpen(false)}>&times;</span>
+                        <h2 style={{ color: '#25995C' }}><b>Hooray!</b></h2>
+                        <Box width="100%">
+                            <Text>You are eligible for free delivery!</Text>
+                        </Box>
+                        <Button className="settings-button" onClick={() => setIsFreeDeliveryModalOpen(false)}>
+                            OK
+                        </Button>
+                    </div>
+                </div>
+            )}
             <Toaster />
         </Box>
     );
