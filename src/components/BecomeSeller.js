@@ -30,12 +30,17 @@ const BecomeSeller = () => {
 
         try {
             // Send the become a seller form data to the backend
-            // await axios.post('/become-seller', { name, email, businessName, message });
-            UseToast('Your request has been sent successfully!', 'success');
-            setName('');
-            setEmail('');
-            setBusinessName('');
-            setMessage('');
+            const response = await axios.post('/become-seller', { name, email, businessName, message });
+            if (response.status !== 200) {
+                throw new Error('Failed to send your request. Please try again later.');
+            }
+             if (response.status === 200) {
+                UseToast('Your request has been sent successfully!', 'success');
+                setName('');
+                setEmail('');
+                setBusinessName('');
+                setMessage('');
+            }
         } catch (err) {
             UseToast('Failed to send your request. Please try again later.', 'error');
         } finally {
