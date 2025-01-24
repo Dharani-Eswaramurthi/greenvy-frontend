@@ -341,18 +341,18 @@ const Home = () => {
     return loading ? <Loading /> : (
         <Container maxW="container.xl" px={8}>
             <CustomCarousel images={carouselImages} />
-            {renderSectionHeading(<FaShoppingCart />, 'Featured Products', 'featured')}
+            {renderSectionHeading(<FaShoppingCart />, 'Featured Sustainable Products', 'featured')}
             {products.featured.length === 0 ? (
                 <Flex justifyContent="center" alignItems="center" height="200px">
-                    <Text fontSize="xl" color="gray.500">No featured products available</Text>
+                    <Text fontSize="xl" color="gray.500">No featured sustainable products available</Text>
                 </Flex>
             ) : (
                 renderProductGrid(products.featured, 'featured')
             )}
-            {renderSectionHeading(<FaLeaf />, 'Groceries', 'groceries')}
+            {renderSectionHeading(<FaLeaf />, 'Eco-Friendly Groceries', 'groceries')}
             {products.groceries.length === 0 ? (
                 <Flex justifyContent="center" alignItems="center" height="200px">
-                    <Text fontSize="xl" color="gray.500">No groceries available</Text>
+                    <Text fontSize="xl" color="gray.500">No eco-friendly groceries available</Text>
                 </Flex>
             ) : (
                 renderProductGrid(products.groceries, 'groceries')
@@ -365,10 +365,10 @@ const Home = () => {
             ) : (
                 renderProductGrid(products.ecoFriendly, 'eco-friendly')
             )}
-            {renderSectionHeading(<FaChild />, 'Toys', 'toys')}
+            {renderSectionHeading(<FaChild />, 'Eco-Friendly Toys', 'toys')}
             {products.toys.length === 0 ? (
                 <Flex justifyContent="center" alignItems="center" height="200px">
-                    <Text fontSize="xl" color="gray.500">No toys available</Text>
+                    <Text fontSize="xl" color="gray.500">No eco-friendly toys available</Text>
                 </Flex>
             ) : (
                 renderProductGrid(products.toys, 'toys')

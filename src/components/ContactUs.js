@@ -60,7 +60,7 @@ const Contact = () => {
           <HStack justifyContent="center" gap="20px" fontSize='1.5rem'>
             <FaHome />Coimbatore, Tamil Nadu, India
           </HStack>
-          <Text>We are here to help you with any questions or concerns you may have. Feel free to reach out to us!</Text>
+          <Text>We are here to help you with any questions or concerns you may have about our eco-friendly and sustainable products. Feel free to reach out to us!</Text>
         </VStack>
       </Box>
       <Box className="contact-form">

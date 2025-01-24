@@ -98,7 +98,7 @@ const About = () => {
       <Box className="text-content" textAlign="left">
         <Heading as="h2" size="xl" mb={4} className="title">Welcome to Greenvy: A Step Towards a Greener Future</Heading>
         <Text mb={4} className="paragraph">
-          Join us in our mission to create a greener future. Subscribe to our newsletter for updates and exclusive offers.
+          Join us in our mission to create a greener future. Subscribe to our newsletter for updates and exclusive offers on eco-friendly and sustainable products.
         </Text>
         <HStack mb={4} className="subscribe">
           <Box position="relative" width="100%">
@@ -107,7 +107,6 @@ const About = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="subscribe-input"
-            //   pr="4.5rem"
             />
             <Button
               className="subscribe-button"
