@@ -10,6 +10,7 @@
     <meta name="author" content="Greenvy.store" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/styles.css" />
     <title>Greenvy.store - An Eco-friendly Ecommerce</title>
     <script>
       if (location.protocol !== 'https:') {
@@ -44,7 +45,15 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
+    <!-- Add the navigation bar here -->
+    <nav class="navbar">
+        <ul class="navbar-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
     <div id="root"></div>
     <!--
       This HTML file is a template.
