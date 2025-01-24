@@ -10,7 +10,6 @@
     <meta name="author" content="Greenvy.store" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="%PUBLIC_URL%/styles.css" />
     <title>Greenvy.store - An Eco-friendly Ecommerce</title>
     <script>
       if (location.protocol !== 'https:') {
@@ -35,35 +34,47 @@
       "@type": "Organization",
       "name": "Greenvy.store",
       "url": "https://greenvy.store",
-      "logo": "%PUBLIC_URL%/logo192.png",
+      "logo": "https://greenvy.store/logo192.png",
       "sameAs": [
         "https://www.linkedin.com/company/greenvy-store/",
-      ]
+        "https://www.facebook.com/greenvy.store",
+        "https://twitter.com/greenvy_store"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-555-5555",
+        "contactType": "customer service"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Eco-friendly Compostable Bag",
+      "image": "https://greenvy.store/images/compostable-bag.jpg",
+      "description": "ECO SOUL [19 Inch X 21 Inch, 45 Count] Medium Compostable Bag.",
+      "sku": "123456",
+      "mpn": "987654",
+      "brand": {
+        "@type": "Brand",
+        "name": "ECO SOUL"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://greenvy.store/products/compostable-bag",
+        "priceCurrency": "USD",
+        "price": "9.99",
+        "priceValidUntil": "2023-12-31",
+        "itemCondition": "https://schema.org/NewCondition",
+        "availability": "https://schema.org/InStock"
+      }
     }
     </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- Add the navigation bar here -->
-    <nav class="navbar">
-        <ul class="navbar-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
