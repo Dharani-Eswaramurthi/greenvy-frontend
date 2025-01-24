@@ -31,7 +31,7 @@ const BecomeSeller = () => {
 
         try {
             // Send the become a seller form data to the backend
-            const response = await axios.post('/become-seller', null, { name, email, businessName, message });
+            const response = await axios.post('/become-seller', { name, email, businessName, message });
             if (response.status !== 200) {
                 throw new Error('Failed to send your request. Please try again later.');
             }
