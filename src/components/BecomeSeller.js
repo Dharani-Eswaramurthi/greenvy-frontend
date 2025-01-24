@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Heading, Input, Textarea, Button, VStack, Text } from '@chakra-ui/react';
 import { Toaster, toaster } from './ui/toaster';
 import { FaSpinner } from 'react-icons/fa';
+import axios from 'axios';
 import '../styles/BecomeSeller.css';
 
 const BecomeSeller = () => {
