@@ -364,8 +364,8 @@ const Checkout = () => {
                 <Heading as="h3" size="lg" mb={4}>Payment Method</Heading>
                 <RadioGroup value={paymentMode} onChange={(e) => setPaymentMode(e.target.value)}>
                     <Stack direction="row" spacing={5}>
-                        <Radio value="online">
-                            <FaCreditCard /> Online Payment
+                        <Radio value="online" isDisabled>
+                            <FaCreditCard /> Online Payment (Coming Soon)
                         </Radio>
                         <Radio value="cash">
                             <FaMoneyBillWave /> Cash on Delivery
