@@ -29,6 +29,7 @@ import TermsAndConditions from './components/TermsAndConditions';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import ShippingPolicy from './components/ShippingPolicy';
 import CancellationAndRefund from './components/CancellationAndRefund';
+import './styles/global.css';
 
 const App = () => {
   return (
