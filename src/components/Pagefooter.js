@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text, Flex, Link, VStack, HStack } from '@chakra-ui/react';
-import { FaFacebook, FaTwitter, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLinkedin, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import '../styles/Pagefooter.css';
 
 const Pagefooter = () => {
@@ -36,17 +36,16 @@ const Pagefooter = () => {
                         </VStack>
                     </HStack>
                     <Flex mt={{ base: 1, md: 0 }} className="social-media" justifyContent="center" width="100%">
-                        <Link href="https://www.facebook.com" isExternal mx={2}>
-                            <FaFacebook size="24px" />
-                        </Link>
-                        <Link href="https://www.twitter.com" isExternal mx={2}>
-                            <FaTwitter size="24px" />
-                        </Link>
-                        <Link href="https://www.instagram.com" isExternal mx={2}>
-                            <FaInstagram size="24px" />
+                        <Link href="https://www.linkedin.com/greenvy-store/" isExternal mx={2}>
+                            <FaLinkedin size="24px" />
                         </Link>
                     </Flex>
                 </Flex>
+                <Box mt={4} textAlign="center">
+                    <a href="https://www.producthunt.com/posts/greenvy-store?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-greenvy-store" target="_blank">
+                        <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=818067&theme=neutral&t=1737823599645" alt="Greenvy.store - An eco-friendly ecommerce | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+                    </a>
+                </Box>
                 <Text mt={4}>2025 Greenvy.store. All rights yet to be reserved.</Text>
             </Box>
             </div>

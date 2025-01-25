@@ -3,7 +3,7 @@ import { Box, Image, Text, Flex, Heading, Container, Button } from '@chakra-ui/r
 import { FaLeaf, FaShoppingCart, FaStar, FaChild, FaHeart } from 'react-icons/fa';
 import { Toaster, toaster } from './ui/toaster';
 import { FaRegHeart } from "react-icons/fa6";
-import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import { FaAngleRight, FaAngleLeft, FaTimes } from "react-icons/fa";
 import '../styles/Home.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,6 +29,7 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [scrollPositions, setScrollPositions] = useState({});
     const [maxScrollWidths, setMaxScrollWidths] = useState({});
+    const [showPopup, setShowPopup] = useState(true);
 
     const scrollRefs = useRef({});
 
@@ -180,6 +181,10 @@ const Home = () => {
 
     const handleViewAllClick = (categoryName) => {
         navigate(`/all-products/${categoryName}`);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
     };
 
     const renderSectionHeading = (icon, title, category) => (
@@ -340,6 +345,35 @@ const Home = () => {
 
     return loading ? <Loading /> : (
         <Container maxW="container.xl" px={8}>
+            {showPopup && (
+                <Box
+                    position="fixed"
+                    top="20px"
+                    right="20px"
+                    backgroundColor="white"
+                    border="1px solid #ccc"
+                    borderRadius="md"
+                    boxShadow="lg"
+                    p={4}
+                    zIndex={1000}
+                    maxWidth="300px"
+                >
+                    <Flex justifyContent="space-between" alignItems="center">
+                        <Text fontSize="md" fontWeight="bold" color="#25995C">
+                            Support Us on Product Hunt!
+                        </Text>
+                        <Button onClick={handleClosePopup} variant="ghost" size="sm">
+                            <FaTimes />
+                        </Button>
+                    </Flex>
+                    <Text fontSize="sm" mt={2} mb={4}>
+                        We would love your support. Please upvote our product on Product Hunt!
+                    </Text>
+                    <a href="https://www.producthunt.com/posts/greenvy-store?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-greenvy-store" target="_blank">
+                        <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=818067&theme=neutral&t=1737823599645" alt="Greenvy.store - An eco-friendly ecommerce | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+                    </a>
+                </Box>
+            )}
             <CustomCarousel images={carouselImages} />
             {renderSectionHeading(<FaShoppingCart />, 'Featured Sustainable Products', 'featured')}
             {products.featured.length === 0 ? (
