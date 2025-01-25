@@ -34,18 +34,18 @@ const Pagefooter = () => {
                                 <Text>Coimbatore, Tamilnadu, India</Text>
                             </HStack>
                         </VStack>
+                        <Box mt={4} textAlign="center">
+                            <a href="https://www.producthunt.com/posts/greenvy-store?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-greenvy-store" target="_blank" rel="noreferrer">
+                                <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=818067&theme=neutral&t=1737823599645" alt="Greenvy.store - An eco-friendly ecommerce | Product Hunt" style={{ width: '250px', height: '54px' }} width="250" height="54" />
+                            </a>
+                        </Box>
                     </HStack>
                     <Flex mt={{ base: 1, md: 0 }} className="social-media" justifyContent="center" width="100%">
-                        <Link href="https://www.linkedin.com/greenvy-store/" isExternal mx={2}>
+                        <Link href="https://www.linkedin.com/company/greenvy-store/" isExternal mx={2}>
                             <FaLinkedin size="24px" />
                         </Link>
                     </Flex>
                 </Flex>
-                <Box mt={4} textAlign="center">
-                    <a href="https://www.producthunt.com/posts/greenvy-store?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-greenvy-store" target="_blank" rel="noreferrer">
-                        <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=818067&theme=neutral&t=1737823599645" alt="Greenvy.store - An eco-friendly ecommerce | Product Hunt" style={{ width: '250px', height: '54px' }} width="250" height="54" />
-                    </a>
-                </Box>
                 <Text mt={4}>2025 Greenvy.store. All rights yet to be reserved.</Text>
             </Box>
             </div>
