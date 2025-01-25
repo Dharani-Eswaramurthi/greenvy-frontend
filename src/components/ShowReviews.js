@@ -28,8 +28,8 @@ const ShowReviews = () => {
             }
         };
 
-        if (!isAuthenticated) {
-            navigate('/404');
+        if (isAuthenticated) {
+            navigate('/show-reviews');
             return;
         }
 

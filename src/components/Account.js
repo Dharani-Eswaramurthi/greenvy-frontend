@@ -62,7 +62,7 @@ const Account = () => {
         }
 
         if (isAuthenticated) {
-            navigate('/404');
+            navigate('/account');
             return;
         }
     }, []);

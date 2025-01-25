@@ -25,9 +25,7 @@ const Wishlist = () => {
     useEffect(() => {
         const checkAuth = async () => {
             console.log("Authenticating user", isAuthenticated);
-            if (!isAuthenticated) {
-                navigate('/404');
-            } else {
+            if (isAuthenticated) {
                 navigate('/wishlist');
                 await fetchWishlistItems();
             }

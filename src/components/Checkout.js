@@ -86,8 +86,8 @@ const Checkout = () => {
 
         fetchCartItems();
         fetchAddresses();
-        if (!isAuthenticated) {
-            navigate('/404');
+        if (isAuthenticated) {
+            navigate('/checkout');
             return;
         }
     }, [isAuthenticated, userId, navigate]);

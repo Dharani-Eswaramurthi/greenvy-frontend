@@ -61,8 +61,8 @@ const Orders = () => {
         };
 
         fetchOrders();
-        if (!isAuthenticated) {
-            navigate('/404');
+        if (isAuthenticated) {
+            navigate('/orders');
             return;
         }
     }, [isAuthenticated, userId, navigate]);
