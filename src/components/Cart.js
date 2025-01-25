@@ -53,9 +53,10 @@ const Cart = () => {
 
         if (isAuthenticated) {
             fetchCartItems();
-        }
-        if (isAuthenticated) {
             navigate('/cart');
+            return;
+        } else {
+            navigate('/login');
             return;
         }
     }, [isAuthenticated, userId, navigate]);

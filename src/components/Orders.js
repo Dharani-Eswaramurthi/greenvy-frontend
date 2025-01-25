@@ -64,6 +64,9 @@ const Orders = () => {
         if (isAuthenticated) {
             navigate('/orders');
             return;
+        } else {
+            navigate('/login');
+            return;
         }
     }, [isAuthenticated, userId, navigate]);
 

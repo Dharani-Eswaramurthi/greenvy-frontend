@@ -31,6 +31,9 @@ const ShowReviews = () => {
         if (isAuthenticated) {
             navigate('/show-reviews');
             return;
+        } else {
+            navigate('/login');
+            return;
         }
 
         fetchUserReviews();

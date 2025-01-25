@@ -64,7 +64,11 @@ const Account = () => {
         if (isAuthenticated) {
             navigate('/account');
             return;
+        } else {
+            navigate('/login');
+            return;
         }
+
     }, []);
 
     const fetchUserProfile = async (userId) => {

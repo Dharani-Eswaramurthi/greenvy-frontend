@@ -89,6 +89,9 @@ const Checkout = () => {
         if (isAuthenticated) {
             navigate('/checkout');
             return;
+        } else {
+            navigate('/login');
+            return;
         }
     }, [isAuthenticated, userId, navigate]);
 

@@ -28,6 +28,9 @@ const Wishlist = () => {
             if (isAuthenticated) {
                 navigate('/wishlist');
                 await fetchWishlistItems();
+            } else {
+                navigate('/login');
+                return;
             }
             setAuthLoading(false); // Authentication check completed
         };
