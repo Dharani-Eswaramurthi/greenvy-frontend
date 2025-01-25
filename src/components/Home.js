@@ -344,12 +344,13 @@ const Home = () => {
     );
 
     return loading ? <Loading /> : (
-        <Container maxW="container.xl" px={8}>
+        <>
             {showPopup && (
                 <Box
                     position="fixed"
                     top="20px"
-                    right="20px"
+                    left="50%"
+                    transform="translateX(-50%)"
                     backgroundColor="white"
                     border="1px solid #ccc"
                     borderRadius="md"
@@ -358,6 +359,15 @@ const Home = () => {
                     zIndex={1000}
                     maxWidth="300px"
                 >
+                    <Box
+                        position="fixed"
+                        top="0"
+                        left="0"
+                        width="100%"
+                        height="100%"
+                        backgroundColor="rgba(0, 0, 0, 0.5)"
+                        zIndex={999}
+                    />
                     <Flex justifyContent="space-between" alignItems="center">
                         <Text fontSize="md" fontWeight="bold" color="#25995C">
                             Support Us on Product Hunt!
@@ -374,41 +384,42 @@ const Home = () => {
                     </a>
                 </Box>
             )}
-            <CustomCarousel images={carouselImages} />
-            {renderSectionHeading(<FaShoppingCart />, 'Featured Sustainable Products', 'featured')}
-            {products.featured.length === 0 ? (
-                <Flex justifyContent="center" alignItems="center" height="200px">
-                    <Text fontSize="xl" color="gray.500">No featured sustainable products available</Text>
-                </Flex>
-            ) : (
-                renderProductGrid(products.featured, 'featured')
-            )}
-            {renderSectionHeading(<FaLeaf />, 'Eco-Friendly Groceries', 'groceries')}
-            {products.groceries.length === 0 ? (
-                <Flex justifyContent="center" alignItems="center" height="200px">
-                    <Text fontSize="xl" color="gray.500">No eco-friendly groceries available</Text>
-                </Flex>
-            ) : (
-                renderProductGrid(products.groceries, 'groceries')
-            )}
-            {renderSectionHeading(<FaLeaf />, 'Eco-Friendly Products', 'eco-friendly')}
-            {products.ecoFriendly.length === 0 ? (
-                <Flex justifyContent="center" alignItems="center" height="200px">
-                    <Text fontSize="xl" color="gray.500">No eco-friendly products available</Text>
-                </Flex>
-            ) : (
-                renderProductGrid(products.ecoFriendly, 'eco-friendly')
-            )}
-            {renderSectionHeading(<FaChild />, 'Eco-Friendly Toys', 'toys')}
-            {products.toys.length === 0 ? (
-                <Flex justifyContent="center" alignItems="center" height="200px">
-                    <Text fontSize="xl" color="gray.500">No eco-friendly toys available</Text>
-                </Flex>
-            ) : (
-                renderProductGrid(products.toys, 'toys')
-            )}
-            <Toaster />
-        </Container>
+            <Container maxW="container.xl" px={8}>
+                {renderSectionHeading(<FaShoppingCart />, 'Featured Sustainable Products', 'featured')}
+                {products.featured.length === 0 ? (
+                    <Flex justifyContent="center" alignItems="center" height="200px">
+                        <Text fontSize="xl" color="gray.500">No featured sustainable products available</Text>
+                    </Flex>
+                ) : (
+                    renderProductGrid(products.featured, 'featured')
+                )}
+                {renderSectionHeading(<FaLeaf />, 'Eco-Friendly Groceries', 'groceries')}
+                {products.groceries.length === 0 ? (
+                    <Flex justifyContent="center" alignItems="center" height="200px">
+                        <Text fontSize="xl" color="gray.500">No eco-friendly groceries available</Text>
+                    </Flex>
+                ) : (
+                    renderProductGrid(products.groceries, 'groceries')
+                )}
+                {renderSectionHeading(<FaLeaf />, 'Eco-Friendly Products', 'eco-friendly')}
+                {products.ecoFriendly.length === 0 ? (
+                    <Flex justifyContent="center" alignItems="center" height="200px">
+                        <Text fontSize="xl" color="gray.500">No eco-friendly products available</Text>
+                    </Flex>
+                ) : (
+                    renderProductGrid(products.ecoFriendly, 'eco-friendly')
+                )}
+                {renderSectionHeading(<FaChild />, 'Eco-Friendly Toys', 'toys')}
+                {products.toys.length === 0 ? (
+                    <Flex justifyContent="center" alignItems="center" height="200px">
+                        <Text fontSize="xl" color="gray.500">No eco-friendly toys available</Text>
+                    </Flex>
+                ) : (
+                    renderProductGrid(products.toys, 'toys')
+                )}
+                <Toaster />
+            </Container>
+        </>
     );
 };
 
