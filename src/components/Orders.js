@@ -34,10 +34,6 @@ const Orders = () => {
     };
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/404');
-            return;
-        }
 
         const fetchOrders = async () => {
             setLoading(true);
@@ -65,6 +61,10 @@ const Orders = () => {
         };
 
         fetchOrders();
+        if (!isAuthenticated) {
+            navigate('/404');
+            return;
+        }
     }, [isAuthenticated, userId, navigate]);
 
     const getOrderStatusSteps = (status) => {

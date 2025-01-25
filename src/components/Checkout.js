@@ -44,10 +44,6 @@ const Checkout = () => {
     };
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/404');
-            return;
-        }
 
         const fetchCartItems = async () => {
             setLoading(true);
@@ -90,6 +86,10 @@ const Checkout = () => {
 
         fetchCartItems();
         fetchAddresses();
+        if (!isAuthenticated) {
+            navigate('/404');
+            return;
+        }
     }, [isAuthenticated, userId, navigate]);
 
     const handleOpenAddressModal = (addressId = null) => {

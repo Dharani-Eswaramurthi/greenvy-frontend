@@ -16,10 +16,6 @@ const ShowReviews = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/404');
-            return;
-        }
 
         const fetchUserReviews = async () => {
             try {
@@ -31,6 +27,11 @@ const ShowReviews = () => {
                 setLoading(false);
             }
         };
+
+        if (!isAuthenticated) {
+            navigate('/404');
+            return;
+        }
 
         fetchUserReviews();
     }, [isAuthenticated, userId, navigate]);

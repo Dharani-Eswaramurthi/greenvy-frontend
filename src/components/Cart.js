@@ -28,10 +28,6 @@ const Cart = () => {
     };
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/404');
-            return;
-        }
 
         const fetchCartItems = async () => {
             setLoading(true);
@@ -57,6 +53,10 @@ const Cart = () => {
 
         if (isAuthenticated) {
             fetchCartItems();
+        }
+        if (!isAuthenticated) {
+            navigate('/404');
+            return;
         }
     }, [isAuthenticated, userId, navigate]);
 
@@ -138,10 +138,6 @@ const Cart = () => {
         return <Loading />;
     }
 
-    if (!isAuthenticated){
-        navigate('/404');
-        return;
-    }
 
     return (
         <Box className="cart-container">
