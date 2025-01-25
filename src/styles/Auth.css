@@ -3,7 +3,8 @@
   margin: 2rem auto;
   padding: 2rem;
   border-radius: 10px;
-  background-color: #ffffff;
+  /* adapt the background color as dark shade and ligh shade to the based on the light and dark mode */
+  background-color: var(--bg-color);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   animation: fadeIn 0.5s ease-in-out;
