@@ -37,7 +37,7 @@
     bottom: 10px;
     right: 10px;
     background-color: transparent;
-    color: black;
+    color: var(--text-color);
     transition: color 0.3s ease;
     border: 1px solid black;
     border-radius: 50%;

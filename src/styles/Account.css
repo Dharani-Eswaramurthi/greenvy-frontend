@@ -211,7 +211,7 @@
 
 .custom-modal-close:hover,
 .custom-modal-close:focus {
-  color: black;
+  color: var(--text-color);
   text-decoration: none;
   cursor: pointer;
 }

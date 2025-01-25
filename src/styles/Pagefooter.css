@@ -1,6 +1,6 @@
 .inpage-footer {
     background-color: var(--bg-color);
-    color: black;
+    color: var(--text-color);
     flex-direction: column;
     text-align: center;
     width: 100%;
@@ -10,7 +10,7 @@
 }
 
 .inpage-footer a {
-    color: black;
+    color: var(--text-color);
     margin: 0 0.5rem;
     transition: color 0.3s ease;
 }

@@ -40,7 +40,7 @@
   border-radius: 4px;
   margin: 0 1rem;
   background-color: var(--bg-color);
-  color: black;
+  color: var(--text-color);
 }
 
 .search-box.show {
