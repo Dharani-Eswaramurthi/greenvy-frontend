@@ -87,7 +87,7 @@
 
 .wishlist-item .wishlist-item-actions button {
     background-color: #25995C;
-    color: white;
+    color: var(--text-color);
     border: none;
     border-radius: 5px;
     padding: 0.5rem 1rem;

@@ -1,5 +1,5 @@
 .inpage-footer {
-    background-color: white;
+    background-color: var(--bg-color);
     color: black;
     flex-direction: column;
     text-align: center;

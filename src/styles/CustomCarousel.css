@@ -43,7 +43,7 @@
 .swiper-button-next,
 .swiper-button-prev {
     color: #25995C;
-    background-color: white;
+    background-color: var(--bg-color);
     border-radius: 50%;
     width: fit-content;
     padding: 10px;

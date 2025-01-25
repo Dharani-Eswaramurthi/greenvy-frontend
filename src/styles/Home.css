@@ -67,7 +67,7 @@ h2 {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: white;
+    background-color: var(--bg-color);
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

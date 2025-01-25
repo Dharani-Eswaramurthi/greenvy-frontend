@@ -12,7 +12,7 @@
 }
 
 .confirmation-modal-content {
-    background-color: white;
+    background-color: var(--bg-color);
     padding: 20px;
     border-radius: 8px;
     width: 90%;
@@ -93,7 +93,7 @@
 
 .confirmation-modal-button:hover {
     background-color: #1e7a4d;
-    color: white;
+    color: var(--text-color);
 }
 
 .confirmation-modal-close {

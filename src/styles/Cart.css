@@ -48,7 +48,7 @@
 
 .quantity-button {
     background-color: #25995C;
-    color: white;
+    color: var(--text-color);
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -61,7 +61,7 @@
 
 .remove-button {
     background-color: red;
-    color: white;
+    color: var(--text-color);
     border: none;
     border-radius: 4px;
     padding: 5px 10px;
@@ -75,7 +75,7 @@
 
 .checkout-button {
     background-color: #25995C;
-    color: white;
+    color: var(--text-color);
     border: none;
     border-radius: 4px;
     padding: 10px 20px;

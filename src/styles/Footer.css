@@ -3,7 +3,7 @@
   justify-content: space-around;
   align-items: center;
   background-color: #25995C;
-  color: white;
+  color: var(--text-color);
   padding: 1rem;
   position: fixed;
   width: 100%;
@@ -16,7 +16,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: white;
+  color: var(--text-color);
   cursor: pointer;
 }
 
@@ -32,7 +32,7 @@
 
 .menu-content {
   min-width: 200px;
-  background-color: white;
+  background-color: var(--bg-color);
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   padding: 15px;
