@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Box, Text, Flex, Heading, Button, Stack, Image, HStack, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import { Box, Text, Flex, Heading, Button, Stack, Image, HStack, Input, useDisclosure } from '@chakra-ui/react';
 import { Radio, RadioGroup } from './ui/radio';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { FaCreditCard, FaMoneyBillWave } from 'react-icons/fa';
+import { FaCreditCard, FaMoneyBillWave, FaInfoCircle, FaTimes } from 'react-icons/fa';
 import { FiEdit, FiTrash } from 'react-icons/fi';
 import AddressModal from './AddressModal';
 import Loading from './Loading';
@@ -33,7 +33,10 @@ const Checkout = () => {
     const [otpSent, setOtpSent] = useState(false);
     const [additionalCost, setAdditionalCost] = useState(null);
     const [isFreeDeliveryModalOpen, setIsFreeDeliveryModalOpen] = useState(false);
+    const [showInfoPopup, setShowInfoPopup] = useState(true);
+    const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: true });
     const navigate = useNavigate();
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     const UseToast = (title, type) => {
         toaster.create({
@@ -94,6 +97,12 @@ const Checkout = () => {
             return;
         }
     }, [isAuthenticated, userId, navigate]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setIsPopupVisible(true);
+        }, 1000); // Delay to ensure the initial render is complete
+    }, []);
 
     const handleOpenAddressModal = (addressId = null) => {
         if (addressId !== null) {
@@ -304,8 +313,36 @@ const Checkout = () => {
         }
     };
 
+    const handleCloseInfoPopup = () => {
+        setIsPopupVisible(false);
+        setTimeout(() => {
+            setShowInfoPopup(false);
+            onClose();
+        }, 300); // Match the CSS transition duration
+    };
+
     return (
         <Box className="checkout-container">
+                {showInfoPopup && (
+                    <Box className={`info-popup ${isPopupVisible ? 'fade-in' : 'fade-out'}`}>
+                        <Flex justifyContent="space-between" alignItems="center">
+                            <Text className="info-popup-title">
+                                <FaInfoCircle /> Our Eco-Friendly Service!
+                            </Text>
+                            <Button onClick={handleCloseInfoPopup} className="info-popup-close">
+                                <FaTimes />
+                            </Button>
+                        </Flex>
+                        <Text className="info-popup-content">
+                            🎁 <strong>Free Compostable Garbage Bag!</strong> 🎁<br />
+                            With every order, we provide a free compostable garbage bag to help you manage waste sustainably.
+                        </Text>
+                        <Text className="info-popup-content">
+                            ♻️ <strong>Recycle with Us!</strong> ♻️<br />
+                            We collect plastic waste from you to recycle and reduce environmental impact. Help us make a difference by providing your plastic waste during delivery.
+                        </Text>
+                    </Box>
+                )}
             <Heading as="h2" size="xl" mb={6}>Checkout</Heading>
             <Box className="checkout-section">
                 <Heading as="h3" size="lg" mb={4}>Select Address</Heading>
@@ -360,7 +397,7 @@ const Checkout = () => {
                     <Text fontSize="2xl" fontWeight="bold">Grand Total:</Text>
                     <Text fontSize="2xl" fontWeight="bold">₹{calculateGrandTotal()}</Text>
                 </Flex></>) : (
-                    <Text fontSize="lg" fontWeight="bold" mt={2} color='red'>Not Deliverable to the pincode</Text>
+                    <Text fontSize="lg" fontWeight="bold" mt={2} color='red'>As a small venture, we are bound to deliver only within Coimbatore. Will be available soon if we grow. See you soon!</Text>
                 )}
             </Box>
             <Box className="checkout-section">

@@ -30,6 +30,7 @@ const Home = () => {
     const [scrollPositions, setScrollPositions] = useState({});
     const [maxScrollWidths, setMaxScrollWidths] = useState({});
     const [showPopup, setShowPopup] = useState(true);
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     const scrollRefs = useRef({});
 
@@ -109,6 +110,12 @@ const Home = () => {
         fetchProducts();
     }, [isAuthenticated, userId]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setIsPopupVisible(true);
+        }, 1000); // Delay to ensure the initial render is complete
+    }, []);
+
     const renderStarsWithHalf = (rating) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -184,7 +191,10 @@ const Home = () => {
     };
 
     const handleClosePopup = () => {
-        setShowPopup(false);
+        setIsPopupVisible(false);
+        setTimeout(() => {
+            setShowPopup(false);
+        }, 300); // Match the CSS transition duration
     };
 
     const renderSectionHeading = (icon, title, category) => (
@@ -346,18 +356,7 @@ const Home = () => {
     return loading ? <Loading /> : (
         <Container maxW="container.xl" px={8}>
             {showPopup && (
-                <Box
-                    position="fixed"
-                    top="20px"
-                    right="20px"
-                    backgroundColor="white"
-                    border="1px solid #ccc"
-                    borderRadius="md"
-                    boxShadow="lg"
-                    p={4}
-                    zIndex={1000}
-                    maxWidth="300px"
-                >
+                <Box className={`info-popup ${isPopupVisible ? 'fade-in' : 'fade-out'}`}>
                     <Flex justifyContent="space-between" alignItems="center">
                         <Text fontSize="md" fontWeight="bold" color="#25995C">
                             Support Us on Product Hunt!
