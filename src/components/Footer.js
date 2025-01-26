@@ -38,7 +38,7 @@ const Footer = () => {
         const fetchCartCount = async () => {
             if (isAuthenticated) {
                 try {
-                    const response = await axios.get(`/user/cart-count/${userId}`);
+                    const response = await axios.get(`/user/cart/${userId}`);
                     setCartCount(response.data.count);
                 } catch (err) {
                     console.error('Failed to fetch cart count');
@@ -101,7 +101,7 @@ const Footer = () => {
                     </Button>
                     <Button className="icon" variant="ghost" onClick={handleCartClick}>
                         <FaShoppingCart />
-                        {cartCount > 0 && <span className="cart-count">{cartCount}</span>} {/* Add cart count badge */}
+                        {cartCount > 0 && <span className="footer-cart-count">{cartCount}</span>} {/* Add cart count badge */}
                     </Button>
                     
                     <div className="menu-trigger-wrapper">

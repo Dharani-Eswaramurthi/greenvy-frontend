@@ -25,10 +25,10 @@
   font-size: 1.5rem;
 }
 
-.cart-count {
+.footer-cart-count {
   position: absolute;
-  top: -5px;
-  right: -10px;
+  top: calc(100%-50%);
+  right: 10px;
   background-color: red;
   color: white;
   border-radius: 50%;
