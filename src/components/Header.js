@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 import logo from '../assets/greenvy-logo.png';
-import { FaShoppingCart, FaHeart, FaUser, FaSearch, FaTimes, FaCog, FaSignOutAlt, FaClipboardList } from 'react-icons/fa';
+import { FaShoppingCart, FaHeart, FaSearch, FaTimes, FaCog, FaSignOutAlt, FaClipboardList } from 'react-icons/fa';
 import { Button } from "../components/ui/button";
 import { Input } from '@chakra-ui/react';
 import { AuthContext } from '../context/AuthContext';
@@ -12,7 +12,7 @@ import userLogo from "../assets/user.png";
 
 const Header = () => {
     const [showSearchModal, setShowSearchModal] = useState(false);
-    const { isAuthenticated, logout } = useContext(AuthContext);
+    const { isAuthenticated, logout, userId } = useContext(AuthContext);
     const [profileImage, setProfileImage] = useState(null);
     const [cartItemCount, setCartItemCount] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -22,11 +22,9 @@ const Header = () => {
 
     useEffect(() => {
         const fetchProfileImage = async () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+            if (userId) {
                 try {
-                    const response = await axios.get(`/user/profile/${decodedToken.user_id}`);
+                    const response = await axios.get(`/user/profile/${userId}`);
                     const imageUrl = response.data.profile_image;
                     if (typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
                         const imageResponse = await fetch(imageUrl);
@@ -42,11 +40,9 @@ const Header = () => {
         };
 
         const fetchCartItemCount = async () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+            if (userId) {
                 try {
-                    const response = await axios.get(`/user/cart/${decodedToken.user_id}`);
+                    const response = await axios.get(`/user/cart/${userId}`);
                     setCartItemCount(response.data.length);
                 } catch (err) {
                     console.error('Failed to fetch cart items');
