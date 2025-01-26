@@ -65,7 +65,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 16px;
     z-index: 1000;
-    width: 90%;
+    width: 400px;
     transition: opacity 0.3s ease, transform 0.3s ease;
     opacity: 1;
 }
@@ -184,7 +184,7 @@ button[disabled] {
         top: 10px;
         left: 50%;
         transform: translateX(-50%);
-        max-width: 90%;
+        width: 90%;
         padding: 12px;
     }
 
