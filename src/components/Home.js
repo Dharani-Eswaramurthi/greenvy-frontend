@@ -243,7 +243,7 @@ const Home = () => {
                 }}
                 onScroll={() => handleScroll(categoryName)}
             >
-                {category.slice(0, 15).map((product, index) => (
+                {Array.isArray(category) && category.slice(0, 15).map((product, index) => (
                     <Box
                         key={index}
                         className="product-details"
@@ -304,7 +304,7 @@ const Home = () => {
                         )}
                     </Box>
                 ))}
-                {category.length > 15 && <Box
+                {Array.isArray(category) && category.length > 15 && <Box
                     p={4}
                     display='flex'
                     flexDirection='column'
@@ -322,7 +322,7 @@ const Home = () => {
                     </Button>
                 </Box>}
             </Box>
-            {category.length > 1 && <Flex justifyContent="space-between" mt={4} position="absolute" top="50%" width="100%" transform="translateY(-50%)">
+            {Array.isArray(category) && category.length > 1 && <Flex justifyContent="space-between" mt={4} position="absolute" top="50%" width="100%" transform="translateY(-50%)">
                 <Button
                     aria-label="Scroll Left"
                     onClick={() => scroll(categoryName, -300)}
