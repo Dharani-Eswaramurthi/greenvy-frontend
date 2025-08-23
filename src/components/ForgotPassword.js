@@ -4,7 +4,7 @@ import { Box, Button, Heading, Input, Stack, Text, Spinner } from '@chakra-ui/re
 import { Toaster, toaster } from "../components/ui/toaster";
 import '../styles/Auth.css';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');

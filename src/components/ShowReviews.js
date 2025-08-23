@@ -7,7 +7,7 @@ import Loading from './Loading';
 import '../styles/ShowReviews.css';
 import { FaStar } from 'react-icons/fa';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const ShowReviews = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);

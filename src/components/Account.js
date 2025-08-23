@@ -13,7 +13,7 @@ import '../styles/Account.css'; // Import the CSS file
 import userLogo from "../assets/user.png";
 import { Toaster, toaster } from "../components/ui/toaster";
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 Modal.setAppElement('#root'); // Ensure accessibility
 

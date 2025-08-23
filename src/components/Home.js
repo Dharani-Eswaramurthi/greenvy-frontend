@@ -14,8 +14,8 @@ import CustomCarousel from '../utils/CustomCarousel';
 import { FaArrowCircleRight } from "react-icons/fa";
 import TextSparkle from './TextSparkle';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
-console.log(process.env.REACT_APP_BASEURL);
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
+console.log(process.env.REACT_APP_BASEURL || "https://api.greenvy.store");
 
 const Home = () => {
     const navigate = useNavigate();

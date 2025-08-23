@@ -8,7 +8,7 @@ import axios from 'axios';
 import getCroppedImg from '../utils/cropImage';
 import userLogo from "../assets/user.png";
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const Footer = () => {
     const { isAuthenticated, logout, userId } = useContext(AuthContext);

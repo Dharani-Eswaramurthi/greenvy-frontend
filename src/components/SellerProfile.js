@@ -10,7 +10,7 @@ import Loading from './Loading';
 import '../styles/SellerProfile.css';
 import CustomGrid from './CustomGrid';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const SellerProfile = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);

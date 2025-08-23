@@ -6,7 +6,7 @@ import { Toaster, toaster } from "../components/ui/toaster";
 import { Link as RouterLink } from 'react-router-dom';
 import '../styles/Auth.css';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const Verify = () => {
     const [email, setEmail] = useState('');

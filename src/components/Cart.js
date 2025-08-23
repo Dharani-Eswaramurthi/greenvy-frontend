@@ -9,7 +9,7 @@ import '../styles/Cart.css';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toaster } from "../components/ui/toaster";
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const Cart = () => {
     const { isAuthenticated, userId } = useContext(AuthContext);
