@@ -6,7 +6,13 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
+
+# Copy build output to Nginx html folder
 COPY --from=build /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Cloud Run expects the container to listen on $PORT
 ENV PORT=8080
+RUN sed -i "s/listen       80;/listen       ${PORT};/" /etc/nginx/conf.d/default.conf \
+ && sed -i "s/listen  \[::\]:80;/listen  \[::\]:${PORT};/" /etc/nginx/conf.d/default.conf
+
 CMD ["nginx", "-g", "daemon off;"]
