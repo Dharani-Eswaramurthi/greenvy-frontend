@@ -9,13 +9,13 @@
     RUN npm run build
     
     # ---------- Runtime Stage ----------
-    FROM nginx:alpine
+    FROM node:20-alpine
     
-    # Install gettext for envsubst
-    RUN apk add --no-cache gettext
+    # Install serve to run the React app and gettext for envsubst
+    RUN npm install -g serve && apk add --no-cache gettext
     
     # Copy build output
-    COPY --from=build /app/build /usr/share/nginx/html
+    COPY --from=build /app/build /app/build
     
     # Copy template for config.js
     RUN echo 'window._env_ = { \
@@ -26,13 +26,16 @@
       RZRPAY_KEYID: "${RZRPAY_KEYID}", \
       REACT_APP_SECRET_KEY: "${REACT_APP_SECRET_KEY}", \
       REACT_APP_IV: "${REACT_APP_IV}" \
-    };' > /usr/share/nginx/html/config.js.template
+    };' > /app/build/config.js.template
     
     # Entry point script to replace env vars at runtime
     RUN echo '#!/bin/sh\n\
-    envsubst < /usr/share/nginx/html/config.js.template > /usr/share/nginx/html/config.js\n\
-    exec nginx -g "daemon off;"\n' > /docker-entrypoint.sh \
+    envsubst < /app/build/config.js.template > /app/build/config.js\n\
+    exec serve -s build -l ${PORT:-8080}\n' > /docker-entrypoint.sh \
      && chmod +x /docker-entrypoint.sh
+    
+    # Set working directory
+    WORKDIR /app
     
     # Cloud Run expects PORT
     ENV PORT=8080
