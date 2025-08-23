@@ -12,9 +12,6 @@ RUN npm ci || npm install
 # Copy source code
 COPY . .
 
-# Set environment variable for API URL
-ENV REACT_APP_BASEURL=https://api.greenvy.store
-
 # Build the app
 RUN npm run build
 
