@@ -10,6 +10,7 @@ import Loading from './Loading';
 import '../styles/AllProductsPage.css';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+console.log(process.env.REACT_APP_BASEURL);
 
 const AllProductsPage = () => {
     const { category } = useParams();
