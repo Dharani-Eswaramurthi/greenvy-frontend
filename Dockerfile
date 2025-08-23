@@ -1,18 +1,9 @@
-FROM node:20-alpine AS build
+FROM node:20-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm install && npm install -g serve
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
-
-# Copy build output to Nginx html folder
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Cloud Run expects the container to listen on $PORT
 ENV PORT=8080
-RUN sed -i "s/listen       80;/listen       ${PORT};/" /etc/nginx/conf.d/default.conf \
- && sed -i "s/listen  \[::\]:80;/listen  \[::\]:${PORT};/" /etc/nginx/conf.d/default.conf
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["serve", "-s", "build", "-l", "8080"]
