@@ -2,6 +2,9 @@
     FROM node:20-alpine AS build
     WORKDIR /app
     
+    # Remove existing build directory if it exists
+    RUN rm -rf build/
+    
     COPY package*.json ./
     RUN npm install
     COPY . .
