@@ -13,7 +13,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 
 # Cloud Run requires listening on $PORT
-ENV PORT=8080
+ENV PORT=80
 RUN sed -i "s/listen       80;/listen       ${PORT};/" /etc/nginx/conf.d/default.conf \
  && sed -i "s/listen  \[::\]:80;/listen  \[::\]:${PORT};/" /etc/nginx/conf.d/default.conf
 
