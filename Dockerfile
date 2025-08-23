@@ -3,9 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-# Set base URL for API (only available at build time in React)
-ARG REACT_APP_BASEURL=https://api.greenvy.store
-ENV REACT_APP_BASEURL=$REACT_APP_BASEURL
 RUN npm run build
 
 FROM nginx:alpine
