@@ -8,7 +8,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy build output
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /build /usr/share/nginx/html
 
 # Cloud Run requires listening on $PORT
 ENV PORT=8080
