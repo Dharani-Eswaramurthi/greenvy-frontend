@@ -1,36 +1,42 @@
 # ---------- Build Stage ----------
-FROM node:20-alpine AS build
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-COPY . .
-
-RUN npm run build
-
-# ---------- Runtime Stage ----------
-FROM nginx:alpine
-
-# Copy build output
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Create config.js with environment variables directly
-RUN echo 'window._env_ = { \
-    REACT_APP_BASEURL: "https://api.greenvy.store", \
-    REACT_APP_EMAILJS_SERVICE_ID: "service_t9j0qkk", \
-    REACT_APP_EMAILJS_TEMPLATE_ID: "template_ibnozre", \
-    REACT_APP_EMAILJS_USER_ID: "lDUkHYN4AyCPTu_2y", \
-    RZRPAY_KEYID: "rzp_test_yzTRoxfvXoHqcL", \
-    REACT_APP_SECRET_KEY: "YmZkMzkzO2lpaDplczpzbjA7c29wYWF0Om9kZXNvY2s=", \
-    REACT_APP_IV: "A1B2C3D4E5F60708" \
-};' > /usr/share/nginx/html/config.js
-
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
-
-# Cloud Run expects to listen on $PORT
-ENV PORT=8080
-EXPOSE ${PORT}    
+    FROM node:20-alpine AS build
+    WORKDIR /app
+    
+    COPY package*.json ./
+    RUN npm install
+    COPY . .
+    
+    RUN npm run build
+    
+    # ---------- Runtime Stage ----------
+    FROM nginx:alpine
+    
+    # Install gettext for envsubst
+    RUN apk add --no-cache gettext
+    
+    # Copy build output
+    COPY --from=build /app/build /usr/share/nginx/html
+    
+    # Copy template for config.js
+    RUN echo 'window._env_ = { \
+      REACT_APP_BASEURL: "${REACT_APP_BASEURL}", \
+      REACT_APP_EMAILJS_SERVICE_ID: "${REACT_APP_EMAILJS_SERVICE_ID}", \
+      REACT_APP_EMAILJS_TEMPLATE_ID: "${REACT_APP_EMAILJS_TEMPLATE_ID}", \
+      REACT_APP_EMAILJS_USER_ID: "${REACT_APP_EMAILJS_USER_ID}", \
+      RZRPAY_KEYID: "${RZRPAY_KEYID}", \
+      REACT_APP_SECRET_KEY: "${REACT_APP_SECRET_KEY}", \
+      REACT_APP_IV: "${REACT_APP_IV}" \
+    };' > /usr/share/nginx/html/config.js.template
+    
+    # Entry point script to replace env vars at runtime
+    RUN echo '#!/bin/sh\n\
+    envsubst < /usr/share/nginx/html/config.js.template > /usr/share/nginx/html/config.js\n\
+    exec nginx -g "daemon off;"\n' > /docker-entrypoint.sh \
+     && chmod +x /docker-entrypoint.sh
+    
+    # Cloud Run expects PORT
+    ENV PORT=8080
+    EXPOSE ${PORT}
+    
+    CMD ["/docker-entrypoint.sh"]
+    
