@@ -5,9 +5,8 @@ import { Box, Button, Heading, Input, Stack, Text, Spinner } from '@chakra-ui/re
 import { Toaster, toaster } from "../components/ui/toaster";
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
-import config from '../config';
 
-axios.defaults.baseURL = config.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
@@ -64,7 +63,7 @@ const ResetPassword = () => {
     const handleResetPassword = async (e) => {
         e.preventDefault();
         
-        if (loading) return; // Prevent multiple submissions
+        if (loading) return;
         
         if (newPassword !== confirmPassword) {
             UseToast('Passwords do not match', 'error');
@@ -81,7 +80,6 @@ const ResetPassword = () => {
             await axios.post('/user/reset-password', formData);
             UseToast('Password reset successfully.', 'success');
             
-            // Use setTimeout to ensure state updates complete before navigation
             setTimeout(() => {
                 navigate('/login', { 
                     state: { fromResetPassword: true },

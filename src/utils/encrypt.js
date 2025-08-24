@@ -1,10 +1,9 @@
 import CryptoJS from "crypto-js";
-import config from '../config';
 
 const encrypt = (payload) => {
   try {
-    const secretKey = config.REACT_APP_SECRET_KEY;
-    const iv = config.REACT_APP_IV;
+    const secretKey = process.env.REACT_APP_SECRET_KEY;
+    const iv = process.env.REACT_APP_IV;
     
     if (!secretKey || !iv) {
       console.error('Missing encryption keys:', { 

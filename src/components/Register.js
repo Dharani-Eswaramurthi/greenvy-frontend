@@ -6,10 +6,9 @@ import { Checkbox } from './ui/checkbox';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
-import config from '../config';
 
 // Set axios base URL
-axios.defaults.baseURL = config.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -48,7 +47,7 @@ const Register = () => {
         }
 
         // Validate configuration
-        if (!config.REACT_APP_BASEURL) {
+        if (!process.env.REACT_APP_BASEURL) {
             UseToast('Configuration error: Missing API URL', 'error');
             return;
         }
@@ -58,9 +57,9 @@ const Register = () => {
         try {
             console.log('Starting registration process...');
             console.log('Config:', {
-                baseURL: config.REACT_APP_BASEURL,
-                hasSecretKey: !!config.REACT_APP_SECRET_KEY,
-                hasIV: !!config.REACT_APP_IV
+                baseURL: process.env.REACT_APP_BASEURL || "https://api.greenvy.store",
+                hasSecretKey: !!process.env.REACT_APP_SECRET_KEY,
+                hasIV: !!process.env.REACT_APP_IV
             });
 
             const encrypted_password = encrypt(password);

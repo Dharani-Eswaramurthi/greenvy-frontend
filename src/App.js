@@ -32,6 +32,7 @@ import CancellationAndRefund from './components/CancellationAndRefund';
 import './styles/global.css';
 
 const App = () => {
+  console.log("App component rendered", process.env.REACT_APP_EMAILJS_TEMPLATE_ID);
   return (
     <Provider>
       <AuthProvider>

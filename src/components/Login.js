@@ -6,21 +6,20 @@ import { Toaster, toaster } from "../components/ui/toaster";
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
-import config from '../config';
 
 // Set axios base URL
-axios.defaults.baseURL = config.REACT_APP_BASEURL;
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
 
 // Add request interceptor for debugging
 axios.interceptors.request.use(
-  (config) => {
+  (requestConfig) => {
     console.log('API Request:', {
-      url: config.url,
-      method: config.method,
-      baseURL: config.baseURL,
-      data: config.data
+      url: requestConfig.url,
+      method: requestConfig.method,
+      baseURL: requestConfig.baseURL,
+      data: requestConfig.data
     });
-    return config;
+    return requestConfig;
   },
   (error) => {
     console.error('Request error:', error);
@@ -86,7 +85,7 @@ const Login = () => {
         }
 
         // Validate configuration
-        if (!config.REACT_APP_BASEURL) {
+        if (!process.env.REACT_APP_BASEURL) {
             UseToast('Configuration error: Missing API URL', 'error');
             return;
         }
@@ -96,9 +95,9 @@ const Login = () => {
         try {
             console.log('Starting login process...');
             console.log('Config:', {
-                baseURL: config.REACT_APP_BASEURL,
-                hasSecretKey: !!config.REACT_APP_SECRET_KEY,
-                hasIV: !!config.REACT_APP_IV
+                baseURL: process.env.REACT_APP_BASEURL || "https://api.greenvy.store",
+                hasSecretKey: !!process.env.REACT_APP_SECRET_KEY,
+                hasIV: !!process.env.REACT_APP_IV
             });
 
             const encrypted_password = encrypt(password);
