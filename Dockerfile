@@ -1,5 +1,5 @@
 # ---------- Build Stage ----------
-FROM node:20-alpine AS build
+FROM node:20-alpine as build
 WORKDIR /app
 
 COPY package*.json ./
@@ -15,8 +15,7 @@ RUN npm install -g serve
 WORKDIR /app
 COPY --from=build /app/build ./build
 
-ENV PORT=8080
-EXPOSE ${PORT}
+EXPOSE 8080
 
-CMD ["sh", "-c", "serve -s build -l $PORT"]
+CMD ["serve", "-s", "build", "-l", "8080"]
   
