@@ -26,11 +26,15 @@ const Header = () => {
                 try {
                     const response = await axios.get(`/user/profile/${userId}`);
                     const imageUrl = response.data.profile_image;
-                    if (typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
-                        const imageResponse = await fetch(imageUrl);
-                        const imageBlob = await imageResponse.blob();
-                        const imageObjectURL = URL.createObjectURL(imageBlob);
-                        const croppedImage = await getCroppedImg(imageObjectURL, JSON.parse(response.data.profile_image_crop));
+                    if (typeof imageUrl === 'string') {
+                        const imageURL = response.data.profile_image;
+
+                        // Pass it directly to cropper
+                        const croppedImage = await getCroppedImg(
+                        imageURL,
+                        JSON.parse(response.data.profile_image_crop)
+                        );
+
                         setProfileImage(croppedImage);
                     }
                 } catch (err) {

@@ -9,23 +9,29 @@ import Loading from './Loading';
 const AddressModal = ({
     isOpen,
     onClose,
-    setCurrentAddressId,
-    addresses,
     setIsAddressModalOpen,
     fetchUserProfile,
     userId,
     currentAddressId,
+    addressType,
+    setAddressType,
+    addressLine1,
+    setAddressLine1,
+    addressLine2,
+    setAddressLine2,
+    city,
+    setCity,
+    pincode,
+    setPincode,
+    state,
+    setState,
+    country,
+    setCountry,
     loading,
-    setLoading
+    setLoading,
+    phoneNumber,
+    setPhoneNumber
 }) => {
-    const [addressType, setAddressType] = useState('Home');
-    const [addressLine1, setAddressLine1] = useState('');
-    const [addressLine2, setAddressLine2] = useState('');
-    const [city, setCity] = useState('');
-    const [pincode, setPincode] = useState('');
-    const [state, setState] = useState('');
-    const [country, setCountry] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
 
     if (!isOpen) return null;
 
@@ -36,34 +42,10 @@ const AddressModal = ({
         });
       };
 
-    const handleOpenAddressModal = (addressId = null) => {
-        if (addressId !== null) {
-            const address = addresses.find(addr => addr.addressId === addressId);
-            setCurrentAddressId(addressId);
-            setAddressType(address.address_type);
-            setAddressLine1(address.address_line1);
-            setAddressLine2(address.address_line2);
-            setCity(address.city);
-            setPincode(address.pincode);
-            setState(address.state);
-            setCountry(address.country);
-            setPhoneNumber(address.phoneNumber.replace('+91', ''));
-        } else {
-            setCurrentAddressId(null);
-            setAddressType('Home');
-            setAddressLine1('');
-            setAddressLine2('');
-            setCity('');
-            setPincode('');
-            setState('');
-            setCountry('');
-            setPhoneNumber('');
-        }
-        setIsAddressModalOpen(true);
-    };
+
 
     const handleSaveAddress = async () => {
-        if (!addressType || !addressLine1 || !city || !pincode || !state || !country || !phoneNumber) {
+        if (!addressType || !addressLine1 || !city || !pincode || !state || !country) {
             UseToast('All fields are required', 'error');
             return;
         }
@@ -78,7 +60,7 @@ const AddressModal = ({
                 pincode,
                 state,
                 country,
-                phoneNumber: `${phoneNumber}`,
+                phone_number: phoneNumber
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
@@ -98,7 +80,7 @@ const AddressModal = ({
                 <h2 style={{ color: '#25995C' }}><b>{currentAddressId ? 'Edit Address' : 'Add Address'}</b></h2>
                 <Box width="100%" >
                     <Text className="settings-label">Address Type</Text>
-                    <RadioGroup defaultValue="Home" onChange={(e) => setAddressType(e.target.value)}>
+                    <RadioGroup value={addressType} onChange={(e) => setAddressType(e.target.value)}>
                         <HStack gap="6" mb='10px'>
                             <Radio value="Home">Home</Radio>
                             <Radio value="Work">Work</Radio>
@@ -130,8 +112,8 @@ const AddressModal = ({
                     <Input className="settings-input" type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
                 </Box>
                 <Box width="100%">
-                    <Text className="settings-label">Phone Number</Text>
-                    <Input className="settings-input" type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                    <Text className="settings-label">Phonenumber</Text>
+                    <Input className="settings-input" type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                 </Box>
                 <Button className="settings-button" onClick={handleSaveAddress} disabled={loading}>
                     {loading ? <Loading /> : 'Save'}

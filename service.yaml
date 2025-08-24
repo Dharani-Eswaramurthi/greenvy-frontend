@@ -17,7 +17,7 @@ spec:
           value: template_ibnozre
         - name: REACT_APP_EMAILJS_USER_ID
           value: lDUkHYN4AyCPTu_2y
-        - name: RZRPAY_KEYID
+        - name: REACT_APP_RAZORPAY_KEY_ID
           value: rzp_test_yzTRoxfvXoHqcL
         - name: REACT_APP_SECRET_KEY
           value: YmZkMzkzO2lpaDplczpzbjA7c29wYWF0Om9kZXNvY2s=

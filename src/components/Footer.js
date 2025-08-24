@@ -23,11 +23,16 @@ const Footer = () => {
             if (userId) {
                 try {
                     const response = await axios.get(`/user/profile/${userId}`);
-                    const imageResponse = await fetch(response.data.profile_image);
-                    const imageBlob = await imageResponse.blob();
-                    const imageObjectURL = URL.createObjectURL(imageBlob);
-        
-                    const croppedImage = await getCroppedImg(imageObjectURL, JSON.parse(response.data.profile_image_crop));
+
+                    // Directly use the public image URL
+                    const imageURL = response.data.profile_image;
+
+                    // Pass it directly to cropper
+                    const croppedImage = await getCroppedImg(
+                    imageURL,
+                    JSON.parse(response.data.profile_image_crop)
+                    );
+
                     setProfileImage(croppedImage);
                 } catch (err) {
                     console.error('Failed to fetch profile image');

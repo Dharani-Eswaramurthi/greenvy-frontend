@@ -100,6 +100,34 @@
     margin-bottom: 16px;
 }
 
+.quantity-button {
+    background-color: #25995C;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quantity-button:hover {
+    background-color: #1e7a4d;
+}
+
+.remove-button {
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-button:hover {
+    background-color: #c53030;
+}
+
 .settings-label {
     font-weight: bold;
     margin-bottom: 5px;

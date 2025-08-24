@@ -198,7 +198,7 @@ const Account = () => {
             setPincode(address.pincode);
             setState(address.state);
             setCountry(address.country);
-            setPhoneNumber(address.phoneNumber.replace('+91', ''));
+            setPhoneNumber(address.phone_number.replace('+91', ''));
         } else {
             setCurrentAddressId(null);
             setAddressType('Home');
@@ -229,7 +229,7 @@ const Account = () => {
                 pincode,
                 state,
                 country,
-                phoneNumber: `${phoneNumber}`,
+                phone_number: `${phoneNumber}`,
             };
             await axios.post(`/user/update-profile-details/add-or-update-address/${userId}`, address);
             fetchUserProfile(userId);
@@ -355,7 +355,7 @@ const Account = () => {
                                 <Text>{address.pincode}</Text>
                                 <Text>{address.state}</Text>
                                 <Text>{address.country}</Text>
-                                <Text>{address.phoneNumber}</Text>
+                                <Text>{address.phone_number}</Text>
                                 <div className="address-actions">
                                     <Button className="settings-icon-button" onClick={() => handleOpenAddressModal(address.addressId)}>
                                         <FiEdit />
