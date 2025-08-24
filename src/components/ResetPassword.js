@@ -5,8 +5,9 @@ import { Box, Button, Heading, Input, Stack, Text, Spinner } from '@chakra-ui/re
 import { Toaster, toaster } from "../components/ui/toaster";
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
+import config from '../config';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
+axios.defaults.baseURL = config.REACT_APP_BASEURL;
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
@@ -43,7 +44,7 @@ const ResetPassword = () => {
     }, [token]);
 
     const handleResetPassword = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         
         if (newPassword !== confirmPassword) {
             UseToast('Passwords do not match', 'error');
@@ -85,6 +86,7 @@ const ResetPassword = () => {
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     required
                                     minLength={6}
+                                    autoComplete="new-password"
                                 />
                             </Box>
                             <Box>
@@ -97,6 +99,7 @@ const ResetPassword = () => {
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                     minLength={6}
+                                    autoComplete="new-password"
                                 />
                             </Box>
                             <Button 

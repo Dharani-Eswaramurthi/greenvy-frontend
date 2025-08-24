@@ -6,8 +6,9 @@ import { Checkbox } from './ui/checkbox';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
+import config from '../config';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
+axios.defaults.baseURL = config.REACT_APP_BASEURL;
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -26,7 +27,7 @@ const Register = () => {
     };
 
     const handleRegister = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         
         if (!acceptedTerms) {
             UseToast('You must accept the terms, conditions, and policies to register.', 'error');
@@ -62,6 +63,7 @@ const Register = () => {
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
+                                autoComplete="email"
                             />
                         </Box>
                         <Box>
@@ -73,6 +75,7 @@ const Register = () => {
                                 value={dateofbirth} 
                                 onChange={(e) => setDateOfBirth(e.target.value)}
                                 required
+                                autoComplete="bday"
                             />
                         </Box>
                         <Box>
@@ -83,6 +86,7 @@ const Register = () => {
                                 value={gender} 
                                 onChange={(e) => setGender(e.target.value)}
                                 required
+                                autoComplete="sex"
                             >
                                 <option value=''>Select Gender</option>
                                 <option value='male'>Male</option>
@@ -100,6 +104,7 @@ const Register = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 minLength={6}
+                                autoComplete="new-password"
                             />
                         </Box>
                         <Checkbox 

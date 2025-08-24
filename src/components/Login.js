@@ -6,8 +6,9 @@ import { Toaster, toaster } from "../components/ui/toaster";
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
+import config from '../config';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
+axios.defaults.baseURL = config.REACT_APP_BASEURL;
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -32,7 +33,7 @@ const Login = () => {
     }, [location.state]);
 
     const handleLogin = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         
         setLoading(true);
         try {
@@ -63,6 +64,7 @@ const Login = () => {
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
+                                autoComplete="email"
                             />
                         </Box>
                         <Box>
@@ -74,6 +76,7 @@ const Login = () => {
                                 value={password} 
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
+                                autoComplete="current-password"
                             />
                         </Box>
                         <Button 

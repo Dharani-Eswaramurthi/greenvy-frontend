@@ -8,9 +8,9 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import Loading from './Loading';
 import '../styles/AllProductsPage.css';
+import config from '../config';
 
-axios.defaults.baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
-console.log(process.env.REACT_APP_BASEURL || "https://api.greenvy.store");
+axios.defaults.baseURL = config.REACT_APP_BASEURL;
 
 const AllProductsPage = () => {
     const { category } = useParams();
