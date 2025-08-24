@@ -47,8 +47,10 @@ const Register = () => {
         }
 
         // Validate configuration
-        if (!process.env.REACT_APP_BASEURL) {
-            process.env.REACT_APP_BASEURL = "https://api.greenvy.store"
+        const baseURL = process.env.REACT_APP_BASEURL || "https://api.greenvy.store";
+        if (!baseURL) {
+            UseToast('Configuration error: Missing API URL', 'error');
+            return;
         }
 
         setLoading(true);
