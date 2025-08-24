@@ -30,7 +30,7 @@ echo "  REACT_APP_SECRET_KEY: \"$REACT_APP_SECRET_KEY\"," >> /usr/share/nginx/ht
 echo "  REACT_APP_IV: \"$REACT_APP_IV\"" >> /usr/share/nginx/html/config.js\n\
 echo "};" >> /usr/share/nginx/html/config.js\n\
 nginx -g "daemon off;"' > /docker-entrypoint.sh
-
+ 
 RUN chmod +x /docker-entrypoint.sh
 
 EXPOSE 8080
