@@ -5,78 +5,22 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Greenvy.store - An Eco-friendly Ecommerce offering sustainable products, eco-friendly products, and green products." />
-    <meta name="keywords" content="eco-friendly, ecommerce, green products, sustainable, environment, sustainable products examples, best eco-friendly products for home, what are sustainable products examples, what are some sustainable products, list of sustainable food products, eco-friendly products and practices, sustainable production and consumption" />
-    <meta name="author" content="Greenvy.store" />
+    <meta
+      name="description"
+      content="Greenvy - Your eco-friendly marketplace"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Greenvy.store - An Eco-friendly Ecommerce</title>
-    <!-- <script>
-      // Only redirect to HTTPS in production (not localhost)
-      if (location.protocol !== 'https:' && !location.hostname.includes('localhost') && !location.hostname.includes('127.0.0.1')) {
-        location.replace(`https:${location.href.substring(location.protocol.length)}`);
-      }
-    </script> -->
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Greenvy.store - An Eco-friendly Ecommerce" />
-    <meta property="og:description" content="Shop eco-friendly products at Greenvy.store. Sustainable and environmentally friendly products for a better future." />
-    <meta property="og:image" content="%PUBLIC_URL%/logo192.png" />
-    <meta property="og:url" content="https://greenvy.store" />
-    <meta property="og:type" content="website" />
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Greenvy.store - An Eco-friendly Ecommerce" />
-    <meta name="twitter:description" content="Shop eco-friendly products at Greenvy.store. Sustainable and environmentally friendly products for a better future." />
-    <meta name="twitter:image" content="%PUBLIC_URL%/logo192.png" />
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Greenvy.store",
-      "url": "https://greenvy.store",
-      "logo": "https://greenvy.store/logo192.png",
-      "sameAs": [
-        "https://www.linkedin.com/company/greenvy-store/",
-        "https://www.facebook.com/greenvy.store",
-        "https://twitter.com/greenvy_store"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1-800-555-5555",
-        "contactType": "customer service"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "Eco-friendly Compostable Bag",
-      "image": "https://greenvy.store/images/compostable-bag.jpg",
-      "description": "ECO SOUL [19 Inch X 21 Inch, 45 Count] Medium Compostable Bag.",
-      "sku": "123456",
-      "mpn": "987654",
-      "brand": {
-        "@type": "Brand",
-        "name": "ECO SOUL"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://greenvy.store/products/compostable-bag",
-        "priceCurrency": "USD",
-        "price": "9.99",
-        "priceValidUntil": "2023-12-31",
-        "itemCondition": "https://schema.org/NewCondition",
-        "availability": "https://schema.org/InStock"
-      }
-    }
-    </script>
-    <script src="%PUBLIC_URL%/config.js"></script>
+    <title>Greenvy</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <div id="root"></div>
+    
+    <!-- Environment variables will be injected here by Docker -->
+    <script>
+      // Fallback configuration
+      window._env_ = window._env_ || {};
+    </script>
   </body>
 </html>

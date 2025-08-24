@@ -8,7 +8,45 @@ import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
 import config from '../config';
 
+// Set axios base URL
 axios.defaults.baseURL = config.REACT_APP_BASEURL;
+
+// Add request interceptor for debugging
+axios.interceptors.request.use(
+  (config) => {
+    console.log('API Request:', {
+      url: config.url,
+      method: config.method,
+      baseURL: config.baseURL,
+      data: config.data
+    });
+    return config;
+  },
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for debugging
+axios.interceptors.response.use(
+  (response) => {
+    console.log('API Response:', {
+      status: response.status,
+      data: response.data
+    });
+    return response;
+  },
+  (error) => {
+    console.error('Response error:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      config: error.config
+    });
+    return Promise.reject(error);
+  }
+);
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -39,26 +77,69 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         
-        if (loading) return; // Prevent multiple submissions
+        if (loading) return;
         
+        // Validate inputs
+        if (!email || !password) {
+            UseToast('Please fill in all fields', 'error');
+            return;
+        }
+
+        // Validate configuration
+        if (!config.REACT_APP_BASEURL) {
+            UseToast('Configuration error: Missing API URL', 'error');
+            return;
+        }
+
         setLoading(true);
+        
         try {
+            console.log('Starting login process...');
+            console.log('Config:', {
+                baseURL: config.REACT_APP_BASEURL,
+                hasSecretKey: !!config.REACT_APP_SECRET_KEY,
+                hasIV: !!config.REACT_APP_IV
+            });
+
             const encrypted_password = encrypt(password);
+            console.log('Password encrypted successfully');
+            
             const response = await axios.post('/user/login', { 
                 email, 
                 password: encrypted_password 
             });
             
-            // Check if component is still mounted before proceeding
+            console.log('Login response received:', response.data);
+            
             if (response.data && response.data.token) {
                 login(response.data.token);
-                // Use setTimeout to ensure state updates complete before navigation
                 setTimeout(() => {
                     navigate('/', { replace: true });
                 }, 100);
+            } else {
+                UseToast('Invalid response from server', 'error');
             }
         } catch (err) {
-            const errorMessage = err.response?.data?.detail || 'Login failed';
+            console.error('Login error details:', {
+                message: err.message,
+                status: err.response?.status,
+                data: err.response?.data,
+                config: err.config
+            });
+            
+            let errorMessage = 'Login failed';
+            
+            if (err.response) {
+                // Server responded with error
+                errorMessage = err.response.data?.detail || `Server error: ${err.response.status}`;
+            } else if (err.request) {
+                // Request was made but no response received
+                errorMessage = 'Network error: No response from server';
+            } else {
+                // Something else happened
+                errorMessage = err.message || 'Unknown error occurred';
+            }
+            
             UseToast(errorMessage, "error");
         } finally {
             setLoading(false);

@@ -8,6 +8,7 @@ import '../styles/Auth.css';
 import encrypt from '../utils/encrypt';
 import config from '../config';
 
+// Set axios base URL
 axios.defaults.baseURL = config.REACT_APP_BASEURL;
 
 const Register = () => {
@@ -33,16 +34,38 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         
-        if (loading) return; // Prevent multiple submissions
+        if (loading) return;
         
         if (!acceptedTerms) {
             UseToast('You must accept the terms, conditions, and policies to register.', 'error');
             return;
         }
 
+        // Validate inputs
+        if (!email || !password || !dateofbirth || !gender) {
+            UseToast('Please fill in all required fields', 'error');
+            return;
+        }
+
+        // Validate configuration
+        if (!config.REACT_APP_BASEURL) {
+            UseToast('Configuration error: Missing API URL', 'error');
+            return;
+        }
+
         setLoading(true);
+        
         try {
+            console.log('Starting registration process...');
+            console.log('Config:', {
+                baseURL: config.REACT_APP_BASEURL,
+                hasSecretKey: !!config.REACT_APP_SECRET_KEY,
+                hasIV: !!config.REACT_APP_IV
+            });
+
             const encrypted_password = encrypt(password);
+            console.log('Password encrypted successfully');
+            
             const response = await axios.post('/user/register', { 
                 email, 
                 gender, 
@@ -50,14 +73,33 @@ const Register = () => {
                 password: encrypted_password 
             });
             
+            console.log('Registration response received:', response.data);
+            
             if (response.data) {
-                // Use setTimeout to ensure state updates complete before navigation
                 setTimeout(() => {
                     navigate('/verify', { replace: true });
                 }, 100);
+            } else {
+                UseToast('Invalid response from server', 'error');
             }
         } catch (err) {
-            const errorMessage = err.response?.data?.detail || 'Registration failed';
+            console.error('Registration error details:', {
+                message: err.message,
+                status: err.response?.status,
+                data: err.response?.data,
+                config: err.config
+            });
+            
+            let errorMessage = 'Registration failed';
+            
+            if (err.response) {
+                errorMessage = err.response.data?.detail || `Server error: ${err.response.status}`;
+            } else if (err.request) {
+                errorMessage = 'Network error: No response from server';
+            } else {
+                errorMessage = err.message || 'Unknown error occurred';
+            }
+            
             UseToast(errorMessage, "error");
         } finally {
             setLoading(false);
