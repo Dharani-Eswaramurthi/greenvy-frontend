@@ -2,11 +2,13 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: greenvy-frontend
+  namespace: able-folio-400909
 spec:
   template:
     spec:
       containers:
-      - env:
+      - image: gcr.io/able-folio-400909/greenvy-frontend
+        env:
         - name: REACT_APP_BASEURL
           value: https://api.greenvy.store
         - name: REACT_APP_EMAILJS_SERVICE_ID
