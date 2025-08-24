@@ -42,7 +42,9 @@ const ResetPassword = () => {
         checkToken();
     }, [token]);
 
-    const handleResetPassword = async () => {
+    const handleResetPassword = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        
         if (newPassword !== confirmPassword) {
             UseToast('Passwords do not match', 'error');
             return;
@@ -71,19 +73,41 @@ const ResetPassword = () => {
             <Box className="auth-container">
                 <Heading className="auth-heading">Reset Password</Heading>
                 {tokenValid ? (
-                    <Stack spacing={4}>
-                        <Box>
-                            <label className="auth-label" htmlFor="newPassword">New Password</label>
-                            <Input className="auth-input" id="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                        </Box>
-                        <Box>
-                            <label className="auth-label" htmlFor="confirmPassword">Confirm Password</label>
-                            <Input className="auth-input" id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                        </Box>
-                        <Button className="auth-button" onClick={handleResetPassword} disabled={loading}>
-                            {loading ? <Spinner size="sm" /> : 'Reset Password'}
-                        </Button>
-                    </Stack>
+                    <form onSubmit={handleResetPassword}>
+                        <Stack spacing={4}>
+                            <Box>
+                                <label className="auth-label" htmlFor="newPassword">New Password</label>
+                                <Input 
+                                    className="auth-input" 
+                                    id="newPassword" 
+                                    type="password" 
+                                    value={newPassword} 
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    required
+                                    minLength={6}
+                                />
+                            </Box>
+                            <Box>
+                                <label className="auth-label" htmlFor="confirmPassword">Confirm Password</label>
+                                <Input 
+                                    className="auth-input" 
+                                    id="confirmPassword" 
+                                    type="password" 
+                                    value={confirmPassword} 
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                    minLength={6}
+                                />
+                            </Box>
+                            <Button 
+                                type="submit"
+                                className="auth-button" 
+                                disabled={loading}
+                            >
+                                {loading ? <Spinner size="sm" /> : 'Reset Password'}
+                            </Button>
+                        </Stack>
+                    </form>
                 ) : (
                     <Text className="auth-text" color="red.500">{error}</Text>
                 )}

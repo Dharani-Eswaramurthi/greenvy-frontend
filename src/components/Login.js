@@ -31,7 +31,9 @@ const Login = () => {
         }
     }, [location.state]);
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        
         setLoading(true);
         try {
             const encrypted_password = encrypt(password);
@@ -50,25 +52,45 @@ const Login = () => {
         <div className="auth-wrapper">
             <Box className="auth-container">
                 <Heading className="auth-heading">Login</Heading>
-                <Stack spacing={4}>
-                    <Box>
-                        <label className="auth-label" htmlFor="email">Email</label>
-                        <Input className="auth-input" id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </Box>
-                    <Box>
-                        <label className="auth-label" htmlFor="password">Password</label>
-                        <Input className="auth-input" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    </Box>
-                    <Button className="auth-button" onClick={handleLogin} disabled={loading}>
-                        {loading ? <Spinner size="sm" /> : 'Login'}
-                    </Button>
-                    <Text className="auth-text">
-                        Don't have an account? <Link as={RouterLink} className="auth-link" to="/register">Register</Link>
-                    </Text>
-                    <Text className="auth-text">
-                        Forgot your password? <Link as={RouterLink} className="auth-link" to="/forgot-password">Reset Password</Link>
-                    </Text>
-                </Stack>
+                <form onSubmit={handleLogin}>
+                    <Stack spacing={4}>
+                        <Box>
+                            <label className="auth-label" htmlFor="email">Email</label>
+                            <Input 
+                                className="auth-input" 
+                                id="email" 
+                                type="email" 
+                                value={email} 
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </Box>
+                        <Box>
+                            <label className="auth-label" htmlFor="password">Password</label>
+                            <Input 
+                                className="auth-input" 
+                                id="password" 
+                                type="password" 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </Box>
+                        <Button 
+                            type="submit"
+                            className="auth-button" 
+                            disabled={loading}
+                        >
+                            {loading ? <Spinner size="sm" /> : 'Login'}
+                        </Button>
+                        <Text className="auth-text">
+                            Don't have an account? <Link as={RouterLink} className="auth-link" to="/register">Register</Link>
+                        </Text>
+                        <Text className="auth-text">
+                            Forgot your password? <Link as={RouterLink} className="auth-link" to="/forgot-password">Reset Password</Link>
+                        </Text>
+                    </Stack>
+                </form>
             </Box>
             <Toaster />
         </div>
