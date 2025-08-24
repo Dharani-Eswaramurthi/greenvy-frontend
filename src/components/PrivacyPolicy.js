@@ -45,14 +45,14 @@ const PrivacyPolicy = () => {
                 <ul>
                     <li>You may choose to restrict the collection or use of your personal information in the following ways:</li>
                     <li>Whenever you are asked to fill in a form on the website, look for the box that you can click to indicate that you do not want the information to be used by anybody for direct marketing purposes</li>
-                    <li>If you have previously agreed to us using your personal information for direct marketing purposes, you may change your mind at any time by writing to or emailing us at contact@greenvy.store</li>
+                    <li>If you have previously agreed to us using your personal information for direct marketing purposes, you may change your mind at any time by writing to or emailing us at hello@greenvy.store</li>
                 </ul>
             </Text>
             <Text mb={4}>
                 We will not sell, distribute or lease your personal information to third parties unless we have your permission or are required by law to do so. We may use your personal information to send you promotional information about third parties which we think you may find interesting if you tell us that you wish this to happen.
             </Text>
             <Text mb={4}>
-                If you believe that any information we are holding on you is incorrect or incomplete, please write to Peelamedu, Coimbatore, Tamil Nadu, India or contact us at 9655612306 or contact@greenvy.store as soon as possible. We will promptly correct any information found to be incorrect.
+                If you believe that any information we are holding on you is incorrect or incomplete, please write to Peelamedu, Coimbatore, Tamil Nadu, India or contact us at 9655612306 or hello@greenvy.store as soon as possible. We will promptly correct any information found to be incorrect.
             </Text>
             <Text mb={4}>
                 This privacy policy is from Razorpay and may be revised in the future.

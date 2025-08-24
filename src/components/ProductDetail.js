@@ -259,7 +259,10 @@ const ProductDetail = () => {
 
     const handleAddToCart = async () => {
         if (!isAuthenticated) {
-            UseToast('Please log in to add to cart', 'error');
+            UseToast('Please log in to add to cart! Redirecting', 'error');
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
             return;
         }
         setCartLoading(true);
@@ -471,6 +474,7 @@ const ProductDetail = () => {
 
     return (
         <Box className="product-detail-container">
+            <Toaster />
             <Flex className="product-detail-content" flexDirection={{ base: 'column', md: 'row' }}>
                 <Box className="product-images">
                     <Box display={{ base: 'block', md: 'none' }}>
@@ -560,7 +564,19 @@ const ProductDetail = () => {
                         ) : isAuthenticated ? (
                             <Text>Out of Stock</Text>
                         ): (
-                            <></>
+                            <><Button
+                            onClick={handleAddToCart}
+                            isLoading={cartLoading}
+                            backgroundColor="#25995C"
+                            color="white"
+                            className='quants-button'
+                            height="50px"
+                            _hover={{ backgroundColor: '#1e7a4d' }}
+                            transition="all 0.3s"
+                            disabled={cartLoading}
+                        >
+                            {cartLoading ? 'Adding to cart...' : 'Add to Cart'}
+                        </Button></>
                         )}
                         {isAuthenticated && <Button
                             aria-label="Add to wishlist"

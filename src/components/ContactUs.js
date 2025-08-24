@@ -50,8 +50,8 @@ const Contact = () => {
         <Heading as="h2" size="xl" mb={4}>Contact Us</Heading>
         <VStack align={{ base: "center", md: "start" }}>
           <HStack>
-            <a href="mailto:contact@greenvy.store" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', gap: '20px' }}>
-            <FaEnvelope />contact@greenvy.store</a>
+            <a href="mailto:hello@greenvy.store" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', gap: '20px' }}>
+            <FaEnvelope />hello@greenvy.store</a>
           </HStack>
           <HStack gap="20px">
           <a href="tel:+919655612306" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', gap: '20px' }}>

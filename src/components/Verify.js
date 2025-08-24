@@ -28,7 +28,7 @@ const Verify = () => {
     const handleVerify = async () => {
         setLoading(true);
         try {
-            const response = await axios.post(`/user/verify?mail_or_phone=${email}&otp=${otp}`);
+            const response = await axios.post(`/user/verify?email=${email}&otp=${otp}`);
             UseToast("Verification successful. You have successfully verified your email.", "success");
             navigate('/login');
             // Handle successful verification (e.g., redirect to login)
