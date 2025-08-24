@@ -5,7 +5,7 @@ steps:
     args: ['push', 'gcr.io/$PROJECT_ID/greenvy-frontend']
 
 images:
-  - 'gcr.io/$PROJECT_ID/frontend'
+  - 'gcr.io/$PROJECT_ID/grenvy-frontend'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
