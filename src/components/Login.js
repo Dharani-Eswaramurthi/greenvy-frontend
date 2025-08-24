@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, Link as RouterLink, useLocation } from 'react-router-dom';
 import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra-ui/react';
@@ -18,29 +18,45 @@ const Login = () => {
     const location = useLocation();
     const { login } = useContext(AuthContext);
 
-    const UseToast = (title, type) => {
-        toaster.create({
-            title: title,
-            type: type,
-            duration: 2000,
-        });
-    };
+    const UseToast = useCallback((title, type) => {
+        try {
+            toaster.create({
+                title: title,
+                type: type,
+                duration: 2000,
+            });
+        } catch (error) {
+            console.error('Toast error:', error);
+        }
+    }, []);
 
     useEffect(() => {
         if (location.state?.fromResetPassword) {
             UseToast('Password reset successful. Please login.', 'success');
         }
-    }, [location.state]);
+    }, [location.state, UseToast]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         
+        if (loading) return; // Prevent multiple submissions
+        
         setLoading(true);
         try {
             const encrypted_password = encrypt(password);
-            const response = await axios.post('/user/login', { email, password: encrypted_password });
-            login(response.data.token);
-            navigate('/');
+            const response = await axios.post('/user/login', { 
+                email, 
+                password: encrypted_password 
+            });
+            
+            // Check if component is still mounted before proceeding
+            if (response.data && response.data.token) {
+                login(response.data.token);
+                // Use setTimeout to ensure state updates complete before navigation
+                setTimeout(() => {
+                    navigate('/', { replace: true });
+                }, 100);
+            }
         } catch (err) {
             const errorMessage = err.response?.data?.detail || 'Login failed';
             UseToast(errorMessage, "error");
@@ -65,6 +81,7 @@ const Login = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 autoComplete="email"
+                                disabled={loading}
                             />
                         </Box>
                         <Box>
@@ -77,6 +94,7 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 autoComplete="current-password"
+                                disabled={loading}
                             />
                         </Box>
                         <Button 

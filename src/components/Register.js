@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { Box, Button, Heading, Input, Stack, Text, Link, Spinner } from '@chakra-ui/react';
 import { Toaster, toaster } from '../components/ui/toaster';
@@ -19,15 +19,21 @@ const Register = () => {
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const navigate = useNavigate();
 
-    const UseToast = (title, type) => {
-        toaster.create({
-            title: title,
-            type: type
-        });
-    };
+    const UseToast = useCallback((title, type) => {
+        try {
+            toaster.create({
+                title: title,
+                type: type
+            });
+        } catch (error) {
+            console.error('Toast error:', error);
+        }
+    }, []);
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        
+        if (loading) return; // Prevent multiple submissions
         
         if (!acceptedTerms) {
             UseToast('You must accept the terms, conditions, and policies to register.', 'error');
@@ -37,9 +43,19 @@ const Register = () => {
         setLoading(true);
         try {
             const encrypted_password = encrypt(password);
-            const response = await axios.post('/user/register', { email, gender, dateofbirth, password: encrypted_password });
-            console.log(response.data);
-            navigate('/verify');
+            const response = await axios.post('/user/register', { 
+                email, 
+                gender, 
+                dateofbirth, 
+                password: encrypted_password 
+            });
+            
+            if (response.data) {
+                // Use setTimeout to ensure state updates complete before navigation
+                setTimeout(() => {
+                    navigate('/verify', { replace: true });
+                }, 100);
+            }
         } catch (err) {
             const errorMessage = err.response?.data?.detail || 'Registration failed';
             UseToast(errorMessage, "error");
@@ -64,6 +80,7 @@ const Register = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 autoComplete="email"
+                                disabled={loading}
                             />
                         </Box>
                         <Box>
@@ -76,6 +93,7 @@ const Register = () => {
                                 onChange={(e) => setDateOfBirth(e.target.value)}
                                 required
                                 autoComplete="bday"
+                                disabled={loading}
                             />
                         </Box>
                         <Box>
@@ -87,6 +105,7 @@ const Register = () => {
                                 onChange={(e) => setGender(e.target.value)}
                                 required
                                 autoComplete="sex"
+                                disabled={loading}
                             >
                                 <option value=''>Select Gender</option>
                                 <option value='male'>Male</option>
@@ -105,12 +124,14 @@ const Register = () => {
                                 required
                                 minLength={6}
                                 autoComplete="new-password"
+                                disabled={loading}
                             />
                         </Box>
                         <Checkbox 
                             checked={acceptedTerms}
                             onCheckedChange={(checked) => setAcceptedTerms(!!checked)}
                             required
+                            disabled={loading}
                         >
                             By checking this, I accept the <Link as={RouterLink} to="/terms-and-conditions" className="auth-link">terms</Link>, <Link as={RouterLink} to="/privacy-policy" className="auth-link">conditions</Link>, and <Link as={RouterLink} to="/shipping-policy" className="auth-link">policies</Link>.
                         </Checkbox>

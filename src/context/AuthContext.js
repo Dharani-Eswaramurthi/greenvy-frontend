@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 export const AuthContext = createContext();
 
@@ -7,30 +7,58 @@ export const AuthProvider = ({ children }) => {
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState(null);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            setIsAuthenticated(true);
+    const decodeToken = useCallback((token) => {
+        try {
             const decodedToken = JSON.parse(atob(token.split('.')[1]));
-            setUserId(decodedToken.user_id);
-            setUserName(decodedToken.name);
+            return {
+                user_id: decodedToken.user_id,
+                name: decodedToken.name
+            };
+        } catch (error) {
+            console.error('Token decode error:', error);
+            return null;
         }
     }, []);
 
-    const login = (token) => {
-        localStorage.setItem('token', token);
-        setIsAuthenticated(true);
-        const decodedToken = JSON.parse(atob(token.split('.')[1]));
-        setUserId(decodedToken.user_id);
-        setUserName(decodedToken.name);
-    };
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decoded = decodeToken(token);
+            if (decoded) {
+                setIsAuthenticated(true);
+                setUserId(decoded.user_id);
+                setUserName(decoded.name);
+            } else {
+                // Invalid token, remove it
+                localStorage.removeItem('token');
+            }
+        }
+    }, [decodeToken]);
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-        setUserId(null);
-        setUserName(null);
-    };
+    const login = useCallback((token) => {
+        try {
+            localStorage.setItem('token', token);
+            const decoded = decodeToken(token);
+            if (decoded) {
+                setIsAuthenticated(true);
+                setUserId(decoded.user_id);
+                setUserName(decoded.name);
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+        }
+    }, [decodeToken]);
+
+    const logout = useCallback(() => {
+        try {
+            localStorage.removeItem('token');
+            setIsAuthenticated(false);
+            setUserId(null);
+            setUserName(null);
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    }, []);
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, userId, userName, login, logout }}>

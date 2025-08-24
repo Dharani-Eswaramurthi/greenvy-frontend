@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, Heading, Input, Stack, Text, Spinner } from '@chakra-ui/react';
@@ -19,32 +19,52 @@ const ResetPassword = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const UseToast = (title, type) => {
-        toaster.create({
-            title: title,
-            type: type,
-            duration: 2000,
-        });
-    };
+    const UseToast = useCallback((title, type) => {
+        try {
+            toaster.create({
+                title: title,
+                type: type,
+                duration: 2000,
+            });
+        } catch (error) {
+            console.error('Toast error:', error);
+        }
+    }, []);
 
     useEffect(() => {
+        let isMounted = true;
+        
         const checkToken = async () => {
             try {
                 const formData = new FormData();
                 formData.append('token', token);
                 await axios.post('/user/check-token', formData);
-                setTokenValid(true);
+                
+                if (isMounted) {
+                    setTokenValid(true);
+                }
             } catch (err) {
-                const errorMessage = err.response?.data?.detail || 'Invalid or expired token';
-                setError(errorMessage);
-                setTokenValid(false);
+                if (isMounted) {
+                    const errorMessage = err.response?.data?.detail || 'Invalid or expired token';
+                    setError(errorMessage);
+                    setTokenValid(false);
+                }
             }
         };
-        checkToken();
+        
+        if (token) {
+            checkToken();
+        }
+        
+        return () => {
+            isMounted = false;
+        };
     }, [token]);
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
+        
+        if (loading) return; // Prevent multiple submissions
         
         if (newPassword !== confirmPassword) {
             UseToast('Passwords do not match', 'error');
@@ -60,7 +80,14 @@ const ResetPassword = () => {
 
             await axios.post('/user/reset-password', formData);
             UseToast('Password reset successfully.', 'success');
-            navigate('/login', { state: { fromResetPassword: true } });
+            
+            // Use setTimeout to ensure state updates complete before navigation
+            setTimeout(() => {
+                navigate('/login', { 
+                    state: { fromResetPassword: true },
+                    replace: true 
+                });
+            }, 100);
         } catch (err) {
             const errorMessage = err.response?.data?.detail || 'Failed to reset password';
             UseToast(errorMessage, 'error');
@@ -87,6 +114,7 @@ const ResetPassword = () => {
                                     required
                                     minLength={6}
                                     autoComplete="new-password"
+                                    disabled={loading}
                                 />
                             </Box>
                             <Box>
@@ -100,6 +128,7 @@ const ResetPassword = () => {
                                     required
                                     minLength={6}
                                     autoComplete="new-password"
+                                    disabled={loading}
                                 />
                             </Box>
                             <Button 
