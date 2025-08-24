@@ -352,10 +352,6 @@ const Checkout = () => {
             if (paymentMode === 'online') {
                 console.log("Payment Mode: ", paymentMode);
                 console.log("Window Razorpay:", typeof window.Razorpay);
-                console.log("Environment variables:", {
-                    REACT_APP_RAZORPAY_KEY_ID: process.env.REACT_APP_RAZORPAY_KEY_ID,
-                    NODE_ENV: process.env.NODE_ENV
-                });
                 
                 // Check if Razorpay is available
                 if (typeof window.Razorpay === 'undefined') {
@@ -373,7 +369,6 @@ const Checkout = () => {
                 const response = await axios.post('/user/place-order', orderData);
                 const { order_id, payment_id, amount, currency, address_id } = response.data;
 
-                console.log("Razorpay Key:", process.env.REACT_APP_RAZORPAY_KEY_ID);
                 console.log("Payment Response:", response.data);
 
                 // Validate required data
